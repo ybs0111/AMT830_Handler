@@ -30,7 +30,33 @@ public:
 	int					m_nModeFrontSmema[2];
 	int					m_nModeRearSmema[2];
 	int					m_nModeRfid[2];
-	                
+	//kwlee 2017.0515
+	int                 m_nClipRemoverErrorMode[2];
+	int                 m_nCapRemoverMode[2];
+	int                 m_nSorterPickerMode[2];
+	int                 m_nHsDirChkMode[2];
+	int                 m_nModuledirMode[2];
+	
+	int                 m_nLotSet_Module_Load[2];
+	int                 m_nLotSet_HeatSinkLeft[2];
+	int                 m_nLotSet_HeatSinkRight[2];
+	int                 m_nLotSet_Clip[2];
+	int                 m_nLotSet_Unloader[2];
+	int                 m_nLotSet_Reject[2];
+
+	int                 m_nPicker_Gap_Module_Load[2];
+	int                 m_nPicker_Gap_HeatSink_Left[2];
+	int                 m_nPicker_Gap_HeatSink_Right[2];
+
+	int                 m_nAlarm_Delay[2];
+	int                 m_nNetwork_Wait_Time[2];
+	int                 m_nNetwork_Retry_Cnt[2];
+	int                 m_nLabel_Bin_Printer[2];
+	int                 m_nLabel_Vision_Paper[2];
+	int                 m_nLabel_Error_Cnt[2];
+	int                 m_nDvc_Repick_Cnt[2];
+
+	//
 
 	CString				m_strTempDevice;				// 선택된 디바이스 종류 임시 저장 변수
 	CString				m_strLoadFile;					// 로딩할 파일에 대한 [폴더]+[파일명] 저장 변수
@@ -42,7 +68,6 @@ public:
 	CButtonST			m_btnApply;
 	CButtonST			m_btnReLoad;
 
-
 	CXPGroupBox			m_groupModelInfo;
 	CXPGroupBox			m_groupDeviceMode;
 
@@ -51,7 +76,41 @@ public:
 	CGridCtrl			m_pGridDevice;
 	CGridCtrl			m_pGridModel;
 	CGridCtrl			m_pGridHifix;
-
+	//kwlee 2017.0515
+	CXPGroupBox			m_group_LotSet;
+	CXPGroupBox			m_group_Picker_Gap;
+	CXPGroupBox			m_group_Alarm_Delay;
+	CXPGroupBox			m_group_Network_Wait_Time;
+	CXPGroupBox			m_group_network_retry_cnt;
+	CXPGroupBox			m_group_Label_error_Cnt;
+	CXPGroupBox			m_group_Label_Vision_Papper;
+	CXPGroupBox			m_group_Label_Bin_Papper;
+	CXPGroupBox			m_group_Dvc_Repick_Cnt;
+	CGradientStatic		m_msg_Lotset_Module_Load;
+	CGradientStatic		m_msg_Lotset_HeatSink_Left;
+	CGradientStatic		m_msg_Lotset_HeatSink_Right;
+	CGradientStatic		m_msg_LotSet_Clip;
+	CGradientStatic		m_msg_LotSet_Unloader;
+	CGradientStatic		m_msg_LotSet_Reject;
+	CGradientStatic		m_msg_Picker_gap_Module_Load;
+	CGradientStatic		m_msg_Picker_gap_HeatSink_Left;
+	CGradientStatic		m_msg_Picker_gap_HeatSink_Right;
+	CDigit				m_dgt_LotSet_Module_Load;
+	CDigit				m_dgt_LotSet_HeatSink_Left;
+	CDigit				m_dgt_LotSet_HeatSink_Right;
+	CDigit				m_dgt_LotSet_Clip;
+	CDigit				m_dgt_LotSet_Unloader;
+	CDigit				m_dgt_LotSet_Reject;
+	CDigit				m_dgt_Picker_gap_Module_load;
+	CDigit				m_dgt_Picker_gap_HeatSink_Left;
+	CDigit				m_dgt_Picker_gap_HeatSink_Right;
+	CDigit				m_dgt_Alarm_Delay;
+	CDigit				m_dgt_network_wait_time;
+	CDigit				m_dgt_network_retry_cnt;
+	CDigit				m_dgt_Label_bin_Print;
+	CDigit				m_dgt_Label_Vision_Paper;
+	CDigit				m_dgt_Label_Error_Cnt;
+	CDigit				m_dgt_Dvc_Repick_Cnt;
 
 	void				OnInitGroupBox();
 	void				OnInitLabel();
@@ -105,6 +164,8 @@ public:
 	afx_msg void OnDestroy();
 	afx_msg HBRUSH OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor);
 	afx_msg void OnTimer(UINT_PTR nIDEvent);
+	
+	afx_msg void OnStnClickedDgtLotsetClip();
 };
 
 

@@ -957,6 +957,36 @@ struct tagBASIC_INFO
 
 	// jtkim 20151229
 	int nRetestCount;
+
+	//kwlee 2017.0515
+	int nLotSetModuleLoad;
+	int nLotSetHeatSinkLeft;
+	int nLotSetHeatSinkRight;
+	int nLotSetClip;
+	int nLotSetUnloader;
+	int nLotSetReject;
+
+	int nPickGapModuleLoad;
+	int nPickGapHeatSinkLeft;
+	int nPickGapHeatSinkRight;
+
+	int nAlarmDelayTime;
+	int nNetworkWaitTime;
+	int nNetworkRetryCnt;
+	int nLabelVisionPaper;
+	int nLabelBinPrint;
+	int nLabelErrorCnt;
+	int nDvcRepickCnt;
+
+	int n_mode_cap_remove;
+	int n_mode_clip_alarm;
+	int n_mode_m_direction;
+	int n_mode_hs_direction;
+	int n_mode_use_sorter_picker;
+	
+	int n_mode_use_vis_cont_err;
+	int n_vis_cont_err;
+	int n_vis_tot_err;
 } ;
 extern  tagBASIC_INFO  st_basic_info;
 // ******************************************************************************
