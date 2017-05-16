@@ -1909,7 +1909,7 @@ void CMyBasicData::OnRecipe_Data_Load()
 	CString strHead;
 	CString strLoadFile;
 
-	char chData[200];
+//	char chData[200];
 
 	// 읽을 경로 
 	strLoadFile = st_path_info.strBasic + st_basic_info.strDeviceName;  

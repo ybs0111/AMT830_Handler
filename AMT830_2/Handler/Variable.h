@@ -1079,15 +1079,7 @@ extern tagLOT_INFO st_lot_info[3]; //2015.0302 james [2] -> [3]
 struct tagANIMATE_INFO
 {
 	double	dMaxPos[30];		// animate 최대 pulse.....
-	double  dMovePos[30];		// 현재 motor pulse .......
-	double	dMotorDistance[30];
-	double	dMoveOffset[30];
-
-	int		nMoveDistance[30];
-	int		nMoveOffset[30];
-	int		nImgNum[30];		// image 번호......
 	int		nDistance[30];
-
 	bool	bTrayFlag[9];		// Conveyor Assy 위의 Tray 표시 Flag 0=LdCvyFr 1=LdCvyRe 2=LdRailFr 3=LdRailRe 4=EmptyStk 5=UnldRail 6=UnldElv 7=UnldCvy 8=MvCvy;
 };
 extern tagANIMATE_INFO st_animate_info;
@@ -1113,7 +1105,6 @@ extern struct tagCOUNT_INFO st_count_info;
 enum WAIT_TIME
 {
 	WAIT_STOPPER_UP_DN						= 0,
-	
 	MAX_WAIT_TIME							,
 };
 
