@@ -56,6 +56,10 @@ public:
 	int                 m_nLabel_Error_Cnt[2];
 	int                 m_nDvc_Repick_Cnt[2];
 
+	int                 m_nContinue_Error[2];
+	int                 m_nTotal_Error[2];
+	int                 mn_mode_use_vis_cont_err[2];
+
 	//
 
 	CString				m_strTempDevice;				// 선택된 디바이스 종류 임시 저장 변수
@@ -166,6 +170,14 @@ public:
 	afx_msg void OnTimer(UINT_PTR nIDEvent);
 	
 	afx_msg void OnStnClickedDgtLotsetClip();
+	CButtonST m_btn_Hs_Vis_Continue;
+	CGradientStatic m_msg_Continue_error;
+	CGradientStatic m_msg_Total_Error;
+	CDigit m_dgt_Continue_Error;
+	CDigit m_dgt_Total_Error;
+	CXPGroupBox m_group_Hs_Vis_Continue;
+	afx_msg void OnStnClickedDgtPickerGapModuleLoad();
+	afx_msg void OnBnClickedBtnHsVisContinue();
 };
 
 

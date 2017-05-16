@@ -33,6 +33,7 @@ CScreenBasic::CScreenBasic()
 
 CScreenBasic::~CScreenBasic()
 {
+
 }
 
 void CScreenBasic::DoDataExchange(CDataExchange* pDX)
@@ -80,6 +81,12 @@ void CScreenBasic::DoDataExchange(CDataExchange* pDX)
 	DDX_Control(pDX, IDC_DGT_LABEL_VISION_PAPER, m_dgt_Label_Vision_Paper);
 	DDX_Control(pDX, IDC_DGT_LABEL_ERROR_CNT, m_dgt_Label_Error_Cnt);
 	DDX_Control(pDX, IDC_DGT_DVC_REPICK_CNT, m_dgt_Dvc_Repick_Cnt);
+	DDX_Control(pDX, IDC_BTN_HS_VIS_CONTINUE, m_btn_Hs_Vis_Continue);
+	DDX_Control(pDX, IDC_MSG_CONTINUE_ERROR, m_msg_Continue_error);
+	DDX_Control(pDX, IDC_MSG_TOTAL_ERROR, m_msg_Total_Error);
+	DDX_Control(pDX, IDC_DGT_CONTINUE_ERROR, m_dgt_Continue_Error);
+	DDX_Control(pDX, IDC_DGT_TOTAL_ERROR, m_dgt_Total_Error);
+	DDX_Control(pDX, IDC_GROUP_HS_VIS_CONTINUE_CHECK, m_group_Hs_Vis_Continue);
 }
 
 BEGIN_MESSAGE_MAP(CScreenBasic, CFormView)
@@ -94,7 +101,6 @@ BEGIN_MESSAGE_MAP(CScreenBasic, CFormView)
 	ON_WM_DESTROY()
 	ON_WM_CTLCOLOR()
 	ON_WM_TIMER()
-	ON_STN_CLICKED(IDC_DGT_LOTSET_CLIP, &CScreenBasic::OnStnClickedDgtLotsetClip)
 END_MESSAGE_MAP()
 
 
@@ -217,6 +223,12 @@ void CScreenBasic::OnInitGroupBox()
 	m_group_Dvc_Repick_Cnt.SetBorderColor(ORANGE_C);
 	m_group_Dvc_Repick_Cnt.SetFontBold(TRUE);
 	m_group_Dvc_Repick_Cnt.SetBackgroundColor(WINDOW_UP);
+
+	m_group_Hs_Vis_Continue.SetFont(clsFunc.OnLogFont(16));
+	m_group_Hs_Vis_Continue.SetCatptionTextColor(BLUE_C);
+	m_group_Hs_Vis_Continue.SetBorderColor(ORANGE_C);
+	m_group_Hs_Vis_Continue.SetFontBold(TRUE);
+	m_group_Hs_Vis_Continue.SetBackgroundColor(WINDOW_UP);
 }
 
 
@@ -285,6 +297,19 @@ void CScreenBasic::OnInitLabel()
 	m_msg_Picker_gap_HeatSink_Right.SetGradientColor(GREEN_C);
 	m_msg_Picker_gap_HeatSink_Right.SetTextColor(BLACK_C);
 
+	m_msg_Continue_error.SetFont(clsFunc.m_pFont[2]);
+	m_msg_Continue_error.SetWindowText(_T("Continue Error"));
+	m_msg_Continue_error.SetCenterText();
+	m_msg_Continue_error.SetColor(WHITE_C);
+	m_msg_Continue_error.SetGradientColor(GREEN_C);
+	m_msg_Continue_error.SetTextColor(BLACK_C);
+
+	m_msg_Total_Error.SetFont(clsFunc.m_pFont[2]);
+	m_msg_Total_Error.SetWindowText(_T("Total Error"));
+	m_msg_Total_Error.SetCenterText();
+	m_msg_Total_Error.SetColor(WHITE_C);
+	m_msg_Total_Error.SetGradientColor(GREEN_C);
+	m_msg_Total_Error.SetTextColor(BLACK_C);
 }
 
 
@@ -338,6 +363,11 @@ void CScreenBasic::OnInitDigit()
 	m_dgt_Dvc_Repick_Cnt.SetStyle(CDigit::DS_INT, 3, CDigit::DC_BGREEN, CDigit::DC_BDISABLE);
 	m_dgt_Dvc_Repick_Cnt.SetVal(m_nDvc_Repick_Cnt[1]);
 
+	m_dgt_Continue_Error.SetStyle(CDigit::DS_INT, 3, CDigit::DC_BGREEN, CDigit::DC_BDISABLE);
+	m_dgt_Continue_Error.SetVal(m_nLabel_Error_Cnt[1]);
+
+	m_dgt_Total_Error.SetStyle(CDigit::DS_INT, 3, CDigit::DC_BGREEN, CDigit::DC_BDISABLE);
+	m_dgt_Total_Error.SetVal(m_nDvc_Repick_Cnt[1]);
 }
 
 
@@ -694,7 +724,6 @@ void CScreenBasic::OnInitGridDeviceMode()
 		m_pGridDevice.SetItemBkColour(23, 1, GREEN_C, BLACK_C);
 	}
 
-	
 	m_pGridDevice.Invalidate(FALSE);
 }
 
@@ -799,93 +828,8 @@ void CScreenBasic::OnDeviceCellClick(NMHDR *pNotifyStruct, LRESULT* pResult)
 		m_pGridDevice.SetItemBkColour(5, 0, GREEN_C, BLACK_C);
 		m_pGridDevice.SetItemBkColour(5, 1, GREEN_C, BLACK_C);
 	}
-	else if (nRow == 7 && m_nModeRearSmema[1] != NO)
-	{
-/*
-		if (st_lot_info[LOT_CURR].nLotStatus >= LOT_START || st_lot_info[LOT_NEXT].nLotStatus >= LOT_START)
-		{
-			if (st_handler_info.cWndList != NULL)
-			{
-				clsMem.OnNormalMessageWrite(_T("Data Change Fail. Lot Start Status...."));
-				st_handler_info.cWndList->SendMessage(WM_LIST_DATA, 0, NORMAL_MSG);
-			}
-
-			return;
-		}
-*/
-		m_nModeRearSmema[1] = NO;
-
-		m_pGridDevice.SetItemBkColour(7, 0, GREEN_C, BLACK_C);
-		m_pGridDevice.SetItemBkColour(7, 1, GREEN_C, BLACK_C);
-
-		m_pGridDevice.SetItemBkColour(8, 0, GREEN_D, BLACK_C);
-		m_pGridDevice.SetItemBkColour(8, 1, GREEN_D, BLACK_C);
-	}
-	else if (nRow == 8 && m_nModeRearSmema[1] != YES)
-	{
-/*		
-		if (st_lot_info[LOT_CURR].nLotStatus >= LOT_START || st_lot_info[LOT_NEXT].nLotStatus >= LOT_START)
-		{
-			if (st_handler_info.cWndList != NULL)
-			{
-				clsMem.OnNormalMessageWrite(_T("Data Change Fail. Lot Start Status...."));
-				st_handler_info.cWndList->SendMessage(WM_LIST_DATA, 0, NORMAL_MSG);
-			}
-
-			return;
-		}
-*/
-		m_nModeRearSmema[1] = YES;
-
-		m_pGridDevice.SetItemBkColour(7, 0, GREEN_D, BLACK_C);
-		m_pGridDevice.SetItemBkColour(7, 1, GREEN_D, BLACK_C);
-
-		m_pGridDevice.SetItemBkColour(8, 0, GREEN_C, BLACK_C);
-		m_pGridDevice.SetItemBkColour(8, 1, GREEN_C, BLACK_C);
-	}
-	else if (nRow == 10 && m_nModeRfid[1] != NO)
-	{
-		if (st_lot_info[LOT_CURR].nLotStatus >= LOT_START || st_lot_info[LOT_NEXT].nLotStatus >= LOT_START)
-		{
-			if (st_handler_info.cWndList != NULL)
-			{
-				clsMem.OnNormalMessageWrite(_T("Data Change Fail. Lot Start Status...."));
-				st_handler_info.cWndList->SendMessage(WM_LIST_DATA, 0, NORMAL_MSG);
-			}
-
-			return;
-		}
-
-		m_nModeRfid[1] = NO;
-
-		m_pGridDevice.SetItemBkColour(10, 0, GREEN_C, BLACK_C);
-		m_pGridDevice.SetItemBkColour(10, 1, GREEN_C, BLACK_C);
-
-		m_pGridDevice.SetItemBkColour(11, 0, GREEN_D, BLACK_C);
-		m_pGridDevice.SetItemBkColour(11, 1, GREEN_D, BLACK_C);
-
-	}
-	else if (nRow == 11 && m_nModeRfid[1] != YES)
-	{
-		if (st_lot_info[LOT_CURR].nLotStatus >= LOT_START || st_lot_info[LOT_NEXT].nLotStatus >= LOT_START)
-		{
-			if (st_handler_info.cWndList != NULL)
-			{
-				clsMem.OnNormalMessageWrite(_T("Data Change Fail. Lot Start Status...."));
-				st_handler_info.cWndList->SendMessage(WM_LIST_DATA, 0, NORMAL_MSG);
-			}
-
-			return;
-		}
-
-		m_nModeRfid[1] = YES;
-
-		m_pGridDevice.SetItemBkColour(10, 0, GREEN_D, BLACK_C);
-		m_pGridDevice.SetItemBkColour(10, 1, GREEN_D, BLACK_C);
-
-		m_pGridDevice.SetItemBkColour(11, 0, GREEN_C, BLACK_C);
-		m_pGridDevice.SetItemBkColour(11, 1, GREEN_C, BLACK_C);
-	}
+	
+	
 
 	m_pGridDevice.Invalidate();
 }
@@ -921,9 +865,7 @@ void CScreenBasic::OnInitGridModelList()
 	m_pGridModel.SetItemFont(0, 0, &clsFunc.OnLogFont(18));
 	m_pGridModel.SetItemText(0, 0, _T("Model Name"));
 
-	//OnInitModelList(st_path_info.strBasic);
-	//kwlee 2017.0511
-	OnInitModelList(st_path_info.strpathModel);
+	OnInitModelList(st_path_info.strBasic);
 }
 
 void CScreenBasic::OnModelCellClick(NMHDR *pNotifyStruct, LRESULT* pResult)
@@ -1275,6 +1217,24 @@ void CScreenBasic::OnDataHistoryLog()
 		strMsg.Format(_T("[BASIC] Dvc_Repick_Cnt Change %s -> %s"), m_nDvc_Repick_Cnt[0], m_nDvc_Repick_Cnt[1]);
 		clsFunc.OnLogFileAdd(0, strMsg);
 	}
+
+	if (m_nContinue_Error[0]		!= m_nContinue_Error[1])
+	{
+		strMsg.Format(_T("[BASIC] Continue_Error Cnt Change %s -> %s"), m_nContinue_Error[0], m_nContinue_Error[1]);
+		clsFunc.OnLogFileAdd(0, strMsg);
+	}
+
+	if (m_nTotal_Error[0]		!= m_nTotal_Error[1])
+	{
+		strMsg.Format(_T("[BASIC] Total_Error Cnt Change %s -> %s"), m_nTotal_Error[0], m_nTotal_Error[1]);
+		clsFunc.OnLogFileAdd(0, strMsg);
+	}
+
+	if (mn_mode_use_vis_cont_err[0]		!= mn_mode_use_vis_cont_err[1])
+	{
+		strMsg.Format(_T("[BASIC] mode_use_vis_cont_err Change %s -> %s"), mn_mode_use_vis_cont_err[0], mn_mode_use_vis_cont_err[1]);
+		clsFunc.OnLogFileAdd(0, strMsg);
+	}
 }
 
 void CScreenBasic::OnDataRecovery()
@@ -1316,6 +1276,10 @@ void CScreenBasic::OnDataRecovery()
 	m_nModuledirMode[1]		   =  m_nModuledirMode[0];
 	m_nHsDirChkMode[1]		   =  m_nHsDirChkMode[0];
 	m_nSorterPickerMode[1]	   =  m_nSorterPickerMode[0];
+
+	m_nContinue_Error[1]		=	m_nContinue_Error[0];
+	m_nTotal_Error[1]			=	m_nTotal_Error[0];
+	mn_mode_use_vis_cont_err[1]	=	mn_mode_use_vis_cont_err[0];
 }
 
 
@@ -1359,6 +1323,9 @@ int	CScreenBasic::OnDataComparison()
 	if (m_nHsDirChkMode[1]		   !=  m_nHsDirChkMode[0]) return RET_ERROR;
 	if (m_nSorterPickerMode[1]	   !=  m_nSorterPickerMode[0]) return RET_ERROR;
 	
+	if (m_nContinue_Error[1]	   !=  m_nContinue_Error[0]) return RET_ERROR;
+	if (m_nTotal_Error[1]		   !=  m_nTotal_Error[0]) return RET_ERROR;
+	if (mn_mode_use_vis_cont_err[1]	   !=  mn_mode_use_vis_cont_err[0]) return RET_ERROR;
 	return RET_GOOD;
 }
 
@@ -1368,28 +1335,9 @@ void CScreenBasic::OnDataApply()
 	st_basic_info.nModeDevice		= m_nModeDevice[1];;	// [Title Bar 상태 표시] < WHIT/WHIT OUT ㅡ MODE 표시	>
 	st_basic_info.nModeInterface	= m_nModeInterface[1];
 //	st_basic_info.nModeSecsGem		= m_nModeSecsGem[1];
-	st_basic_info.nModeWork			= m_nModeWork[1];
+	
 	st_basic_info.strDeviceName		= m_strDeviceName[1];	// [Title Bar 상태 표시] < 장비에서 설정한 DEVICE 표시	>
-	st_basic_info.nModeFrontSmema	= m_nModeFrontSmema[1];
-	st_basic_info.nModeRearSmema	= m_nModeRearSmema[1];
-	// jtkim 20150625 in-line
-	if (st_basic_info.nModeRearSmema == YES)
-	{
-		if (st_lot_info[LOT_NEXT].nLotStatus == LOT_START)
-		{
-			if (st_lot_info[LOT_NEXT].nTrayRunMode_StandAlone == YES)
-			{
-				st_lot_info[LOT_NEXT].nTrayRunMode_StandAlone = NO;
-
-				if (st_handler_info.cWndList != NULL)  
-				{
-					clsMem.OnNormalMessageWrite(_T("Next Lot In-line Mode Success"));
-					st_handler_info.cWndList->SendMessage(WM_LIST_DATA, 0, NORMAL_MSG); 
-				}
-			}
-		}
-	}
-
+	
 	st_basic_info.strModelName		= m_strModelName[1];
 	//kwlee 2017.0515
 	st_basic_info.nLotSetModuleLoad = m_nLotSet_Module_Load[1];
@@ -1416,6 +1364,10 @@ void CScreenBasic::OnDataApply()
 	st_basic_info.n_mode_m_direction = m_nModuledirMode[1];
 	st_basic_info.n_mode_hs_direction = m_nHsDirChkMode[1];
 	st_basic_info.n_mode_use_sorter_picker = m_nSorterPickerMode[1];
+
+	st_basic_info.n_mode_use_vis_cont_err = mn_mode_use_vis_cont_err[1];
+	st_basic_info.n_vis_cont_err = m_nContinue_Error[1];
+	st_basic_info.n_vis_tot_err = m_nTotal_Error[1];
 
 
 }
@@ -1457,6 +1409,11 @@ void CScreenBasic::OnDataBackup()
 	m_nModuledirMode[0]		   =  m_nModuledirMode[1];
 	m_nHsDirChkMode[0]		   =  m_nHsDirChkMode[1];
 	m_nSorterPickerMode[0]	   =  m_nSorterPickerMode[1];
+
+	m_nContinue_Error[0]           =	m_nContinue_Error[1];
+	m_nTotal_Error[0]			   =	m_nTotal_Error[1];
+	mn_mode_use_vis_cont_err[0]    =	mn_mode_use_vis_cont_err[1];
+
 }
 
 
@@ -1464,13 +1421,7 @@ void CScreenBasic::OnDataInit()
 {
 	m_nModeDevice[1]					= st_basic_info.nModeDevice;
 	m_strDeviceName[1]					= st_basic_info.strDeviceName;
-
-	m_nModeInterface[1]					= st_basic_info.nModeInterface;
-//	m_nModeSecsGem[1]					= st_basic_info.nModeSecsGem;
-	m_nModeWork[1]						= st_basic_info.nModeWork;
-	m_nModeFrontSmema[1]				= st_basic_info.nModeFrontSmema;
-	m_nModeRearSmema[1]					= st_basic_info.nModeRearSmema;
-	m_nModeRfid[1]						= st_basic_info.nModeRfid;
+	m_nModeInterface[1]					= st_basic_info.nModeInterface;	
 	m_strModelName[1]					= st_basic_info.strModelName;
 
 	//kwlee 2017.0515
@@ -1498,6 +1449,11 @@ void CScreenBasic::OnDataInit()
 	m_nModuledirMode[1]				=	st_basic_info.n_mode_m_direction;		 
 	m_nHsDirChkMode[1]				=	st_basic_info.n_mode_hs_direction;		 
 	m_nSorterPickerMode[1]			=	st_basic_info.n_mode_use_sorter_picker; 
+
+ 	// mn_mode_use_vis_cont_err[1]	=  st_basic_info.n_mode_use_vis_cont_err ;
+ 	m_nContinue_Error[1]			=  st_basic_info.n_vis_cont_err;
+ 	m_nTotal_Error[1]               =  st_basic_info.n_vis_tot_err;
+
 	OnDataBackup();
 }
 
@@ -1753,7 +1709,6 @@ void CScreenBasic::OnClickedBtnApply()
 		OnDataHistoryLog();
 		OnDataApply();
 		OnDataBackup();
-
 		OnInitialUpdate();
 
 		if (st_handler_info.cWndTitle != NULL)
@@ -1888,12 +1843,12 @@ BOOL CScreenBasic::OnEraseBkgnd(CDC* pDC)
 void CScreenBasic::PostNcDestroy()
 {
 	// TODO: 여기에 특수화된 코드를 추가 및/또는 기본 클래스를 호출합니다.
-/*	if (OnDataComparison() == RET_ERROR)
-	{
-		OnDataHistoryLog();
-		OnDataApply();
-	}
-	st_handler_info.cWndBasic = NULL;*/
+// if (OnDataComparison() == RET_ERROR)
+// 	{
+// 		OnDataHistoryLog();
+// 		OnDataApply();
+// 	}
+// 	st_handler_info.cWndBasic = NULL;
 	CFormView::PostNcDestroy();
 }
 
@@ -1903,11 +1858,11 @@ void CScreenBasic::OnDestroy()
 	CFormView::OnDestroy();
 
 	// TODO: 여기에 메시지 처리기 코드를 추가합니다.
-	if (OnDataComparison() == RET_ERROR)
-	{
-		OnDataHistoryLog();
-		OnDataApply();
-	}
+// 	if (OnDataComparison() == RET_ERROR)
+// 	{
+// 		OnDataHistoryLog();
+// 		OnDataApply();
+// 	}
 	st_handler_info.cWndBasic = NULL;
 }
 
@@ -1940,10 +1895,4 @@ HBRUSH CScreenBasic::OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor)
 void CScreenBasic::OnTimer(UINT_PTR nIDEvent)
 {
 	CFormView::OnTimer(nIDEvent);
-}
-
-
-void CScreenBasic::OnStnClickedDgtLotsetClip()
-{
-	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
 }

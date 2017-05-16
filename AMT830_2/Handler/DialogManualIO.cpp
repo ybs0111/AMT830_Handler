@@ -34,19 +34,19 @@ CDialogManualIO::~CDialogManualIO()
 void CDialogManualIO::DoDataExchange(CDataExchange* pDX)
 {
 	CDialog::DoDataExchange(pDX);
-	DDX_Control(pDX, IDC_CUSTOM_IO_FUNCTION_TSITE,		m_pGridTsite);
-	DDX_Control(pDX, IDC_CUSTOM_IO_FUNCTION_TSITE_RBT,	m_pGridTRbt);
-	DDX_Control(pDX, IDC_CUSTOM_IO_FUNCTION_LD_RBT,		m_pGridLdRbt);
-	DDX_Control(pDX, IDC_CUSTOM_IO_FUNCTION_ULD_RBT,	m_pGridUldRbt);
-	DDX_Control(pDX, IDC_CUSTOM_IO_FUNCTION_LF_CONTACT,	m_pGridLfContact);
-	DDX_Control(pDX, IDC_CUSTOM_IO_FUNCTION_RI_CONTACT,	m_pGridRiContact);
-	DDX_Control(pDX, IDC_CUSTOM_IO_FUNCTION_BUFFER,		m_pGridBuf);
+// 	DDX_Control(pDX, IDC_CUSTOM_IO_FUNCTION_TSITE,		m_pGridTsite);
+// 	DDX_Control(pDX, IDC_CUSTOM_IO_FUNCTION_TSITE_RBT,	m_pGridTRbt);
+// 	DDX_Control(pDX, IDC_CUSTOM_IO_FUNCTION_LD_RBT,		m_pGridLdRbt);
+// 	DDX_Control(pDX, IDC_CUSTOM_IO_FUNCTION_ULD_RBT,	m_pGridUldRbt);
+// 	DDX_Control(pDX, IDC_CUSTOM_IO_FUNCTION_LF_CONTACT,	m_pGridLfContact);
+// 	DDX_Control(pDX, IDC_CUSTOM_IO_FUNCTION_RI_CONTACT,	m_pGridRiContact);
+// 	DDX_Control(pDX, IDC_CUSTOM_IO_FUNCTION_BUFFER,		m_pGridBuf);
 	DDX_Control(pDX, IDC_BTN_EXIT,						m_btnExit);
-	DDX_Control(pDX, IDC_BTN_REFRESH,					m_btnDoor);
-	DDX_Control(pDX, IDC_BTN_LEFT_CLAMP,				m_btnLeftMpClamp);
-	DDX_Control(pDX, IDC_BTN_LEFT_UNCLAMP,				m_btnLeftMpUnClamp);
-	DDX_Control(pDX, IDC_BTN_RIGHT_CLAMP,				m_btnRightMpClamp);
-	DDX_Control(pDX, IDC_BTN_RIGHT_UNCLAMP,				m_btnRightMpUnClamp);
+	//DDX_Control(pDX, IDC_BTN_REFRESH,					m_btnDoor);
+	//DDX_Control(pDX, IDC_BTN_LEFT_CLAMP,				m_btnLeftMpClamp);
+	//DDX_Control(pDX, IDC_BTN_LEFT_UNCLAMP,				m_btnLeftMpUnClamp);
+	//DDX_Control(pDX, IDC_BTN_RIGHT_CLAMP,				m_btnRightMpClamp);
+	//DDX_Control(pDX, IDC_BTN_RIGHT_UNCLAMP,				m_btnRightMpUnClamp);
 }
 
 
@@ -117,21 +117,21 @@ BOOL CDialogManualIO::OnInitDialog()
 	// TODO:  여기에 추가 초기화 작업을 추가합니다.
 	OnInitButton();
 
-	OnInitGridTsite();
-	OnInitGridTsiteRbt();
-	OnInitGridLdRbt();
-	OnInitGridUldRbt();
-	OnInitGridLfContact();
-	OnInitGridRiContact();
-	OnInitGridBuffer();
+// 	OnInitGridTsite();
+// 	OnInitGridTsiteRbt();
+// 	OnInitGridLdRbt();
+// 	OnInitGridUldRbt();
+// 	OnInitGridLfContact();
+// 	OnInitGridRiContact();
+// 	OnInitGridBuffer();
 
-	SetTimer(100, 500, NULL);
-	SetTimer(200, 500, NULL);
-	SetTimer(300, 500, NULL);
-	SetTimer(400, 500, NULL);
-	SetTimer(500, 500, NULL);
-	SetTimer(600, 500, NULL);
-	SetTimer(700, 500, NULL);
+// 	SetTimer(100, 500, NULL);
+// 	SetTimer(200, 500, NULL);
+// 	SetTimer(300, 500, NULL);
+// 	SetTimer(400, 500, NULL);
+// 	SetTimer(500, 500, NULL);
+// 	SetTimer(600, 500, NULL);
+// 	SetTimer(700, 500, NULL);
 	return TRUE;  // return TRUE unless you set the focus to a control
 	// 예외: OCX 속성 페이지는 FALSE를 반환해야 합니다.
 }
@@ -140,36 +140,36 @@ BOOL CDialogManualIO::OnInitDialog()
 void CDialogManualIO::OnTimer(UINT_PTR nIDEvent)
 {
 	// TODO: 여기에 메시지 처리기 코드를 추가 및/또는 기본값을 호출합니다.
-	switch (nIDEvent)
-	{
-		case 100:
-			OnDisplayLdRobot();
-			break;
-
-		case 200:
-			OnDisplayUnLdRobot();
-			break;
-
-		case 300:
-			OnDisplayTestSiteRobot();
-			break;
-
-		case 400:
-			OnDisplayLeftContact();
-			break;
-
-		case 500:
-			OnDisplayRightContact();
-			break;
-
-		case 600:
-			OnDisplayTestSite();
-			break;
-
-		case 700:
-			OnDisplayBuffer();
-			break;
-	}
+// 	switch (nIDEvent)
+// 	{
+// 		case 100:
+// 			OnDisplayLdRobot();
+// 			break;
+// 
+// 		case 200:
+// 			OnDisplayUnLdRobot();
+// 			break;
+// 
+// 		case 300:
+// 			OnDisplayTestSiteRobot();
+// 			break;
+// 
+// 		case 400:
+// 			OnDisplayLeftContact();
+// 			break;
+// 
+// 		case 500:
+// 			OnDisplayRightContact();
+// 			break;
+// 
+// 		case 600:
+// 			OnDisplayTestSite();
+// 			break;
+// 
+// 		case 700:
+// 			OnDisplayBuffer();
+// 			break;
+// 	}
 	
 	CDialog::OnTimer(nIDEvent);
 }
@@ -1665,55 +1665,55 @@ void CDialogManualIO::OnInitButton()
 	m_btnExit.SetFont(clsFunc.m_pFont[3]);
 	m_btnExit.SetTooltipText(_T("Exit"));
 
-	m_btnDoor.SetBitmaps(IDC_BTN_REFRESH, IDB_BITMAP_DOOR_OPEN, WINDOW_DN, IDB_BITMAP_DOOR_OPEN, WINDOW_UP);
-	m_btnDoor.SetColor(CButtonST::BTNST_COLOR_BK_IN, WINDOW_DN);
-	m_btnDoor.SetColor(CButtonST::BTNST_COLOR_BK_OUT, WINDOW_UP);
-	m_btnDoor.SetColor(CButtonST::BTNST_COLOR_BK_FOCUS, WINDOW_UP);
-	m_btnDoor.SetColor(CButtonST::BTNST_COLOR_FG_IN, BLACK_C);
-	m_btnDoor.SetColor(CButtonST::BTNST_COLOR_FG_OUT, BLUE_C);
-	m_btnDoor.SetColor(CButtonST::BTNST_COLOR_FG_FOCUS, BLUE_C);
-	m_btnDoor.SetFont(clsFunc.m_pFont[3]);
-	m_btnDoor.SetTooltipText(_T("Door Open"));
-
-	m_btnLeftMpClamp.SetBitmaps(IDC_BTN_LEFT_CLAMP, IDB_BITMAP_GEAR_DN, WINDOW_DN, IDB_BITMAP_GEAR_UP, WINDOW_UP);
-	m_btnLeftMpClamp.SetColor(CButtonST::BTNST_COLOR_BK_IN, WINDOW_DN);
-	m_btnLeftMpClamp.SetColor(CButtonST::BTNST_COLOR_BK_OUT, WINDOW_UP);
-	m_btnLeftMpClamp.SetColor(CButtonST::BTNST_COLOR_BK_FOCUS, WINDOW_UP);
-	m_btnLeftMpClamp.SetColor(CButtonST::BTNST_COLOR_FG_IN, BLACK_C);
-	m_btnLeftMpClamp.SetColor(CButtonST::BTNST_COLOR_FG_OUT, BLUE_C);
-	m_btnLeftMpClamp.SetColor(CButtonST::BTNST_COLOR_FG_FOCUS, BLUE_C);
-	m_btnLeftMpClamp.SetFont(clsFunc.m_pFont[3]);
-	m_btnLeftMpClamp.SetTooltipText(_T("Left Clamp"));
-
-	m_btnLeftMpUnClamp.SetBitmaps(IDC_BTN_LEFT_UNCLAMP, IDB_BITMAP_GEAR_DN, WINDOW_DN, IDB_BITMAP_GEAR_UP, WINDOW_UP);
-	m_btnLeftMpUnClamp.SetColor(CButtonST::BTNST_COLOR_BK_IN, WINDOW_DN);
-	m_btnLeftMpUnClamp.SetColor(CButtonST::BTNST_COLOR_BK_OUT, WINDOW_UP);
-	m_btnLeftMpUnClamp.SetColor(CButtonST::BTNST_COLOR_BK_FOCUS, WINDOW_UP);
-	m_btnLeftMpUnClamp.SetColor(CButtonST::BTNST_COLOR_FG_IN, BLACK_C);
-	m_btnLeftMpUnClamp.SetColor(CButtonST::BTNST_COLOR_FG_OUT, BLUE_C);
-	m_btnLeftMpUnClamp.SetColor(CButtonST::BTNST_COLOR_FG_FOCUS, BLUE_C);
-	m_btnLeftMpUnClamp.SetFont(clsFunc.m_pFont[3]);
-	m_btnLeftMpUnClamp.SetTooltipText(_T("Left UnClamp"));
-
-	m_btnRightMpClamp.SetBitmaps(IDC_BTN_RIGHT_CLAMP, IDB_BITMAP_GEAR_DN, WINDOW_DN, IDB_BITMAP_GEAR_UP, WINDOW_UP);
-	m_btnRightMpClamp.SetColor(CButtonST::BTNST_COLOR_BK_IN, WINDOW_DN);
-	m_btnRightMpClamp.SetColor(CButtonST::BTNST_COLOR_BK_OUT, WINDOW_UP);
-	m_btnRightMpClamp.SetColor(CButtonST::BTNST_COLOR_BK_FOCUS, WINDOW_UP);
-	m_btnRightMpClamp.SetColor(CButtonST::BTNST_COLOR_FG_IN, BLACK_C);
-	m_btnRightMpClamp.SetColor(CButtonST::BTNST_COLOR_FG_OUT, BLUE_C);
-	m_btnRightMpClamp.SetColor(CButtonST::BTNST_COLOR_FG_FOCUS, BLUE_C);
-	m_btnRightMpClamp.SetFont(clsFunc.m_pFont[3]);
-	m_btnRightMpClamp.SetTooltipText(_T("Right Clamp"));
-
-	m_btnRightMpUnClamp.SetBitmaps(IDC_BTN_RIGHT_UNCLAMP, IDB_BITMAP_GEAR_DN, WINDOW_DN, IDB_BITMAP_GEAR_UP, WINDOW_UP);
-	m_btnRightMpUnClamp.SetColor(CButtonST::BTNST_COLOR_BK_IN, WINDOW_DN);
-	m_btnRightMpUnClamp.SetColor(CButtonST::BTNST_COLOR_BK_OUT, WINDOW_UP);
-	m_btnRightMpUnClamp.SetColor(CButtonST::BTNST_COLOR_BK_FOCUS, WINDOW_UP);
-	m_btnRightMpUnClamp.SetColor(CButtonST::BTNST_COLOR_FG_IN, BLACK_C);
-	m_btnRightMpUnClamp.SetColor(CButtonST::BTNST_COLOR_FG_OUT, BLUE_C);
-	m_btnRightMpUnClamp.SetColor(CButtonST::BTNST_COLOR_FG_FOCUS, BLUE_C);
-	m_btnRightMpUnClamp.SetFont(clsFunc.m_pFont[3]);
-	m_btnRightMpUnClamp.SetTooltipText(_T("Right UnClamp"));
+// 	m_btnDoor.SetBitmaps(IDC_BTN_REFRESH, IDB_BITMAP_DOOR_OPEN, WINDOW_DN, IDB_BITMAP_DOOR_OPEN, WINDOW_UP);
+// 	m_btnDoor.SetColor(CButtonST::BTNST_COLOR_BK_IN, WINDOW_DN);
+// 	m_btnDoor.SetColor(CButtonST::BTNST_COLOR_BK_OUT, WINDOW_UP);
+// 	m_btnDoor.SetColor(CButtonST::BTNST_COLOR_BK_FOCUS, WINDOW_UP);
+// 	m_btnDoor.SetColor(CButtonST::BTNST_COLOR_FG_IN, BLACK_C);
+// 	m_btnDoor.SetColor(CButtonST::BTNST_COLOR_FG_OUT, BLUE_C);
+// 	m_btnDoor.SetColor(CButtonST::BTNST_COLOR_FG_FOCUS, BLUE_C);
+// 	m_btnDoor.SetFont(clsFunc.m_pFont[3]);
+// 	m_btnDoor.SetTooltipText(_T("Door Open"));
+// 
+// 	m_btnLeftMpClamp.SetBitmaps(IDC_BTN_LEFT_CLAMP, IDB_BITMAP_GEAR_DN, WINDOW_DN, IDB_BITMAP_GEAR_UP, WINDOW_UP);
+// 	m_btnLeftMpClamp.SetColor(CButtonST::BTNST_COLOR_BK_IN, WINDOW_DN);
+// 	m_btnLeftMpClamp.SetColor(CButtonST::BTNST_COLOR_BK_OUT, WINDOW_UP);
+// 	m_btnLeftMpClamp.SetColor(CButtonST::BTNST_COLOR_BK_FOCUS, WINDOW_UP);
+// 	m_btnLeftMpClamp.SetColor(CButtonST::BTNST_COLOR_FG_IN, BLACK_C);
+// 	m_btnLeftMpClamp.SetColor(CButtonST::BTNST_COLOR_FG_OUT, BLUE_C);
+// 	m_btnLeftMpClamp.SetColor(CButtonST::BTNST_COLOR_FG_FOCUS, BLUE_C);
+// 	m_btnLeftMpClamp.SetFont(clsFunc.m_pFont[3]);
+// 	m_btnLeftMpClamp.SetTooltipText(_T("Left Clamp"));
+// 
+// 	m_btnLeftMpUnClamp.SetBitmaps(IDC_BTN_LEFT_UNCLAMP, IDB_BITMAP_GEAR_DN, WINDOW_DN, IDB_BITMAP_GEAR_UP, WINDOW_UP);
+// 	m_btnLeftMpUnClamp.SetColor(CButtonST::BTNST_COLOR_BK_IN, WINDOW_DN);
+// 	m_btnLeftMpUnClamp.SetColor(CButtonST::BTNST_COLOR_BK_OUT, WINDOW_UP);
+// 	m_btnLeftMpUnClamp.SetColor(CButtonST::BTNST_COLOR_BK_FOCUS, WINDOW_UP);
+// 	m_btnLeftMpUnClamp.SetColor(CButtonST::BTNST_COLOR_FG_IN, BLACK_C);
+// 	m_btnLeftMpUnClamp.SetColor(CButtonST::BTNST_COLOR_FG_OUT, BLUE_C);
+// 	m_btnLeftMpUnClamp.SetColor(CButtonST::BTNST_COLOR_FG_FOCUS, BLUE_C);
+// 	m_btnLeftMpUnClamp.SetFont(clsFunc.m_pFont[3]);
+// 	m_btnLeftMpUnClamp.SetTooltipText(_T("Left UnClamp"));
+// 
+// 	m_btnRightMpClamp.SetBitmaps(IDC_BTN_RIGHT_CLAMP, IDB_BITMAP_GEAR_DN, WINDOW_DN, IDB_BITMAP_GEAR_UP, WINDOW_UP);
+// 	m_btnRightMpClamp.SetColor(CButtonST::BTNST_COLOR_BK_IN, WINDOW_DN);
+// 	m_btnRightMpClamp.SetColor(CButtonST::BTNST_COLOR_BK_OUT, WINDOW_UP);
+// 	m_btnRightMpClamp.SetColor(CButtonST::BTNST_COLOR_BK_FOCUS, WINDOW_UP);
+// 	m_btnRightMpClamp.SetColor(CButtonST::BTNST_COLOR_FG_IN, BLACK_C);
+// 	m_btnRightMpClamp.SetColor(CButtonST::BTNST_COLOR_FG_OUT, BLUE_C);
+// 	m_btnRightMpClamp.SetColor(CButtonST::BTNST_COLOR_FG_FOCUS, BLUE_C);
+// 	m_btnRightMpClamp.SetFont(clsFunc.m_pFont[3]);
+// 	m_btnRightMpClamp.SetTooltipText(_T("Right Clamp"));
+// 
+// 	m_btnRightMpUnClamp.SetBitmaps(IDC_BTN_RIGHT_UNCLAMP, IDB_BITMAP_GEAR_DN, WINDOW_DN, IDB_BITMAP_GEAR_UP, WINDOW_UP);
+// 	m_btnRightMpUnClamp.SetColor(CButtonST::BTNST_COLOR_BK_IN, WINDOW_DN);
+// 	m_btnRightMpUnClamp.SetColor(CButtonST::BTNST_COLOR_BK_OUT, WINDOW_UP);
+// 	m_btnRightMpUnClamp.SetColor(CButtonST::BTNST_COLOR_BK_FOCUS, WINDOW_UP);
+// 	m_btnRightMpUnClamp.SetColor(CButtonST::BTNST_COLOR_FG_IN, BLACK_C);
+// 	m_btnRightMpUnClamp.SetColor(CButtonST::BTNST_COLOR_FG_OUT, BLUE_C);
+// 	m_btnRightMpUnClamp.SetColor(CButtonST::BTNST_COLOR_FG_FOCUS, BLUE_C);
+// 	m_btnRightMpUnClamp.SetFont(clsFunc.m_pFont[3]);
+// 	m_btnRightMpUnClamp.SetTooltipText(_T("Right UnClamp"));
 }
 
 void CDialogManualIO::OnBnClickedBtnExit()
@@ -3108,20 +3108,6 @@ void CDialogManualIO::OnBnClickedBtnRefresh()
 	if (st_handler_info.nRunStatus != dSTOP) return;
 
 	CDialog_Message dlgMsg;
-
-	//if (FAS_IO.get_in_bit(st_io_info.i_FrontSelectSwChk, IO_ON) == IO_OFF ||
-	//	FAS_IO.get_in_bit(st_io_info.i_RearSelectSwChk, IO_ON)	== IO_OFF)
-	if (FAS_IO.get_in_bit(st_io_info.i_ManualModeChk, IO_OFF) == IO_ON)
-	{
-		FAS_IO.set_out_bit(st_io_info.o_DoorLock, IO_OFF);
-	}
-	else
-	{
-		dlgMsg.m_nMessageType	= 0;
-		dlgMsg.m_strMessage		= _T("Manual Key Status Check");
-
-		dlgMsg.DoModal();
-	}
 }
 
 

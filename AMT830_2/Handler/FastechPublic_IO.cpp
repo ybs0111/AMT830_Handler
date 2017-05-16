@@ -2907,74 +2907,39 @@ void CFastechPublic_IO::Initialize_Map()
 	//S0005									
 	//S0006									
 	//S0007
-	st_io_info.i_StartChk			= 8;			//PS0000
-	st_io_info.i_StopChk			= 9;			//PS0001
+
 	st_io_info.i_AlarmChk			= 10;			//PS0002
 	st_io_info.i_BuzzChk			= 11;			//PS0003
-	st_io_info.i_AutoModeChk		= 12;			//PS0004
-	st_io_info.i_ManualModeChk		= 13;			//PS0005
-	st_io_info.i_FrontSelectSwChk	= 14;			//PS0006
-	st_io_info.i_RearSelectSwChk1	= 15;			//PS0007
+
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	// Module No 01
 	//////////////////////////////////////////////////////////////////////////////////////////////
 	st_io_info.o_MainAir				= 100;		// S0100
-	st_io_info.o_TwGreenLamp			= 101;		// S0101
-	st_io_info.o_TwYellowLamp			= 102;		// S0102
-	st_io_info.o_TwRedLamp				= 103;		// S0103
-	st_io_info.o_Buzz1OnOff				= 104;		// S0104
-	st_io_info.o_Buzz2OnOff				= 105;		// S0105
-	st_io_info.o_Buzz3OnOff				= 106;		// S0106
+
 	// S0107
 	st_io_info.i_MainMcChk				= 108;		//PS0100	
 	st_io_info.i_MainAirChk				= 109;		//PS0101	
-	st_io_info.i_LfTsiteDockSafetyChk	= 110;		//PS0102
-	st_io_info.i_RiTsiteDockSafetyChk	= 111;		//PS0103
-	st_io_info.i_Emo1SwChk				= 112;		//PS0104	
-	st_io_info.i_Emo2SwChk				= 113;		//PS0105	
-	st_io_info.i_Emo3SwChk				= 114;		//PS0106	
-	st_io_info.i_Emo4SwChk				= 115;		//PS0107	
+	
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	// Module No 02
 	///////////////////////////////////////////////////////////////////////////////////////////////
-	st_io_info.i_Door1Chk		= 200;		//PS0200
-	st_io_info.i_Door2Chk		= 201;		//PS0201
-	st_io_info.i_Door3Chk		= 202;		//PS0202
-	st_io_info.i_Door4Chk		= 203;		//PS0203
-	st_io_info.i_Door5Chk		= 204;		//PS0204
-	st_io_info.i_Door6Chk		= 205;		//PS0205
-	st_io_info.i_Door7Chk		= 206;		//PS0206
-	st_io_info.i_Door8Chk		= 207;		//PS0207
-	st_io_info.i_Door9Chk		= 208;		//PS0208
-	st_io_info.i_Door10Chk		= 209;		//PS0209
-	st_io_info.i_Door11Chk		= 210;		//PS0210
-	st_io_info.i_Door12Chk		= 211;		//PS0211
-	st_io_info.i_Door13Chk		= 212;		//PS0212
-	st_io_info.i_Door14Chk		= 213;		//PS0213
-	st_io_info.i_Door15Chk		= 214;		//PS0214
-	st_io_info.i_Door16Chk		= 215;		//PS0215
+	
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	// Module No 03
 	///////////////////////////////////////////////////////////////////////////////////////////////
-	st_io_info.o_FrontRequest		= 300;		// S0300
-	st_io_info.o_FrontComplete		= 301;		// S0301
-	st_io_info.o_RearTransfer		= 302;		// S0302
-	st_io_info.o_RearFlipper		= 303;		// S0303
+	
 	// S0304
 	// S0305
 	// S0306
 	// S0307
-	st_io_info.i_FrontTransfer		= 308;		//PS0300
-	st_io_info.i_FrontFlipper		= 309;		//PS0301
-	st_io_info.i_RearRequest		= 310;		//PS0302
-	st_io_info.i_RearComplete		= 311;		//PS0303
+	
 	//PS0304
 	//PS0305
 	//PS0306
-	st_io_info.i_RearSelectSwChk2	= 315;		//PS0307
+	
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	// Module No 04

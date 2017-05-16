@@ -18,7 +18,7 @@ public:
 	CString			m_strThreadStep[100];
 	CTime			m_tThreadTime[100];
 
-	CArray			<tagLOT_HISTORY_INFO, tagLOT_HISTORY_INFO&>	m_ArLotHistory;
+	
 public:
 	CPublicFunction(void);
 	~CPublicFunction(void);

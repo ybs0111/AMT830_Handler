@@ -31,7 +31,7 @@ CRunHandlerCheck::~CRunHandlerCheck(void)
 void CRunHandlerCheck::OnStartCheck()
 {
 	int nRet;
-	int nNum;
+
 
 	CString mstr_temp; //2015.0407 james 
 
@@ -62,32 +62,7 @@ void CRunHandlerCheck::OnStartCheck()
 
 	if(st_handler_info.nMachineMode	== MACHINE_MANUAL)
 	{
-		if (FAS_IO.get_in_bit(st_io_info.i_StartChk, IO_OFF) == IO_ON)
-		{
-			if (FAS_IO.get_in_bit(st_io_info.i_FrontSelectSwChk, IO_ON) == IO_OFF ||
-				FAS_IO.get_in_bit(st_io_info.i_RearSelectSwChk1, IO_ON)	== IO_OFF ||
-				FAS_IO.get_in_bit(st_io_info.i_RearSelectSwChk2, IO_ON)	== IO_OFF)
-			{
-				if (st_work_info.nBdReadyChk == YES)
-				{
-					st_work_info.nBdReadyChk = NO;
-				}
-
-				if (st_handler_info.cWndMain != NULL)
-				{
-					//st_other_info.nBuzYesNo = NO;
-					if (FAS_IO.get_in_bit(st_io_info.i_FrontSelectSwChk, IO_ON) == IO_OFF)
-					{
-						st_other_info.strBoxMsg = _T("Please Check Front Auto Key Status.");
-					}
-					else
-					{
-						st_other_info.strBoxMsg = _T("Please Check Rear Auto Key Status.");
-					}
-					st_handler_info.cWndMain->SendMessage(WM_WORK_COMMAND, MAIN_MESSAGE_BOX_CREATE_REQ, 0);
-				}
-			}
-		}
+	
 		return;
 	}
 
@@ -99,53 +74,14 @@ void CRunHandlerCheck::OnStartCheck()
 			// [STOP] 상태에서만 [START] 가능하도록 제한한다
 			if (st_handler_info.nRunStatus == dSTOP)
 			{
-				if (FAS_IO.get_in_bit(st_io_info.i_StartChk, IO_OFF) == IO_ON)
-				{
-					// 만일 STOP 버튼이 함께 눌린 경우에는 무시한다
-					if (FAS_IO.get_in_bit(st_io_info.i_StopChk, IO_OFF) == IO_ON)
-					{
-						break;
-					}
-					
-					if (st_handler_info.nMenuNum != IDW_SCREEN_MAIN)	
-					{
-						if (st_handler_info.cWndList != NULL)  
-						{
-							clsMem.OnAbNormalMessagWrite(_T("Please Check Screen Main Status."));
-							st_handler_info.cWndList->SendMessage(WM_LIST_DATA, 0, ABNORMAL_MSG); 
-						}
-
-						break;
-					}
-
-					m_dwStartWaitTime[0] = GetCurrentTime();
-					m_nStartStep = 100;
-				}
+			
 			}
 			break;
 
 		case 100: 
-			if (FAS_IO.get_in_bit(st_io_info.i_StartChk, IO_OFF) == IO_ON)
-			{
-				m_dwStartWaitTime[1] = GetCurrentTime();
-				m_dwStartWaitTime[2] = m_dwStartWaitTime[1] - m_dwStartWaitTime[0];
-
-				if (m_dwStartWaitTime[2] <= 0)
-				{
-					m_dwStartWaitTime[0] = GetCurrentTime();
-					break;
-				}
-
-				if (m_dwStartWaitTime[2] > (DWORD)100)
-				{
-					m_dwStartWaitTime[0] = GetCurrentTime();
-					m_nStartStep = 200;
-				}
-			}
-			else
-			{
-				m_nStartStep = 0;
-			}
+			
+			m_nStartStep = 0;
+			
 			break;
 
 		case 200:
@@ -153,63 +89,7 @@ void CRunHandlerCheck::OnStartCheck()
 			// RUN 키 I/O 입력이 Off 되었는지 검사                                   
 			// -> 알람 화면 출력 상태이면 알람 화면 종료 -> 메인 화면으로 전환       
 			// =============================================================================
-			if(FAS_IO.get_in_bit(st_io_info.i_StartChk, IO_ON) == IO_OFF)
-			{
-				if(st_lot_info[LOT_CURR].nLotStatus == LOT_CLEAR)  //2015.0407 james lot 이 진행중이 아닐떄만 동작가능 
-				{
-					
-				}
-
-				if (st_basic_info.nModeLdBcr == NO && st_basic_info.nModeUnLdBcr == NO)
-				{
-					st_other_info.nBuzYesNo = YES;
-					st_other_info.strBoxMsg = _T("Load Barcode : NO \r\n UnLoad Barcode : NO \r\n Please Check Barcode Status.");
-				
-					if (st_handler_info.cWndMain != NULL)
-					{
-						st_handler_info.cWndMain->SendMessage(WM_WORK_COMMAND, MAIN_MESSAGE_BOX_CREATE_REQ, 0);
-					}
-				}
-				else if (st_basic_info.nModeLdBcr == YES && st_basic_info.nModeUnLdBcr == NO)
-				{
-					st_other_info.nBuzYesNo = YES;
-					st_other_info.strBoxMsg = _T("Load Barcode : YES \r\n UnLoad Barcode : NO \r\n Please Check Barcode Status.");
-				
-					if (st_handler_info.cWndMain != NULL)
-					{
-						st_handler_info.cWndMain->SendMessage(WM_WORK_COMMAND, MAIN_MESSAGE_BOX_CREATE_REQ, 0);
-					}
-				}
-				else if (st_basic_info.nModeLdBcr == NO && st_basic_info.nModeUnLdBcr == YES)
-				{
-					st_other_info.nBuzYesNo = YES;
-					st_other_info.strBoxMsg = _T("Load Barcode : NO \r\n UnLoad Barcode : YES \r\n Please Check Barcode Status.");
-				
-					if (st_handler_info.cWndMain != NULL)
-					{
-						st_handler_info.cWndMain->SendMessage(WM_WORK_COMMAND, MAIN_MESSAGE_BOX_CREATE_REQ, 0);
-					}
-				}
-				
-				m_nLeftMpStep = 0;
-				m_nStartStep = 240;
-			}
-			else
-			{
-				m_dwStartWaitTime[1] = GetCurrentTime();
-				m_dwStartWaitTime[2] = m_dwStartWaitTime[1] - m_dwStartWaitTime[0];
-
-				if(m_dwStartWaitTime[2] <= 0)
-				{
-					m_dwStartWaitTime[0] = GetCurrentTime();
-					break;
-				}
-
-				if(m_dwStartWaitTime[2] > (DWORD)10000)
-				{
-					m_nStartStep = 0;
-				}
-			}
+			
 			break;
 
 		case 240:
@@ -298,15 +178,6 @@ void CRunHandlerCheck::OnStartCheck()
 				 
 				m_dwStartWaitTime[0] = GetTickCount();
 
-				// 20150305 jtkim
-				if (st_recipe_info.strHifix == _T(""))
-				{
-					nNum = st_recipe_info.nHifix - 1;
-					if (nNum < 0) nNum = 0;
-					st_recipe_info.strHifix	= st_basic_info.strHifixType[nNum];
-				}
-
-			
 				if (st_handler_info.cWndList != NULL)  // 리스트 바 화면 존재
 				{
 					clsMem.OnAbNormalMessagWrite(_T("COK EXCHANGE Select OK....."));
@@ -351,33 +222,8 @@ void CRunHandlerCheck::OnStartCheck()
 			break;
 
 		case 500:
-			// 20140812 jtkim
-			if (st_basic_info.nModeXgemRunChk == YES && st_basic_info.nModeXgem == YES)
-			{
-				if (clsXgem.m_strOldRecipe != st_basic_info.strDeviceName)
-				{
-					m_dwStartWaitTime[0] = GetCurrentTime();
-
-					clsXgem.m_nRunStatus = HOST_WAIT;
-
-					clsXgem.OnMcRecipeCreate(0, st_basic_info.strDeviceName, st_path_info.strPathRecipe);
-
-					m_nStartStep = 600;
-				}
-				else
-				{
-					clsXgem.OnMcRecipeSelete(st_basic_info.strDeviceName);
-
-					m_nStartStep = 1200;
-				}
-//				clsXgem.OnMcRecipeSelete(st_basic_info.strDeviceName);
-			}
-			else
-			{
-				clsXgem.OnMcRecipeSelete(st_basic_info.strDeviceName);
-
-				m_nStartStep = 1200;
-			}
+			
+			m_nStartStep = 600;
 			break;
 
 		case 600:
@@ -449,11 +295,6 @@ void CRunHandlerCheck::OnStartCheck()
 		case 1200:
 			st_handler_info.nRunStatus = dRUN;
 
-			if (st_work_info.nBdReadyChk == YES)
-			{
-				st_work_info.nBdReadyChk = NO;
-			}
-
 			if (st_handler_info.nMenuLock != FALSE)
 			{
 				st_handler_info.nMenuLock = FALSE;
@@ -511,75 +352,15 @@ void CRunHandlerCheck::OnStopCheck()
 	switch(m_nStopStep)
 	{
 		case 0:
-			if(FAS_IO.get_in_bit(st_io_info.i_StopChk, IO_OFF) == IO_ON)
-			{
-				if (FAS_IO.get_in_bit(st_io_info.i_StartChk, IO_ON) == IO_ON)
-				{
-					break;
-				}
-
-				m_dwStopWaitTime[0] = GetCurrentTime();
-				m_nStopStep = 100;
-			}
+			
 			break;
 
 		case 100:
-			if(FAS_IO.get_in_bit(st_io_info.i_StopChk, IO_OFF) == IO_ON)
-			{
-				m_dwStopWaitTime[1] = GetCurrentTime();
-				m_dwStopWaitTime[2] = m_dwStopWaitTime[1] - m_dwStopWaitTime[0];
-
-				if(m_dwStopWaitTime[2] <= 0)
-				{
-					m_dwStopWaitTime[0] = GetCurrentTime();
-					break;
-				}
-
-				if(m_dwStopWaitTime[2] > (DWORD)100)
-				{
-					m_dwStopWaitTime[0] = GetCurrentTime();
-					m_nStopStep = 200;
-				}
-			}
-			else
-			{
-				m_nStopStep = 0;
-			}
+		
 			break;
 
 		case 200:
-			if(FAS_IO.get_in_bit(st_io_info.i_StopChk, IO_ON) == IO_OFF)
-			{
-				// 초기화 작업중에 STOP 버튼이 눌리면 초기화 작업을 중단한다
-				if (st_handler_info.nRunStatus == dINIT)
-				{
-					m_nStopStep = 0;
-					break;
-				}
-				// jtkim 20130625
-				clsFunc.OnMCStop();
-
-				// 20140812 jtkim
-				clsXgem.OnMcStatus(dSTOP);
-
-				// jtkim 20150721
 			
-
-				if(st_handler_info.cWndTitle != NULL)
-				{
-					st_handler_info.cWndTitle->PostMessage(WM_STATUS_CHANGE, MACHINE_STATUS, st_handler_info.nRunStatus);
-				}
-
-				if (st_handler_info.cWndList != NULL)  // 리스트 바 화면 존재
-				{
-					clsMem.OnNormalMessageWrite(_T("MC Stop Status...."));
-					st_handler_info.cWndList->SendMessage(WM_LIST_DATA, 0, NORMAL_MSG);
-				}
-				m_nStopStep = 0;
-
-				
-
-			}
 			break;
 	}
 }
@@ -771,43 +552,11 @@ void CRunHandlerCheck::OnAutoCheck()
 	switch(m_nAutoStep)
 	{
 		case 0:		//2014.01.21 주석처리
-			if(FAS_IO.get_in_bit(st_io_info.i_FrontSelectSwChk, IO_OFF) == IO_ON &&
-			   FAS_IO.get_in_bit(st_io_info.i_RearSelectSwChk1, IO_OFF)	== IO_ON &&
-			   FAS_IO.get_in_bit(st_io_info.i_RearSelectSwChk2, IO_OFF)	== IO_ON)
-			//if (FAS_IO.get_in_bit(st_io_info.i_AutoModeChk, IO_OFF) == IO_ON)
-			{
-				//if (FAS_IO.get_in_bit(st_io_info.i_AutoModeChk, IO_OFF) == IO_ON)
-				{
-					m_dwAutoWaitTime[0] = GetTickCount();
-					m_nAutoStep = 100;
-				}
-			}
+		
 			break;
 
 		case 100:	//2014.01.21 주석처리
-			if(FAS_IO.get_in_bit(st_io_info.i_FrontSelectSwChk, IO_OFF) == IO_ON &&
-			   FAS_IO.get_in_bit(st_io_info.i_RearSelectSwChk1, IO_OFF)	== IO_ON &&
-			   FAS_IO.get_in_bit(st_io_info.i_RearSelectSwChk2, IO_OFF)	== IO_ON)
-			//if (FAS_IO.get_in_bit(st_io_info.i_AutoModeChk, IO_OFF) == IO_ON)
-			{
-				m_dwAutoWaitTime[1] = GetTickCount();
-				m_dwAutoWaitTime[2] = m_dwAutoWaitTime[1] - m_dwAutoWaitTime[0];
-
-				if(m_dwAutoWaitTime[2] <= 0)
-				{
-					m_dwAutoWaitTime[0] = GetTickCount();
-					break;
-				}
-
-				if(m_dwAutoWaitTime[2] > (DWORD)200)
-				{
-					m_nAutoStep = 200;
-				}
-			}
-			else
-			{
-				m_nAutoStep = 0;
-			}
+		
 			break;
 
 		case 200:
@@ -892,40 +641,13 @@ void CRunHandlerCheck::OnManualCheck()
 
 	switch(m_nManualStep)
 	{
-		case 0:		//2014.01.21 주석처리
-			if(FAS_IO.get_in_bit(st_io_info.i_FrontSelectSwChk, IO_ON) == IO_OFF ||
-			   FAS_IO.get_in_bit(st_io_info.i_RearSelectSwChk1, IO_ON)  == IO_OFF||
-			   FAS_IO.get_in_bit(st_io_info.i_RearSelectSwChk2, IO_ON)  == IO_OFF)
-			{
-				m_dwManualWaitTime[0] = GetTickCount();
-				m_nManualStep = 100;
-			}
-
+		case 0:		
+		
+			m_nManualStep = 100;
 			break;
 
-		case 100:	//2014.01.21 주석처리
-			if(FAS_IO.get_in_bit(st_io_info.i_FrontSelectSwChk, IO_ON) == IO_OFF ||
-			   FAS_IO.get_in_bit(st_io_info.i_RearSelectSwChk1, IO_ON)  == IO_OFF||
-			   FAS_IO.get_in_bit(st_io_info.i_RearSelectSwChk2, IO_ON)  == IO_OFF)
-			{
-				m_dwManualWaitTime[1] = GetTickCount();
-				m_dwManualWaitTime[2] = m_dwManualWaitTime[1] - m_dwManualWaitTime[0];
-
-				if(m_dwManualWaitTime[2] <= 0)
-				{
-					m_dwManualWaitTime[0] = GetTickCount();
-					break;
-				}
-
-				if(m_dwManualWaitTime[2] > (DWORD)200)
-				{
-					m_nManualStep = 200;
-				}
-			}
-			else
-			{
-				m_nManualStep = 0;
-			}
+		case 100:	
+			m_nManualStep = 200;
 			break;
 
 		case 200:
@@ -989,43 +711,7 @@ int CRunHandlerCheck::OnRunPossibleCheck()
 		return RET_ERROR;
 	}
 
-	if (FAS_IO.get_in_bit(st_io_info.i_FrontSelectSwChk, IO_ON) == IO_OFF ||
-		FAS_IO.get_in_bit(st_io_info.i_RearSelectSwChk1, IO_ON)	== IO_OFF ||
-		FAS_IO.get_in_bit(st_io_info.i_RearSelectSwChk2, IO_ON)	== IO_OFF)
-	{
-		if (st_handler_info.cWndMain != NULL)
-		{
-			//st_other_info.nBuzYesNo = NO;
-			if (FAS_IO.get_in_bit(st_io_info.i_FrontSelectSwChk, IO_ON) == IO_OFF)
-			{
-				st_other_info.strBoxMsg = _T("Please Check Front Auto Key Status.");
-			}
-			else
-			{
-				st_other_info.strBoxMsg = _T("Please Check Rear Auto Key Status.");
-			}
 
-			if (st_handler_info.cWndMain != NULL)
-			{
-				st_handler_info.cWndMain->SendMessage(WM_WORK_COMMAND, MAIN_MESSAGE_BOX_CREATE_REQ, 0);
-			}
-		}
-
-		return RET_ERROR;
-	}
-	else
-	{
-		if (FAS_IO.get_in_bit(st_io_info.i_AutoModeChk, IO_ON) == IO_OFF)
-		{
-			//st_other_info.nBuzYesNo = NO;
-			st_other_info.strBoxMsg = _T("Please Check Rear Auto Key Status.");
-
-			if (st_handler_info.cWndMain != NULL)
-			{
-				st_handler_info.cWndMain->SendMessage(WM_WORK_COMMAND, MAIN_MESSAGE_BOX_CREATE_REQ, 0);
-			}
-		}
-	}
 
 	// 20150404 jtkim
 	for (i=0; i<M_MAX_MOTOR_NUM; i++)

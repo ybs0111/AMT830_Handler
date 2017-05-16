@@ -556,9 +556,6 @@ void CWorkMaintenance::OnDataApply()
 	st_handler_info.nRunSpeed			= m_nRunSpeed[1];
 	st_handler_info.nManualSpeed		= m_nManualSpeed[1];
 
-	st_recipe_info.dRejTrayPick			= m_dRejTrayPick[1];
-	st_recipe_info.dRejTrayPlace		= m_dRejTrayPlace[1];
-
 	COMI.mn_runspeed_rate				= st_handler_info.nRunSpeed;
 	COMI.mn_manualspeed_rate			= st_handler_info.nManualSpeed;
 
@@ -570,10 +567,6 @@ void CWorkMaintenance::OnDataApply()
 		st_lamp_info.nLampY[i]			= m_nYlamp[1][i];
 		st_lamp_info.nLampG[i]			= m_nGlamp[1][i];
 	}
-	//2015.02.09
-	st_basic_info.nModeXgem			= m_nModeXgem[1];
-	st_basic_info.nModeXgemRunChk	= m_nModeXgemRunChk[1];
-	st_basic_info.nModeXgemInterface= m_nModeXgemInterface[1];
 }
 
 
@@ -619,8 +612,7 @@ void CWorkMaintenance::OnDataInit()
 	m_nRunSpeed[1]					= st_handler_info.nRunSpeed;
 	m_nManualSpeed[1]				= st_handler_info.nManualSpeed;
 
-	m_dRejTrayPick[1]				= st_recipe_info.dRejTrayPick;
-	m_dRejTrayPlace[1]				= st_recipe_info.dRejTrayPlace;
+	
 
 	m_strEqp[1]						= st_basic_info.strEqp;
 
@@ -630,10 +622,7 @@ void CWorkMaintenance::OnDataInit()
 		m_nYlamp[1][i]				= st_lamp_info.nLampY[i];
 		m_nGlamp[1][i]				= st_lamp_info.nLampG[i];
 	}
-	//2015.02.09
-	m_nModeXgem[1]				= st_basic_info.nModeXgem;
-	m_nModeXgemRunChk[1]		= st_basic_info.nModeXgemRunChk;
-	m_nModeXgemInterface[1]		= st_basic_info.nModeXgemInterface;
+	
 	OnDataBackup();
 }
 

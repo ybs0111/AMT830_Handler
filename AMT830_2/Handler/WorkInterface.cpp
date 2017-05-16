@@ -710,27 +710,6 @@ void CWorkInterface::OnInitButton()
 	m_btnBcodeOff.SetFont(clsFunc.m_pFont[2]);
 	m_btnBcodeOff.SetTooltipText(_T("Trigger Off"));
 
-	m_btnUnldBcr[0].SetBitmaps(IDC_CHECK_UNLOAD_BARCODE_A, IDB_BITMAP_USED_UP, WINDOW_DN1, IDB_BITMAP_USED_DN, WINDOW_UP1);
-	m_btnUnldBcr[0].SetColor(CButtonST::BTNST_COLOR_BK_IN, WINDOW_DN1);
-	m_btnUnldBcr[0].SetColor(CButtonST::BTNST_COLOR_BK_OUT, WINDOW_UP1);
-	m_btnUnldBcr[0].SetColor(CButtonST::BTNST_COLOR_BK_FOCUS, WINDOW_UP1);
-	m_btnUnldBcr[0].SetColor(CButtonST::BTNST_COLOR_FG_IN, BLACK_C);
-	m_btnUnldBcr[0].SetFont(clsFunc.m_pFont[7]);
-	m_btnUnldBcr[0].SetCheck(st_recipe_info.bUnldBcrFlag[0]);
-
-	m_btnUnldBcr[1].SetBitmaps(IDC_CHECK_UNLOAD_BARCODE_B, IDB_BITMAP_USED_UP, WINDOW_DN1, IDB_BITMAP_USED_DN, WINDOW_UP1);
-	m_btnUnldBcr[1].SetColor(CButtonST::BTNST_COLOR_BK_IN, WINDOW_DN1);
-	m_btnUnldBcr[1].SetColor(CButtonST::BTNST_COLOR_BK_OUT, WINDOW_UP1);
-	m_btnUnldBcr[1].SetColor(CButtonST::BTNST_COLOR_BK_FOCUS, WINDOW_UP1);
-	m_btnUnldBcr[1].SetColor(CButtonST::BTNST_COLOR_FG_IN, BLACK_C);
-	m_btnUnldBcr[1].SetFont(clsFunc.m_pFont[7]);
-	m_btnUnldBcr[1].SetCheck(st_recipe_info.bUnldBcrFlag[1]);
-
-	if (st_recipe_info.bUnldBcrFlag[0]) m_btnUnldBcr[0].SetWindowTextW(_T("Unload Barcode A Enable"));
-	else m_btnUnldBcr[0].SetWindowTextW(_T("Unload Barcode A Disable"));
-
-	if (st_recipe_info.bUnldBcrFlag[1]) m_btnUnldBcr[1].SetWindowTextW(_T("Unload Barcode B Enable"));
-	else m_btnUnldBcr[1].SetWindowTextW(_T("Unload Barcode B Disable"));
 }			
 
 void CWorkInterface::OnInterface_Display()
@@ -967,8 +946,7 @@ void CWorkInterface::OnDataApply()
 		st_serial_info.nSerialBaudrate[i]	= ConverterToData(COM_BAUDRATE, m_nRate[i][1]);
 		st_serial_info.nSerialParity[i]		= ConverterToData(COM_PARITY, m_nParity[i][1]);
 	}
-	st_recipe_info.bUnldBcrFlag[0]	=	m_bUnldBcrFlag[0][1];
-	st_recipe_info.bUnldBcrFlag[1]	=	m_bUnldBcrFlag[1][1];
+
 }
 
 
@@ -1021,8 +999,6 @@ void CWorkInterface::OnDataInit()
 		pos = st_serial_info.nSerialStop[i];
 		m_nStop[i][1] = ConverterToPos(COM_STOP, pos);
 	}
-	m_bUnldBcrFlag[0][1]	=	st_recipe_info.bUnldBcrFlag[0];
-	m_bUnldBcrFlag[1][1]	=	st_recipe_info.bUnldBcrFlag[1];
 
 	OnDataBackup();
 }

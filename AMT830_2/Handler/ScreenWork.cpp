@@ -362,19 +362,6 @@ void CScreenWork::OnSelchangedTreeView(NMHDR *pNMHDR, LRESULT *pResult)
 		}
 		/* ************************************************************************** */
 	}
-	else if (strTmp == _T("Test Site Offset"))
-	{
-		m_tabWork.OnViewChange(10);
-
-		/* ************************************************************************** */
-		/* 현재 화면 정보 타이틀바에 출력한다.                                        */
-		/* ************************************************************************** */
-		if (st_handler_info.cWndTitle != NULL)
-		{
-			st_handler_info.cWndTitle->PostMessage(WM_STATUS_CHANGE, FORM_NAME, IDW_SCREEN_TEST_SITE);
-		}
-		/* ************************************************************************** */
-	}
 	else if (strTmp == _T("Custom IO Function"))
 	{
 		m_tabWork.OnViewChange(11);

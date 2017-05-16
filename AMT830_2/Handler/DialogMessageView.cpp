@@ -62,8 +62,6 @@ BOOL CDialogMessageView::OnInitDialog()
 
 	OnMessageDisplay();
 
-	FAS_IO.set_out_bit(st_io_info.o_Buzz3OnOff, IO_ON);
-
 	return TRUE;  // return TRUE unless you set the focus to a control
 	// 예외: OCX 속성 페이지는 FALSE를 반환해야 합니다.
 }
@@ -155,7 +153,6 @@ void CDialogMessageView::OnBnClickedBtnOk()
 {
 	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
 	st_other_info.nConfirmMsg = 1;
-	FAS_IO.set_out_bit(st_io_info.o_Buzz3OnOff, IO_OFF);
 
 	if (st_handler_info.cWndMain != NULL)
 	{
@@ -168,7 +165,6 @@ void CDialogMessageView::OnBnClickedBtnCancel()
 {
 	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
 	st_other_info.nConfirmMsg = 0;
-	FAS_IO.set_out_bit(st_io_info.o_Buzz3OnOff, IO_OFF);
 
 	if (st_handler_info.cWndMain != NULL)
 	{
@@ -201,7 +197,6 @@ void CDialogMessageView::OnBnClickedBtnRetry()
 {
 	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
 	st_other_info.nConfirmMsg = 2;
-	FAS_IO.set_out_bit(st_io_info.o_Buzz3OnOff, IO_OFF);
 
 	if (st_handler_info.cWndMain != NULL)
 	{

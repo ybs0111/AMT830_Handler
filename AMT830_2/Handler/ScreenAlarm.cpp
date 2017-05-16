@@ -1972,50 +1972,8 @@ void CScreenAlarm::OnAlarmInfoDisplay(CString strCode)
 
 void CScreenAlarm::OnBnClickedBtnDoor()
 {
-	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
-	//if (FAS_IO.get_in_bit(st_io_info.i_FrontSelectSwChk, IO_ON) == IO_OFF ||
-	//	FAS_IO.get_in_bit(st_io_info.i_RearSelectSwChk, IO_ON)	== IO_OFF)
-	//{
-/*	if (FAS_IO.get_in_bit(st_io_info.i_ManualModeChk, IO_OFF) == IO_ON)
-	{
- 		FAS_IO.set_out_bit(st_io_info.o_DoorLock, IO_OFF);
-	}
-	else
-	{
-		if (st_handler_info.cWndMain != NULL)
-		{
-			st_other_info.strBoxMsg = _T("Please Check Manual Key Status.");
-			st_handler_info.cWndMain->SendMessage(WM_WORK_COMMAND, MAIN_MESSAGE_BOX_CREATE_REQ, 0);
-		}
-	}*/
+	
 	CDialog_Message dlgMsg;
-
-	if (FAS_IO.get_in_bit(st_io_info.i_FrontSelectSwChk, IO_ON) == IO_OFF ||
-		FAS_IO.get_in_bit(st_io_info.i_RearSelectSwChk1, IO_ON)	== IO_OFF ||
-		FAS_IO.get_in_bit(st_io_info.i_RearSelectSwChk2, IO_ON)	== IO_OFF)
-	{
-		//if (FAS_IO.get_in_bit(st_io_info.i_ManualModeChk, IO_OFF) == IO_ON)
-		//{
-		FAS_IO.set_out_bit(st_io_info.o_DoorLock, IO_OFF);
-	}
-	else
-	{
-/*		if (FAS_IO.get_in_bit(st_io_info.i_ManualModeChk, IO_OFF) == IO_ON)
-		{
-			FAS_IO.set_out_bit(st_io_info.o_DoorLock, IO_OFF);
-		}
-		else
-		{
-			dlgMsg.m_nMessageType	= 0;
-			dlgMsg.m_strMessage		= _T("Please Check Manual Key Status.");
-
-			dlgMsg.DoModal();
-		}*/
-		dlgMsg.m_nMessageType	= 0;
-		dlgMsg.m_strMessage		= _T("Please Check Manual Key Status.");
-
-		dlgMsg.DoModal();
-	}
 }
 
 LRESULT CScreenAlarm::OnAlarmWorkInfoCommand(WPARAM wParam, LPARAM lParam) 

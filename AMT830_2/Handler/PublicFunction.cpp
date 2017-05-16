@@ -29,7 +29,7 @@ CPublicFunction::CPublicFunction(void)
 		m_pFont[i]->CreateFont(i + 10,0,0,0,900,0,0,0,0,0,0,ANTIALIASED_QUALITY,0, _T("MS Sans Serif"));		//Bitstream Vera Sans Mono
 	}
 
-	m_ArLotHistory.RemoveAll();
+	
 }
 
 
@@ -95,8 +95,7 @@ void CPublicFunction::OnTimeReset()
 	st_count_info.nRejectCount[1][1]= 0;
 	st_count_info.nPrimeCount[1][0]	= 0;
 	st_count_info.nPrimeCount[1][1]	= 0;
-	st_count_info.nPrimeRejectCount[1][0] = 0;
-	st_count_info.nPrimeRejectCount[1][1] = 0;
+	
 
 	st_alarm_info.nAlarmNum = 0;
 //	st_count_info.nDailyUph = 0;
@@ -308,17 +307,6 @@ void CPublicFunction::OnDailyDataSave()
 	OnStringToChar(strContent, chMsg);
 	fprintf(fp,"%s\r\n", chMsg) ;
 
-	dAve = 0.0f;
-	if (st_count_info.nUphCnt > 0)
-	{
-		dAve = st_count_info.dDailyPer / (double)st_count_info.nUphCnt;
-	}
-	strTemp.Format(_T("%.3f"), dAve);
-	strContent.Format(_T("| %-100s |"), _T("SOCKET YIELD : "));
-	strContent += strTemp;
-	OnStringToChar(strContent, chMsg);
-	fprintf(fp,"%s\r\n", chMsg) ;
-
 	strContent = _T("********************************************************************************************************");
 	OnStringToChar(strContent, chMsg);
 	fprintf(fp,"%s\r\n", chMsg) ;
@@ -334,122 +322,6 @@ void CPublicFunction::OnDailyDataSave()
 	}
 
 	fclose(fp); 
-/*	
-	strContent.Format("| %-100s |", "AMT8560 [SSD Interface Tester] : " + g_ver.GetDate() );
-	fprintf(fp,"%s\r\n", mstr_content) ;
-	
-	mstr_content.Format("| %-100s |", "Day Data Info File");
-	fprintf(fp,"%s\r\n", mstr_content) ;
-	
-	mstr_content.Format("| %-100s |", "DIVISION  : AMT Coporation");
-	fprintf(fp,"%s\n", mstr_content) ;
-
-	mstr_content.Format("| %-100s |", "File Name : " + st_path.str_lot_data_path + str_new_file);
-	fprintf(fp,"%s\r\n", mstr_content) ;
-
-	mstr_content.Format("| %-100s |", "Save Time : " + str_time);
-	fprintf(fp,"%s\r\n", mstr_content) ;
-
-	strTemp.Format("%06d", g_lotMgr.GetInputCnt(PRIME));
-	mstr_content.Format("| %-100s |", "Input Prime : " + strTemp);
-	fprintf(fp,"%s\r\n", mstr_content) ;
-
-	strTemp.Format("%06d", g_lotMgr.GetPassCnt(PRIME));
-	mstr_content.Format("| %-100s |", "Pass  Prime : " + strTemp);
-	fprintf(fp,"%s\r\n", mstr_content) ;
-
-	strTemp.Format("%06d", g_lotMgr.GetFailCnt(PRIME));
-	mstr_content.Format("| %-100s |", "Fail Prime : " + strTemp);
-	fprintf(fp,"%s\r\n", mstr_content);
-
-	fMdlyield = 0;
-	
-	if (g_lotMgr.GetPassCnt(PRIME) == 0)
-	{
-		fMdlyield = 0;
-	}
-	else
-	{
-		fMdlyield = (double)g_lotMgr.GetPassCnt(PRIME) / (double)g_lotMgr.GetInputCnt(PRIME) * 100.0f;
-	}
-	
-	strTemp.Format("%3.2f%%", fMdlyield);
-	
-	mstr_content.Format("| %-100s |", "Prime Yield  : " + strTemp);
-	fprintf(fp,"%s\r\n", mstr_content) ;
-
-
-	// CUM
-	strTemp.Format("%06d", g_lotMgr.GetInputCnt(CUM));
-	mstr_content.Format("| %-100s |", "Input Cum   : " + strTemp);
-	fprintf(fp,"%s\r\n", mstr_content) ;
-	
-	strTemp.Format("%06d", g_lotMgr.GetPassCnt(CUM));
-	mstr_content.Format("| %-100s |", "Pass  Cum   : " + strTemp);
-	fprintf(fp,"%s\r\n", mstr_content) ;
-	
-	strTemp.Format("%06d", g_lotMgr.GetFailCnt(CUM));
-	mstr_content.Format("| %-100s |", "Fail Cum  : " + strTemp);
-	fprintf(fp,"%s\r\n", mstr_content) ;
-
-	fMdlyield = 0;
-
-	if (g_lotMgr.GetPassCnt(CUM) == 0)
-	{
-		fMdlyield = 0;
-	}
-	else
-	{
-		fMdlyield = (double)g_lotMgr.GetPassCnt(CUM) / (double)g_lotMgr.GetInputCnt(CUM) * 100.0f;
-	}
-	
-	strTemp.Format("%3.2f%%", fMdlyield);
-	
-	mstr_content.Format("| %-100s |", "Cum   Yield  : " + strTemp);
-	fprintf(fp,"%s\r\n", mstr_content) ;
-	mstr_content.Format("| %-100s |", "");
-	fprintf(fp,"%s\r\n", mstr_content) ;
-
-	strTemp.Format( "%02d:%02d:%02d", st_handler.m_tDR.GetTotalHours(), st_handler.m_tDR.GetMinutes(), st_handler.m_tDR.GetSeconds() );
-	mstr_content.Format("| %-100s |", "Run Time : " + strTemp);
-	fprintf(fp,"%s\r\n", mstr_content) ;
-
-	strTemp.Format( "%02d:%02d:%02d", st_handler.m_tDS.GetTotalHours(), st_handler.m_tDS.GetMinutes(), st_handler.m_tDS.GetSeconds() );
-	mstr_content.Format("| %-100s |", "Stop Time : " + strTemp);
-	fprintf(fp,"%s\r\n", mstr_content) ;
-
-	strTemp.Format( "%02d:%02d:%02d", st_handler.m_tDJ.GetTotalHours(), st_handler.m_tDJ.GetMinutes(), st_handler.m_tDJ.GetSeconds() );
-	mstr_content.Format("| %-100s |", "Alarm Time : " + strTemp);
-	fprintf(fp,"%s\r\n", mstr_content) ;
-
-	strTemp.Format( "%d", g_handler.GetAlarmCnt() );
-	mstr_content.Format("| %-100s |", "Alarm Count : " + strTemp);
-	fprintf(fp,"%s\r\n", mstr_content) ;
-
-	int nSec_MTBI = st_handler.m_tDR.GetTotalHours() * 3600 + st_handler.m_tDR.GetMinutes() * 60 + st_handler.m_tDR.GetSeconds();
-	if( g_handler.GetAlarmCnt() == 0 )
-		nSec_MTBI = 0;
-	else
-	{
-		nSec_MTBI /= g_handler.GetAlarmCnt();
-	}
-
-	strTemp.Format( "%02d:%02d:%02d", nSec_MTBI / 3600, (nSec_MTBI % 3600) / 60, nSec_MTBI % 60 );
-	mstr_content.Format("| %-100s |", "MTBI : " + strTemp);
-	fprintf(fp,"%s\r\n", mstr_content) ;
-
-	mstr_content = "********************************************************************************************************";
-	fprintf(fp,"%s\r\n", mstr_content) ;
-	
-	str_temp_data = "";
-	
-	if (ferror(fp))  
-	{
-		Func.MsgLog("파일 저장 실패!..") ;
-		return ;
-	}
-	
-	fclose(fp);  /* 파일 종료 */
 }
 
 void CPublicFunction::OnHourDataSave(CString strHourName, int nQty, double dSocketYield, int nStart, int nOn, int nOff, CString strOff, CString strOn)
@@ -467,11 +339,6 @@ void CPublicFunction::OnHourDataSave(CString strHourName, int nQty, double dSock
 	int nCurYear, nCurMonth, nCurDay;					// 년, 월, 일 저장 변수
 	int nCurHour, nCurMinute, nCurSecond;				// 년, 월, 일 저장 변수
 
-
-	double dAve;
-	//double dTemp;
-	//
-	
 	COleDateTime otCurr;									// 현재 시간 저장 변수
 	CTime tCurr;										// 타이틀 시간 저장 변수
 
@@ -562,45 +429,13 @@ void CPublicFunction::OnHourDataSave(CString strHourName, int nQty, double dSock
 	OnStringToChar(strContent, chMsg);
 	fprintf(fp,"%s\r\n", chMsg) ;
 
-	st_count_info.nDailyUph += nQty;
-	st_count_info.nUphCnt++;
-
-	strTemp.Format(_T("%d"), st_count_info.nDailyUph);
-	strContent.Format(_T("| %-100s |"), _T("TOTAL : "));
-	strContent += strTemp;
-	OnStringToChar(strContent, chMsg);
-	fprintf(fp,"%s\r\n", chMsg) ;
-
 	strTemp.Format(_T("%d"), nQty);
 	strContent.Format(_T("| %-100s |"), _T("QTY : "));
 	strContent += strTemp;
 	OnStringToChar(strContent, chMsg);
 	fprintf(fp,"%s\r\n", chMsg) ;
 
-	strTemp.Format(_T("%d"), nStart);
-	strContent.Format(_T("| %-100s |"), _T("SOCKET : "));
-	strContent += strTemp;
-	OnStringToChar(strContent, chMsg);
-	fprintf(fp,"%s\r\n", chMsg) ;
 
-	st_count_info.dDailyPer += dSocketYield;
-	dAve = 0.0f;
-	if (st_count_info.nUphCnt > 0)
-	{
-		dAve = st_count_info.dDailyPer / (double)st_count_info.nUphCnt;
-	}
-	strTemp.Format(_T("Yield : %.2f/%.2f Count : %d Slot : %s"), dSocketYield, dAve, nOn, strOn);
-	strContent.Format(_T("| %-100s |"), _T("SOCKET ON : "));
-	strContent += strTemp;
-	OnStringToChar(strContent, chMsg);
-	fprintf(fp,"%s\r\n", chMsg) ;
-
-	strTemp.Format(_T("%d Slot : %s"), nOff, strOff);
-	strContent.Format(_T("| %-100s |"), _T("SOCKET OFF : "));
-	strContent += strTemp;
-	OnStringToChar(strContent, chMsg);
-	fprintf(fp,"%s\r\n", chMsg) ;
-	
 	strContent = _T("********************************************************************************************************");
 	OnStringToChar(strContent, chMsg);
 	fprintf(fp,"%s\r\n", chMsg) ;
@@ -899,234 +734,11 @@ int	CPublicFunction::OnMpCheck()
 
 int CPublicFunction::OnDoorOpenCheck()
 {
-	CString strTemp;
-//	int i;
-
-	/*for (i=0; i<15; i++)
-	{
-		if (FAS_IO.get_in_bit(st_io_info.i_DoorChk[i], IO_ON) == IO_OFF)
-		{
-			strTemp.Format(_T("81%04d"), st_io_info.i_Door1Chk + i);
-			CTL_Lib.Alarm_Error_Occurrence(6000+i, dWARNING, strTemp);
-
-			return RET_ERROR;
-		}
-	}
-	return RET_GOOD;*/
-
-	if (FAS_IO.get_in_bit(st_io_info.i_Door1Chk, IO_ON) == IO_OFF)
-	{
-//		CTL_Lib.Alarm_Error_Occurrence(6000, dRUN, _T("810200"));
-
-		st_alarm_info.strCode.Format(_T("81%04d"), st_io_info.i_Door1Chk);
-		st_alarm_info.nCountMode	= 0;	
-		st_alarm_info.nTypeMode		= eWARNING;
-		st_alarm_info.nAlarmAssignSection = 2;
-
-		return RET_ERROR;
-	}
-
-	if (FAS_IO.get_in_bit(st_io_info.i_Door2Chk, IO_ON) == IO_OFF)
-	{
-//		CTL_Lib.Alarm_Error_Occurrence(6001, dRUN, _T("810201"));
-
-		st_alarm_info.strCode.Format(_T("81%04d"), st_io_info.i_Door2Chk);
-		st_alarm_info.nCountMode	= 0;	
-		st_alarm_info.nTypeMode		= eWARNING;
-		st_alarm_info.nAlarmAssignSection = 2;
-
-		return RET_ERROR;
-	}
-
-	if (FAS_IO.get_in_bit(st_io_info.i_Door3Chk, IO_ON) == IO_OFF)
-	{
-//		CTL_Lib.Alarm_Error_Occurrence(6002, dRUN, _T("810202"));
-
-		st_alarm_info.strCode.Format(_T("81%04d"), st_io_info.i_Door3Chk);
-		st_alarm_info.nCountMode	= 0;	
-		st_alarm_info.nTypeMode		= eWARNING;
-		st_alarm_info.nAlarmAssignSection = 2;
-
-		return RET_ERROR;
-	}
-
-	if (FAS_IO.get_in_bit(st_io_info.i_Door4Chk, IO_ON) == IO_OFF)
-	{
-//		CTL_Lib.Alarm_Error_Occurrence(6003, dRUN, _T("810203"));
-
-		st_alarm_info.strCode.Format(_T("81%04d"), st_io_info.i_Door4Chk);
-		st_alarm_info.nCountMode	= 0;	
-		st_alarm_info.nTypeMode		= eWARNING;
-		st_alarm_info.nAlarmAssignSection = 2;
-
-		return RET_ERROR;
-	}
-
-	if (FAS_IO.get_in_bit(st_io_info.i_Door5Chk, IO_ON) == IO_OFF)
-	{
-//		CTL_Lib.Alarm_Error_Occurrence(6004, dRUN, _T("810204"));
-
-		st_alarm_info.strCode.Format(_T("81%04d"), st_io_info.i_Door5Chk);
-		st_alarm_info.nCountMode	= 0;	
-		st_alarm_info.nTypeMode		= eWARNING;
-		st_alarm_info.nAlarmAssignSection = 2;
-
-		return RET_ERROR;
-	}
-
-	if (FAS_IO.get_in_bit(st_io_info.i_Door6Chk, IO_ON) == IO_OFF)
-	{
-//		CTL_Lib.Alarm_Error_Occurrence(6005, dWARNING, _T("810205"));
-
-		st_alarm_info.strCode.Format(_T("81%04d"), st_io_info.i_Door6Chk);
-		st_alarm_info.nCountMode	= 0;	
-		st_alarm_info.nTypeMode		= eWARNING;
-		st_alarm_info.nAlarmAssignSection = 2;
-
-		return RET_ERROR;
-	}
-
-	if (FAS_IO.get_in_bit(st_io_info.i_Door7Chk, IO_ON) == IO_OFF)
-	{
-//		CTL_Lib.Alarm_Error_Occurrence(6006, dRUN, _T("810206"));
-
-		st_alarm_info.strCode.Format(_T("81%04d"), st_io_info.i_Door7Chk);
-		st_alarm_info.nCountMode	= 0;	
-		st_alarm_info.nTypeMode		= eWARNING;
-		st_alarm_info.nAlarmAssignSection = 2;
-
-		return RET_ERROR;
-	}
-
-	if (FAS_IO.get_in_bit(st_io_info.i_Door8Chk, IO_ON) == IO_OFF)
-	{
-//		CTL_Lib.Alarm_Error_Occurrence(6007, dRUN, _T("810207"));
-
-		st_alarm_info.strCode.Format(_T("81%04d"), st_io_info.i_Door8Chk);
-		st_alarm_info.nCountMode	= 0;	
-		st_alarm_info.nTypeMode		= eWARNING;
-		st_alarm_info.nAlarmAssignSection = 2;
-
-		return RET_ERROR;
-	}
-
-	if (FAS_IO.get_in_bit(st_io_info.i_Door9Chk, IO_ON) == IO_OFF)
-	{
-//		CTL_Lib.Alarm_Error_Occurrence(6008, dRUN, _T("810208"));
-
-		st_alarm_info.strCode.Format(_T("81%04d"), st_io_info.i_Door9Chk);
-		st_alarm_info.nCountMode	= 0;	
-		st_alarm_info.nTypeMode		= eWARNING;
-		st_alarm_info.nAlarmAssignSection = 2;
-
-		return RET_ERROR;
-	}
-
-	if (FAS_IO.get_in_bit(st_io_info.i_Door10Chk, IO_ON) == IO_OFF)
-	{
-//		CTL_Lib.Alarm_Error_Occurrence(6009, dRUN, _T("810209"));
-
-		st_alarm_info.strCode.Format(_T("81%04d"), st_io_info.i_Door10Chk);
-		st_alarm_info.nCountMode	= 0;	
-		st_alarm_info.nTypeMode		= eWARNING;
-		st_alarm_info.nAlarmAssignSection = 2;
-
-		return RET_ERROR;
-	}
-
-	if (FAS_IO.get_in_bit(st_io_info.i_Door11Chk, IO_ON) == IO_OFF)
-	{
-//		CTL_Lib.Alarm_Error_Occurrence(6010, dWARNING, _T("810210"));
-
-		st_alarm_info.strCode.Format(_T("81%04d"), st_io_info.i_Door11Chk);
-		st_alarm_info.nCountMode	= 0;	
-		st_alarm_info.nTypeMode		= eWARNING;
-		st_alarm_info.nAlarmAssignSection = 2;
-
-		return RET_ERROR;
-	}
-
-	if (FAS_IO.get_in_bit(st_io_info.i_Door12Chk, IO_ON) == IO_OFF)
-	{
-//		CTL_Lib.Alarm_Error_Occurrence(6011, dRUN, _T("810211"));
-
-		st_alarm_info.strCode.Format(_T("81%04d"), st_io_info.i_Door12Chk);
-		st_alarm_info.nCountMode	= 0;	
-		st_alarm_info.nTypeMode		= eWARNING;
-		st_alarm_info.nAlarmAssignSection = 2;
-
-		return RET_ERROR;
-	}
-
-	if (FAS_IO.get_in_bit(st_io_info.i_Door13Chk, IO_ON) == IO_OFF)
-	{
-//		CTL_Lib.Alarm_Error_Occurrence(6012, dWARNING, _T("810212"));
-
-		st_alarm_info.strCode.Format(_T("81%04d"), st_io_info.i_Door13Chk);
-		st_alarm_info.nCountMode	= 0;	
-		st_alarm_info.nTypeMode		= eWARNING;
-		st_alarm_info.nAlarmAssignSection = 2;
-
-		return RET_ERROR;
-	}
-
-	if (FAS_IO.get_in_bit(st_io_info.i_Door14Chk, IO_ON) == IO_OFF)
-	{
-//		CTL_Lib.Alarm_Error_Occurrence(6013, dRUN, _T("810213"));
-
-		st_alarm_info.strCode.Format(_T("81%04d"), st_io_info.i_Door14Chk);
-		st_alarm_info.nCountMode	= 0;	
-		st_alarm_info.nTypeMode		= eWARNING;
-		st_alarm_info.nAlarmAssignSection = 2;
-
-		return RET_ERROR;
-	}
-
-	if (FAS_IO.get_in_bit(st_io_info.i_Door15Chk, IO_ON) == IO_OFF)
-	{
-//		CTL_Lib.Alarm_Error_Occurrence(6014, dRUN, _T("810214"));
-
-		st_alarm_info.strCode.Format(_T("81%04d"), st_io_info.i_Door15Chk);
-		st_alarm_info.nCountMode	= 0;	
-		st_alarm_info.nTypeMode		= eWARNING;
-		st_alarm_info.nAlarmAssignSection = 2;
-
-		return RET_ERROR;
-	}
-
 	return RET_GOOD;
 }
 
 int CPublicFunction::OnEmoCheck()
 {
-	if (FAS_IO.get_in_bit(st_io_info.i_Emo1SwChk, IO_OFF) == IO_ON)
-	{
-		CTL_Lib.Alarm_Error_Occurrence(7000, dRUN, _T("810112"));
-
-		return RET_ERROR;
-	}
-
-	if (FAS_IO.get_in_bit(st_io_info.i_Emo2SwChk, IO_OFF) == IO_ON)
-	{
-		CTL_Lib.Alarm_Error_Occurrence(7001, dRUN, _T("810113"));
-
-		return RET_ERROR;
-	}
-
-	if (FAS_IO.get_in_bit(st_io_info.i_Emo3SwChk, IO_OFF) == IO_ON)
-	{
-		CTL_Lib.Alarm_Error_Occurrence(7002, dRUN, _T("810114"));
-
-		return RET_ERROR;
-	}
-
-	if (FAS_IO.get_in_bit(st_io_info.i_Emo4SwChk, IO_OFF) == IO_ON)
-	{
-		CTL_Lib.Alarm_Error_Occurrence(7003, dRUN, _T("810115"));
-
-		return RET_ERROR;
-	}
-
 	return RET_GOOD;
 }
 
@@ -1325,10 +937,6 @@ void CPublicFunction::OnSound(int nOnOff)
 	switch(nOnOff)
 	{
 		case IO_OFF:  // SOUND OFF
-			FAS_IO.set_out_bit(st_io_info.o_Buzz1OnOff, IO_OFF);  //
-			FAS_IO.set_out_bit(st_io_info.o_Buzz2OnOff, IO_OFF);  //
-			FAS_IO.set_out_bit(st_io_info.o_Buzz3OnOff, IO_OFF);  //
-
 			// 사운드 OFF 램프 꺼준다
 			FAS_IO.set_out_bit(st_io_info.o_BuzzLamp, IO_OFF);  // 
 
@@ -1341,11 +949,6 @@ void CPublicFunction::OnSound(int nOnOff)
 			// 부저 사용 모드에서만 부저 사용한다
 			if (st_lamp_info.nBuzzerMode == YES)
 			{
-				// 부저는 하나만 사용하도록 한다
-				FAS_IO.set_out_bit(st_io_info.o_Buzz1OnOff, IO_ON);
-				FAS_IO.set_out_bit(st_io_info.o_Buzz2OnOff, IO_ON);
-				FAS_IO.set_out_bit(st_io_info.o_Buzz3OnOff, IO_ON);  //
-
 				// 사운드 OFF 램프 켜준다
 				FAS_IO.set_out_bit(st_io_info.o_BuzzLamp, IO_ON);
 
@@ -1929,9 +1532,6 @@ BOOL CPublicFunction::IsNum(CString strData)
 
 int	CPublicFunction::OnIoSafetyCheck(int nIO)
 {
-	int nRet[5];
-
-
 	return RET_GOOD;
 }
 
@@ -1943,21 +1543,6 @@ int CPublicFunction::OnRecoveryReadWrite(int nMode, int nReadWrite)
 	CTime time;
 
 	int nArchive;
-
-	if (nMode == 0)
-	{
-		strFileName = st_path_info.strPathRecovery + _T("Handler.DAT");
-	}
-	else 
-	{
-		time = CTime::GetCurrentTime();
-		strFileName.Format(_T("%sHandler_%04d%02d%02d%02d%02d.DAT"), st_path_info.strPathRecovery,
-																	 time.GetYear(),
-																	 time.GetMonth(),
-																	 time.GetDay(),
-																	 time.GetHour(),
-																	 time.GetMinute());
-	}
 
 	if (nReadWrite == 0)
 	{
@@ -2069,274 +1654,7 @@ void CPublicFunction::OnLogBarcode(CString strMsg)
 }
 
 
-void CPublicFunction::OnLogBarcodeNg(CString strMsg)
-{
-	CString strFileName;				// 마지막으로 생성된 파일 이름 저장 변수 
-	CString strCreateFile;				// 알람 정보 저장할 파일에 대한 [폴더]+[파일명]+[확장자] 설정 변수 
-	CString strListName, strTempData;	// 각 부분별 알람 발생 횟수 정보 저장할 로그 파일 정보 저장 변수 
-	CString strContent;				// 한 라인에 출력할 문자열 정보 저장 변수 
-	int nExistence;						// 파일 존재 유무 설정 플래그 
-	char chFileName[256];				// 검색할 파일 정보 설정 함수 
-	char chMsg[1000];
-	FILE  *fp ;							// 파일에 대한 포인터 설정 변수 
 
-	CString strTitleTime, strFileTime, strNewFile;		// 파일에 출력할 타이틀 시간 저장 변수
-	int nCurYear, nCurMonth, nCurDay;					// 년, 월, 일 저장 변수
-	int nCurHour, nCurMinute, nCurSecond;				// 년, 월, 일 저장 변수
-	int nMtbi = 0;
 
-	//double dAve;
-	//double dTemp;
-	//
 
-	COleDateTime otCurr;									// 현재 시간 저장 변수
-	CTime tCurr;										// 타이틀 시간 저장 변수
 
-	CString strTemp;
-
-	CString strData, strTime;
-
-	/* ************************************************************************** */
-	/* 파일 이름으로 사용할 날짜 설정한다                                         */
-	/* ************************************************************************** */
-	otCurr = COleDateTime::GetCurrentTime();
-
-	nCurYear		= otCurr.GetYear();  
-	nCurMonth		= otCurr.GetMonth();  
-	nCurDay			= otCurr.GetDay();  
-
-	nCurHour		= otCurr.GetHour();
-	nCurMinute		= otCurr.GetMinute();
-	nCurSecond		= otCurr.GetSecond();
-
-	strNewFile.Format(_T("BARCODE_NG_DATA%04d%02d%02d"), nCurYear, nCurMonth, nCurDay);
-	strTime.Format(_T("%04d/%02d/%02d %02d:%02d:%02d"), nCurYear, nCurMonth, nCurDay, nCurHour, nCurMinute, nCurSecond);
-
-	strCreateFile = st_path_info.strBarcodeNg + strNewFile;
-	strCreateFile += ".TXT";
-
-	OnStringToChar(strCreateFile, chFileName);
-	nExistence = _access(chFileName, 0);
-
-	if (nExistence == -1)  /* 파일 미존재 */
-	{
-		strCreateFile = st_path_info.strBarcodeNg + strNewFile;
-		strCreateFile += ".TXT";
-		OnStringToChar(strCreateFile, chFileName);
-	}
-
-	/* ************************************************************************** */
-	/* 알람 발생 횟수 정보 저장 파일에 추가 가능한 형태 파일로 생성               */
-	/* ************************************************************************** */
-	fopen_s(&fp, chFileName, "a+");
-	if(!fp)
-	{
-		//		AfxMessageBox(_T("The failure because we open the file."));
-		return;
-	}
-	/* ************************************************************************** */
-	strContent += strTime;
-	strContent += _T(" : ");
-	strContent += strMsg;
-	clsFunc.OnStringToChar(strContent, chMsg);
-	fprintf(fp,"%s\r\n", chMsg) ;
-
-	if (ferror(fp))  
-	{
-		//		Func.MsgLog("파일 저장 실패!..") ;
-		fclose(fp); 
-
-		return ;
-	}
-
-	fclose(fp); 
-}
-
-void CPublicFunction::OnDailyCycleData(CString strLotNo, CString strPartNo, double dTime, CTime tStart, CTime tEnd)
-{
-	CString strFileName;				// 마지막으로 생성된 파일 이름 저장 변수 
-	CString strCreateFile;				// 알람 정보 저장할 파일에 대한 [폴더]+[파일명]+[확장자] 설정 변수 
-	CString strListName, strTempData;	// 각 부분별 알람 발생 횟수 정보 저장할 로그 파일 정보 저장 변수 
-	CString strContent;				// 한 라인에 출력할 문자열 정보 저장 변수 
-	int nExistence;						// 파일 존재 유무 설정 플래그 
-	char chFileName[256];				// 검색할 파일 정보 설정 함수 
-	char chMsg[1000];
-	FILE  *fp ;							// 파일에 대한 포인터 설정 변수 
-
-	CString strTitleTime, strFileTime;		// 파일에 출력할 타이틀 시간 저장 변수
-	int nCurYear, nCurMonth, nCurDay;					// 년, 월, 일 저장 변수
-	int nCurHour, nCurMinute, nCurSecond;				// 년, 월, 일 저장 변수
-	int nMtbi = 0;
-
-	COleDateTime otCurr;									// 현재 시간 저장 변수
-	CTime tCurr;										// 타이틀 시간 저장 변수
-
-	CString strTemp;
-
-	CString strData, strTime;
-
-	/* ************************************************************************** */
-	/* 파일 이름으로 사용할 날짜 설정한다                                         */
-	/* ************************************************************************** */
-	otCurr = COleDateTime::GetCurrentTime();
-
-	nCurYear		= otCurr.GetYear();  
-	nCurMonth		= otCurr.GetMonth();  
-	nCurDay			= otCurr.GetDay();  
-
-	nCurHour		= otCurr.GetHour();
-	nCurMinute		= otCurr.GetMinute();
-	nCurSecond		= otCurr.GetSecond();
-
-	strTime.Format(_T("D_CYCLE_%04d%02d%02d"), nCurYear, nCurMonth, nCurDay);
-	strCreateFile = st_path_info.strPathCycle + strTime;
-	strCreateFile += ".TXT";
-
-	OnStringToChar(strCreateFile, chFileName);
-	nExistence = _access(chFileName, 0);
-
-	if (nExistence == -1)  /* 파일 미존재 */
-	{
-		strCreateFile = st_path_info.strPathCycle + strTime;
-		strCreateFile += ".TXT";
-		OnStringToChar(strCreateFile, chFileName);
-	}
-
-	/* ************************************************************************** */
-	/* 알람 발생 횟수 정보 저장 파일에 추가 가능한 형태 파일로 생성               */
-	/* ************************************************************************** */
-	fopen_s(&fp, chFileName, "a+");
-	if(!fp)
-	{
-		//		AfxMessageBox(_T("The failure because we open the file."));
-		return;
-	}
-	/* ************************************************************************** */
-
-	strTemp.Format(_T("[%04d%02d%02d %02d:%02d:%02d] : START : [%04d%02d%02d %02d:%02d:%02d] END :[%04d%02d%02d %02d:%02d:%02d] PARTNO : [%s] LOTNO : [%s] Cycle Time [%.2f]"), nCurYear,
-																																										        nCurMonth,
-																																										        nCurDay,
-																																										        nCurHour,
-																																										        nCurMinute,
-																																												nCurSecond,
-																																												tStart.GetYear(),
-																																												tStart.GetMonth(),
-																																												tStart.GetDay(),
-																																												tStart.GetHour(),
-																																												tStart.GetMinute(),
-																																												tStart.GetSecond(),
-																																												tEnd.GetYear(),
-																																												tEnd.GetMonth(),
-																																												tEnd.GetDay(),
-																																												tEnd.GetHour(),
-																																												tEnd.GetMinute(),
-																																												tEnd.GetSecond(),
-																																												strPartNo,
-																																												strLotNo, 
-																																												dTime);
-	strContent.Format(_T("%s"), strTemp);
-	OnStringToChar(strContent, chMsg);
-	fprintf(fp,"%s\r\n", chMsg) ;
-
-	if (ferror(fp))  
-	{
-		//		Func.MsgLog("파일 저장 실패!..") ;
-		fclose(fp); 
-
-		return ;
-	}
-
-	fclose(fp); 
-}
-
-CString	CPublicFunction::OnRecipeCheck(CString strPartNo)
-{
-	CString strRecipe = _T("");						// 함수 리턴 플래그
-	CString strTemp;
-
-	HANDLE hFind;
-    WIN32_FIND_DATA fd;
-
-	CString strFileName = st_path_info.strBasic;
-
-	if (strFileName.Right (1) != "\\")
-	{
-        strFileName += "\\";
-	}
-
-	strFileName += "*.*";
-    
-    if ((hFind = ::FindFirstFile ((LPCTSTR) strFileName, &fd)) != INVALID_HANDLE_VALUE) 
-	{
-        while (::FindNextFile (hFind, &fd)) 
-		{
-            if (!(fd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY))
-			{
-				strTemp = (fd.cFileName);
-				if (OnRecipeMatch(strTemp, strPartNo) == RET_GOOD)
-				{
-					strRecipe = strTemp;
-					break;
-				}
-			}
-        }
-		::FindClose(hFind);
-    }
-
-	return strRecipe;
-}
-
-int	CPublicFunction::OnRecipeMatch(CString strFileName, CString strPartNo)
-{
-	TCHAR chData[300];
-
-	int nPos;
-	int nLength;
-	int i, j;
-	int nCount;
-
-	CString strTemp;
-	CString strRecipe;
-	CString strData;
-	CString strFind[2];
-
-	BOOL bFind;
-
-	nPos = strFileName.Find(_T("."), 0);
-	strRecipe = strFileName.Mid(0, nPos);
-	strTemp.Format(_T("%s_TOTAL"), strRecipe);
-
-	GetPrivateProfileString(st_basic_info.strScrapHead, strTemp, _T("0"), chData, sizeof(chData), _T("D:\\AMT8562\\RECIPE_RULE.TXT"));
-	strTemp.Format(_T("%s"), chData);
-	nCount = _wtoi(strTemp);
-
-	if (nCount == 0) return RET_ERROR;
-
-	for (i=0; i<nCount; i++)
-	{
-		strTemp.Format(_T("%s_%02d"), strRecipe, i+1);
-		GetPrivateProfileString(st_basic_info.strScrapHead, strTemp, _T("0"), chData, sizeof(chData), _T("D:\\AMT8562\\RECIPE_RULE.TXT"));
-		strData.Format(_T("%s"), chData);
-		
-		bFind = TRUE;
-		nLength = strData.GetLength();
-
-		for(j=0; j<nLength; j++)
-		{
-			strFind[0] = strPartNo.GetAt(j);
-			strFind[1] = strData.GetAt(j);
-
-			if (strFind[1] != _T("_"))
-			{
-				if (strFind[0] != strFind[1])
-				{
-					bFind = FALSE;
-					break;
-				}
-			}
-		}
-		if (bFind) return RET_GOOD;
-	}
-
-	return RET_ERROR;
-}

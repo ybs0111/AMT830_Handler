@@ -49,8 +49,7 @@ void CRunTowerLamp::OnThreadRun()
 
 	if (st_handler_info.nRunStatus == dJAM || st_handler_info.nRunStatus == dWARNING)
 	{
-		FAS_IO.set_out_bit(st_io_info.o_StopLamp, IO_ON);
-		FAS_IO.set_out_bit(st_io_info.o_StartLamp, IO_OFF);
+		
 	}
 
 	if(m_nOldStatus != st_handler_info.nRunStatus)

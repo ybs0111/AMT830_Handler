@@ -97,16 +97,7 @@ void CScreenList::OnInitGridData()
 {
 	//2015.02.10
 	CString strTmp;
-	CString strHead[49] = {_T("BarcodeRobot Run"),					_T("BarcodeRobot BCRReading"),				_T("CokRobot Run"),						_T("CokRobot Move"),					_T("EmptyStacker Run"),
-		_T("EmptyStacker Move"),				_T("LoadRobot Run"),							_T("LoadRobot Buffer Place"),			_T("LoadRobot TrayPick"),				_T("LoadRotatorBuffer Run"),
-		_T("LoadTrayConveyor Run"),			_T("LoadTrayConveyor LdTrayBCR"),					 _T("LoadTrayConveyor LdTrayInput"),	_T("LoadTrayConveyor Smema"),			_T("LoadTrayPlate LoadTray_1"),
-		_T("LoadTrayPlate LoadTray_2"),		_T("LoadTrayPlate LoadTray_2_EmtyTray"),		_T("LoadTrayShifter Run"),					_T("LoadTrayShifter TrayPick"),			_T("LoadTrayShifter TrayPlace"),
-		_T("LeftMp Run"),						_T("RejectTray Run"),						_T("RejectTray Pick"),						_T("RejectTray Place"),				_T("RejectTray TrayUp"),		
-		_T("RejectTray TrayDn"),				_T("RetestTray Run"),					_T("RightMp Run"),						_T("TestSiteRobot Run"),					_T("TestSiteRobot BufferPick"),		
-		_T("TestSiteRobot BufferPlace"),		_T("TestSiteRobot Cok Buff Pick"),		_T("TestSiteRobot Cok Buff Place"),			_T("TestSiteRobot CokExchange"),			_T("TestSiteRobot Cok_TestPick"),	
-		_T("TestSiteRobot Cok_TestPlace"),	_T("TestSiteRobot Test Pick"),			_T("TestSiteRobot Test Place"),				_T("UldRobot Run"),						_T("UldRobot Buff Pick"),			
-		_T("UldRobot TrayPlace"),			_T("UldRotatorBuffer Run"),			_T("UldTrayConveyor Run"),						_T("UldTrayConveyor Smema"),				_T("UldTrayShifter Run"),			
-		_T("UldTrayShifter TrayPick"),		 _T("UldTrayShifter TrayPlace"),			_T("UldTrayStacker Run"),				_T("UldTrayStacker Move")};	   
+	CString strHead[49]={_T(""),}; 
 	int i, j;
 
 	m_pGridData.DeleteAllItems();

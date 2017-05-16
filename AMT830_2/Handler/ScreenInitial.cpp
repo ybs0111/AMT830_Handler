@@ -293,85 +293,19 @@ int CScreenInitial::OnInitExcution()
 			{
 				return RET_ERROR;
 			}
-			//2014.01.21 주석처리
-
-			if (FAS_IO.get_in_bit(st_io_info.i_FrontSelectSwChk, IO_ON) == IO_OFF ||
-				FAS_IO.get_in_bit(st_io_info.i_RearSelectSwChk1, IO_ON)	== IO_OFF ||
-				FAS_IO.get_in_bit(st_io_info.i_RearSelectSwChk2, IO_ON)	== IO_OFF)
-			{
-
-				if (FAS_IO.get_in_bit(st_io_info.i_FrontSelectSwChk, IO_ON) == IO_OFF)
-				{
-					strTemp.Format(_T("8%d%04d"), IO_OFF, st_io_info.i_FrontSelectSwChk);
-					CTL_Lib.Alarm_Error_Occurrence(6000, dWARNING, strTemp);
-				}
-				else
-				{
-					strTemp.Format(_T("8%d%04d"), IO_OFF, st_io_info.i_RearSelectSwChk1);
-					CTL_Lib.Alarm_Error_Occurrence(6000, dWARNING, strTemp);
-				}
-
-				return RET_ERROR;
-
-/*				st_other_info.nConfirmMsg	= -1;
-				st_other_info.nConfirmType	= 5;
-				st_other_info.strConfirmMsg.Format(_T("Auto Key Check"));
-				if (FAS_IO.get_in_bit(st_io_info.i_FrontSelectSwChk, IO_ON) == IO_OFF)
-				{
-					st_other_info.strConfirmMsg = _T("Please Check Front Auto Key Status.");
-				}
-				else
-				{
-					st_other_info.strConfirmMsg = _T("Please Check Rear Auto Key Status.");
-				}
-
-				OnMessageView();
-
-				m_nInitStep = 50;*/
-			}
-
-/*			if (FAS_IO.get_in_bit(st_io_info.i_AutoModeChk, IO_OFF) == IO_OFF)
-			{
-				if (FAS_IO.get_in_bit(st_io_info.i_FrontSelectSwChk, IO_ON) == IO_OFF)
-				{
-					strTemp.Format(_T("8%d%04d"), IO_OFF, st_io_info.i_FrontSelectSwChk);
-					CTL_Lib.Alarm_Error_Occurrence(6000, dWARNING, strTemp);
-				}
-				else
-				{
-					strTemp.Format(_T("8%d%04d"), IO_OFF, st_io_info.i_RearSelectSwChk);
-					CTL_Lib.Alarm_Error_Occurrence(6000, dWARNING, strTemp);
-				}
-			}*/
+			
 			break;
 
 		case 50:
-			if (FAS_IO.get_in_bit(st_io_info.i_FrontSelectSwChk, IO_ON) == IO_ON &&
-				FAS_IO.get_in_bit(st_io_info.i_RearSelectSwChk1, IO_ON)	== IO_ON &&
-				FAS_IO.get_in_bit(st_io_info.i_RearSelectSwChk2, IO_ON)	== IO_ON)
-			{
-				m_nInitStep = 100;
-			}
-			else
-			{
-				m_nInitStep = 0;
-			}
+
 			break;
 
 		case 100:
 			if (st_lot_info[LOT_CURR].nLotStatus == YES)
 			{
-				// jtkim 20150614
-/*
-				st_other_info.nConfirmMsg	= -1;
-			
-				st_handler_info.cWndInitial->PostMessage(WM_WORK_COMMAND, INIT_RECOVERY_COMMAND, 0);
-
-				m_nInitStep = 200;
-*/
 				OnRecoveryInit();
 
-				st_lot_info[LOT_CURR].nLotStatus = NO;
+				
 				st_recovery_info.nMcRecoveryUsed = NO;
 				st_recovery_info.nMcDataRecovery = NO;
 

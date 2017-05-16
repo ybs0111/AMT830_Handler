@@ -61,64 +61,12 @@ tagWAIT_INFO				st_wait_info;
 tagSYNC_INFO				st_sync_info = {0};		//구조체 0으로 초기화
 tagRS232_INFO				st_rs232_info;
 tagMOTOR_INFO				st_motor_info[MOT_MAXMOTOR];
-tagRECIPE_INFO				st_recipe_info;
+//tagRECIPE_INFO				st_recipe_info;
 tagRECOVERY_INFO			st_recovery_info;
 tagANIMATE_INFO				st_animate_info	= {0};	//구조체 0으로 초기화
 tagCOUNT_INFO				st_count_info;
-tagWORKER_INFO				st_worker_info;
-tagGMS_INFO					st_gms_info;
-tagLOT_HISTORY_INFO			st_lot_history_info;
-tagPART_INFO				st_part_info;
-tagTYPE_INFO				st_type_info;
-
-/* 2015.0108
-// loader picker 구조체
-tagLD_PICKER_INFO			st_ld_picker_info[MAX_PICKER];
-// loader buffer 구조체
-// [0] load picker -> buffer [1] buffer -> test site robot
-tagLD_BUF_INFO				st_ld_buf_info[2];
-// unloader picker 구조체
-tagUNLD_PICKER_INFO			st_unld_picker_info[MAX_PICKER];
-// unloader buffer 구조체
-// [0] unload picker <-> buffer [1] buffer <-> test site robot
-tagUNLD_BUF_INFO			st_unld_buf_info[2];
-// reject buffer 구조체
-tagREJECT_BUFFER_INFO		st_reject_buf_info[2];
-// retest buffer 구조체
-tagRETEST_BUFFER_INFO		st_retest_buf_info;
-// test site robot 구조체
-tagTEST_SITE_RBT_INFO		st_test_site_rbt_info;
-
-
-tagLD_TRAY_INFO				st_ld_tray_info[2];
-// loader tray 구조체
-tagUNLD_TRAY_INFO			st_unld_tray_info[2];
-
-tagBOARD_INFO				st_bd_info[2][2];
-*/
-//2015.0102 
-tagVARIABLE_INFO			st_var;
- 
-tagBOARD_INFO				st_bd_info[2][2];
-
-// test site 구조체
-//[0][0] left bottom [0][1] left top [1][0] right bottom [1][1] right top
-tagTEST_SITE_INFO			st_test_site_info[THREAD_MAX_SITE][2]; //2015.0216 [2][2];
-
-tagALL_TRAY_INFO			st_tray_info[THREAD_MAX_SITE];
-
-tag_PICKER_INFO				st_picker[THREAD_MAX_SITE]; //2015.0107 
-
-tagALL_TRAY_INFO			st_buffer_info[THREAD_MAX_SITE]; //2015.0114
-
+//tagWORKER_INFO				st_worker_info;
 tagLOT_INFO					st_lot_info[3];		// 2015.0115
-tagCOKBUFF_SITE_INFO		st_Cok_Buff_info[4]; //cok 4개 사이트 정보 //2015.0124
-
-tagLOT_DISPLAY_INFO			st_lot_display_info; // 2015.01.29 lot 전산처리 구조체
-tagREJECT_TRAY_INFO			st_reject_info[THREAD_MAX_SITE];
-tagTRACK_INFO				st_track_info;
-tagSCRAP_CODE				st_code_info[2];
-
 
 #define TM_MAIN_REFRESH	100
 #define TM_FILE_CREATE	200
@@ -191,15 +139,6 @@ CMainFrame::CMainFrame()
 	OnMainVarDefaultSet();
 	st_work_info.nPgmInfo = 0;
 	
-	for (i=0; i<2; i++)
-	{
-		for (j=0; j<12; j++)
-		{
-			st_work_info.nLfTsiteBin[i][j] = 1;
-			st_work_info.nRiTsiteBin[i][j] = 1;
-		}
-	}
-
 	clsMyJamData.OnAlarmInfoLoad();	// 파일에 저장된 모든 알람 정보 전역 변수에 설정하는 함수
 
 	// I/O Board Initialize
@@ -208,38 +147,8 @@ CMainFrame::CMainFrame()
 		FAS_IO.Initialize_Map();
 	}
 
-	for (i=0; i<10000; i++)
-	{
-		for (j=0; j<2; j++)
-		{
-			st_code_info[0].m_nScrapCode[i][j] = st_recipe_info.nTestRetest_Count;
-			st_code_info[1].m_nScrapCode[i][j] = st_recipe_info.nTestRetest_Count;
-		}
-	}
-	// jtkim 20150608
-	st_sync_info.nUnLdRbtDownZ = YES;
-
-	st_lot_info[LOT_CURR].nTrayRunMode_StandAlone = YES;
-	st_lot_info[LOT_NEXT].nTrayRunMode_StandAlone = YES;
-
-	// jtkim 20150713
-	
-
-	// jtkim 20150721
 
 	st_handler_info.nInitialSuccess = NO;
-
-
-	st_count_info.nHourSocket = st_count_info.nSocketStart;
-	if (st_count_info.nHourSocket <= 0)
-	{
-		st_count_info.nHourSocket = 0;
-		st_count_info.dHourPer = 0.0f;
-	}
-	else
-	{
-		st_count_info.dHourPer = ((double)st_count_info.nHourSocket / (double)48) * (double)100;
-	}
 }
 
 CMainFrame::~CMainFrame()
@@ -541,29 +450,6 @@ void CMainFrame::OnExit()
 		KillTimer(TM_FILE_CREATE);
 		KillTimer(TM_GMS);
 		KillTimer(TM_XGEM);
-
-		//2015.0307 smema 초기화 처리 
-		FAS_IO.set_out_bit(st_io_info.o_FrontRequest,	IO_OFF);
-		FAS_IO.set_out_bit(st_io_info.o_FrontComplete,	IO_OFF); 
-		FAS_IO.set_out_bit(st_io_info.o_RearTransfer,	IO_OFF);
-		FAS_IO.set_out_bit(st_io_info.o_RearFlipper,	IO_OFF); 
-/*
-		// //////////////////////////////////////////////////////////////////////////////////////////////////////////
-		// 현재 선택된 View가 NULL인 경우 마지막 View를 가져온다....
-		////////////////////////////////////////////////////////////////////////////////////////////////////////////
-		if (m_pNewActiveView == NULL)
-		{
-			m_pNewActiveView = GetActiveView();			// 현재 화면에 출력된 뷰 정보 설정 (save old view)
-		}
-		////////////////////////////////////////////////////////////////////////////////////////////////////////////
-		m_pNewActiveView->DestroyWindow();
-		m_pNewActiveView = NULL;
-*/
-		/*clsReg.WriteCreateTime(st_handler_info.tCreate);
-		clsReg.WriteMcTime(dRUN, st_handler_info.tRun);
-		clsReg.WriteMcTime(dSTOP, st_handler_info.tStop);
-		clsReg.WriteMcTime(dJAM, st_handler_info.tJam);
-		clsReg.WriteAlarmInfo();*/
 
 		AllStop[0] = 1;
 		AllStop[1] = 1;
@@ -971,25 +857,10 @@ void CMainFrame::OnMainVarDefaultSet()
 	st_handler_info.cWndTitle		= NULL;
 	st_handler_info.cWndList		= NULL;
 	st_handler_info.cWndMain		= NULL;
-/*
-	st_animate_info.nImgNum[ANI_PCB_LF_ELV]	= 1;
-	st_animate_info.nImgNum[ANI_MGZ_ELV]	= 1;
-	st_animate_info.nImgNum[ANI_JIG_IN_CVY]	= 1;
-	st_animate_info.nImgNum[ANI_JIG_OUT_CVY]= 4;
-	st_animate_info.nImgNum[ANI_JIG_ELV]	= 1;
-	st_animate_info.nImgNum[ANI_PCB_ROBOT]	= 0;
-	st_animate_info.nImgNum[ANI_MGZ_IN]		= 1;
-	st_animate_info.nImgNum[ANI_MGZ_OUT]	= 1;*/
-	ZeroMemory(st_other_info.nSocket, sizeof(st_other_info.nSocket));
+
+	//ZeroMemory(st_other_info.nSocket, sizeof(st_other_info.nSocket));
 
 
-	for (i=0; i<MAX_GMS_CHANNEL; i++)
-	{
-		st_gms_info.ArValVolt[i].SetSize(60);
-		st_gms_info.ArValRes[i].SetSize(60);
-	}
-
-//	char chr_data[50];
 
 	
 }
@@ -1073,9 +944,6 @@ void CMainFrame::OnFilePath()
 	st_path_info.strBarcode		= strPath + _T("Log\\Barcode\\");	
 	clsFunc.OnCreateFolder(st_path_info.strBarcode);
 
-	st_path_info.strBarcodeNg		= strPath + _T("Log\\BarcodeNg\\");	
-	clsFunc.OnCreateFolder(st_path_info.strBarcodeNg);
-
 	st_path_info.strFileMotor		= strPath + _T("Motor\\");
 	clsFunc.OnCreateFolder(st_path_info.strFileMotor);
 
@@ -1087,13 +955,6 @@ void CMainFrame::OnFilePath()
 
 	strCreate						= strPath + _T("Excel\\");
 	clsFunc.OnCreateFolder(strCreate);
-
-	// jtkim 20150607
-	st_path_info.strPathLotWork		= strPath + _T("Log\\LOT_DATA\\WORK\\");	
-	clsFunc.OnCreateFolder(st_path_info.strPathLotWork);
-
-	st_path_info.strPathLotPcb		= strPath + _T("Log\\LOT_DATA\\RESULT\\");	
-	clsFunc.OnCreateFolder(st_path_info.strPathLotPcb);
 
 	strCreate = strPath + _T("Log\\LOT_DATA\\LD_TRAY\\");
 	clsFunc.OnCreateFolder(strCreate);
@@ -1116,27 +977,13 @@ void CMainFrame::OnFilePath()
 	strCreate = strPath + _T("Log\\LOT_DATA\\UNLD_TRAY\\");
 	clsFunc.OnCreateFolder(strCreate);
 
-	st_path_info.strPathCycle		= strPath + _T("Log\\LOT_DATA\\");	
-	clsFunc.OnCreateFolder(st_path_info.strPathCycle);
-
-	st_path_info.strPathTestSite	= strPath + _T("Log\\LOT_DATA\\TEST_SITE_CYCLE\\");	
-	clsFunc.OnCreateFolder(st_path_info.strPathTestSite);
-
-	st_path_info.strIoMap			= strPath + _T("Excel\\AMT_IO_MAP.xls");
-	st_path_info.strPartIoMap		= strPath + _T("Excel\\AMT_IO_PART_MAP.xls");
-	st_path_info.strIoPartMap		= strPath + _T("Excel\\AMT_IO_MAP.xls");
-	st_path_info.strMotorPartMap	= strPath + _T("Excel\\AMT_MOTOR_PART_MAP.xls");
-	st_path_info.strMotorAxisMap	= strPath + _T("Excel\\AMT_MOTOR_AXIS_MAP.xls");
-	st_path_info.strWaitTimeMap		= strPath + _T("Excel\\AMT_WAITTIME_MAP.xls");
-
-	// jtkim 20150408
-	st_path_info.strPathRecipe		= _T("D:\\XGEM\\AMT8562\\AMT8562\\AMT8562\\XWork\\Recipe\\");
-
-	// 20140811 jtkim
-	st_path_info.strTool			= strPath + _T("Tool.Ini");
-
-	st_path_info.strPathRecovery	= strPath + _T("Recovery\\");
-	clsFunc.OnCreateFolder(st_path_info.strPathRecovery);
+	st_path_info.strIoMap			= strPath + _T("Excel\\AMT830_IO_MAP.xls");
+	st_path_info.strPartIoMap		= strPath + _T("Excel\\AMT830_IO_PART_MAP.xls");
+	st_path_info.strIoPartMap		= strPath + _T("Excel\\AMT830_IO_MAP.xls");
+	st_path_info.strMotorPartMap	= strPath + _T("Excel\\AMT830_MOTOR_PART_MAP.xls");
+	st_path_info.strMotorAxisMap	= strPath + _T("Excel\\AMT830_MOTOR_AXIS_MAP.xls");
+	st_path_info.strWaitTimeMap		= strPath + _T("Excel\\AMT830_WAITTIME_MAP.xls");
+	
 }
 
 void CMainFrame::OnConfigSave()
@@ -1654,7 +1501,6 @@ void CMainFrame::OnTimer(UINT_PTR nIDEvent)
 					{
 						// jtkim 20150721
 						st_count_info.nDailyUph = 0;
-						st_count_info.nUphCnt	= 0;
 						st_count_info.dDailyPer = 0.0f;
 
 						next_time = cur_time + COleDateTimeSpan(1, 0, 0, 0);
@@ -1668,21 +1514,16 @@ void CMainFrame::OnTimer(UINT_PTR nIDEvent)
 						}
 					}
 
-					st_count_info.nUph = 0;
-					//jtkim 20160111
-			
-					st_handler_info.tRunUph = 0;
+// 					st_count_info.nUph = 0;
+// 					//jtkim 20160111
+// 			
+// 					st_handler_info.tRunUph = 0;
 				}
 			}
 
 			timeSpan = cur_time - m_tGms;
 			nMinute = (int)timeSpan.GetTotalMinutes();
-			if (st_basic_info.nVnRTime <= 0) return;
-
-			nDiff[0] = nMinute % (st_basic_info.nVnRTime);
-			if (nDiff[0] == 0)
-			{
-			}
+		
 		}
 	}
 	else if (nIDEvent == TM_GMS)
@@ -2278,84 +2119,6 @@ LRESULT CMainFrame::OnClientFtp(WPARAM wParam, LPARAM lParam)
 {
 	BOOL bRet;
 
-	if (wParam == 0)
-	{
-		bRet = m_pFtp.OnScrapCodeDownload(lParam, st_path_info.strPathFtpGms, st_basic_info.strScrapName);
-
-		if (bRet)
-		{
-			if (st_handler_info.cWndList != NULL)  // 리스트 바 화면 존재
-			{
-				clsMem.OnNormalMessageWrite(_T("[FTP] Scrap Code Download Success."));
-				st_handler_info.cWndList->SendMessage(WM_LIST_DATA, 0, NORMAL_MSG);  // 동작 실패 출력
-			}
-
-			// jtkim 20150719
-			if (st_handler_info.cWndTitle != NULL)
-			{
-		//		st_handler_info.cWndTitle->PostMessage(WM_STATUS_CHANGE, INTERFACE_MODE, st_basic_info.nModeInterface);
-				//st_handler_info.cWndTitle->PostMessage(WM_STATUS_CHANGE, INTERFACE_MODE, st_handler_info.nFtpVer);
-			}
-			st_code_info[lParam].m_nScrapBin = BD_DATA_GOOD;
-		}
-		else
-		{
-			if (st_handler_info.cWndList != NULL)  // 리스트 바 화면 존재
-			{
-				clsMem.OnNormalMessageWrite(_T("[FTP] Scrap Code Download Fail."));
-				st_handler_info.cWndList->SendMessage(WM_LIST_DATA, 0, NORMAL_MSG);  // 동작 실패 출력
-			}
-
-			// jtkim 20150719
-			//st_work_info.nFtpWork = 0;
-			if (st_handler_info.cWndTitle != NULL)
-			{
-		//		st_handler_info.cWndTitle->PostMessage(WM_STATUS_CHANGE, INTERFACE_MODE, st_basic_info.nModeInterface);
-				//st_handler_info.cWndTitle->PostMessage(WM_STATUS_CHANGE, INTERFACE_MODE, st_handler_info.nFtpVer);
-			}
-			st_code_info[lParam].m_nScrapBin = BD_DATA_REJECT;
-		}
-	}
-	else
-	{
-		bRet = m_pFtp.OnRecipeDownload(st_path_info.strPathFtpGms);
-
-		if (bRet)
-		{
-			if (st_handler_info.cWndList != NULL)  // 리스트 바 화면 존재
-			{
-				clsMem.OnNormalMessageWrite(_T("[FTP] Recipe Download Success."));
-				st_handler_info.cWndList->SendMessage(WM_LIST_DATA, 0, NORMAL_MSG);  // 동작 실패 출력
-			}
-
-			// jtkim 20150719
-// 			st_work_info.nFtpWork = 1;
-// 			if (st_handler_info.cWndTitle != NULL)
-// 			{
-// 		//		st_handler_info.cWndTitle->PostMessage(WM_STATUS_CHANGE, INTERFACE_MODE, st_basic_info.nModeInterface);
-// 				st_handler_info.cWndTitle->PostMessage(WM_STATUS_CHANGE, INTERFACE_MODE, st_handler_info.nFtpVer);
-// 			}
-			st_code_info[lParam].m_nScrapBin = BD_DATA_GOOD;
-		}
-		else
-		{
-			if (st_handler_info.cWndList != NULL)  // 리스트 바 화면 존재
-			{
-				clsMem.OnNormalMessageWrite(_T("[FTP] Recipe Download Fail."));
-				st_handler_info.cWndList->SendMessage(WM_LIST_DATA, 0, NORMAL_MSG);  // 동작 실패 출력
-			}
-
-			// jtkim 20150719
-// 			st_work_info.nFtpWork = 0;
-// 			if (st_handler_info.cWndTitle != NULL)
-// 			{
-// 		//		st_handler_info.cWndTitle->PostMessage(WM_STATUS_CHANGE, INTERFACE_MODE, st_basic_info.nModeInterface);
-// 				st_handler_info.cWndTitle->PostMessage(WM_STATUS_CHANGE, INTERFACE_MODE, st_handler_info.nFtpVer);
-// 			}
-			st_code_info[lParam].m_nScrapBin = BD_DATA_REJECT;
-		}
-	}
-
 	return 0;
 }
 
@@ -2379,86 +2142,86 @@ void CMainFrame::OnNcLButtonDown(UINT nHitTest, CPoint point)
 
 int CMainFrame::OnXgemInterface()
 {
-	switch (m_nXgemStep)
-	{
-		case 0:
-			// 작업중인 모드체크
-			if (st_basic_info.nModeXgem == YES)
-			{
-				// 작업모드가 xgem 모드이면
-				m_nXgemStep = 100;
-			}
-			break;
-
-		case 100:
-			// client 연결 요청 
-			m_dwXgemTime[0] = GetTickCount();
-			::SendMessage(st_handler_info.hWnd, WM_CLIENT_MSG + XGEM_NETWORK, CLIENT_CONNECT, 0);
-
-			m_nXgemStep = 200;
-			break;
-
-		case 200:
-			// client 연결상태 체크
-			if (st_client_info[XGEM_NETWORK].nConnect == YES)
-			{
-				// 현재 연결중이면 데이터 전송으로 
-				KillTimer(TM_XGEM);
-				SetTimer(TM_XGEM, 100, NULL);
-
-				m_nXgemStep = 300;
-			}
-			else 
-			{
-				m_dwXgemTime[1] = GetTickCount();
-				m_dwXgemTime[2] = m_dwXgemTime[1] - m_dwXgemTime[0];
-
-				if (m_dwXgemTime[2] <= (DWORD)0)
-				{
-					m_dwXgemTime[0] = GetTickCount();
-					break;
-				}
-
-				if (m_dwXgemTime[2] > 5000)
-				{
-					m_nXgemStep = 0;
-
-				}
-			}
-			break;
-
-		case 300:
-			m_dwXgemTime[0] = GetTickCount();
-			clsXgem.OnXgemInitialize(_T("d:\\XGEM\\EqSample.cfg"));
-
-			m_nXgemStep = 400;
-			break;
-
-		case 400:
-			m_dwXgemTime[1] = GetTickCount();
-			m_dwXgemTime[2] = m_dwXgemTime[1] - m_dwXgemTime[0];
-
-			if (m_dwXgemTime[2] <= (DWORD)0)
-			{
-				m_dwXgemTime[0] = GetTickCount();
-				break;
-			}
-
-			if (m_dwXgemTime[2] > 1000)
-			{
-				m_nXgemStep = 500;
-
-			}
-			break;
-
-		case 500:
-			clsXgem.OnMcInterface(st_basic_info.nModeXgemInterface);
-
-			m_nXgemStep = 0;
-			return RET_GOOD;
-
-			break;
-	}
+// 	switch (m_nXgemStep)
+// 	{
+// 		case 0:
+// 			// 작업중인 모드체크
+// 			if (st_basic_info.nModeXgem == YES)
+// 			{
+// 				// 작업모드가 xgem 모드이면
+// 				m_nXgemStep = 100;
+// 			}
+// 			break;
+// 
+// 		case 100:
+// 			// client 연결 요청 
+// 			m_dwXgemTime[0] = GetTickCount();
+// 			::SendMessage(st_handler_info.hWnd, WM_CLIENT_MSG + XGEM_NETWORK, CLIENT_CONNECT, 0);
+// 
+// 			m_nXgemStep = 200;
+// 			break;
+// 
+// 		case 200:
+// 			// client 연결상태 체크
+// 			if (st_client_info[XGEM_NETWORK].nConnect == YES)
+// 			{
+// 				// 현재 연결중이면 데이터 전송으로 
+// 				KillTimer(TM_XGEM);
+// 				SetTimer(TM_XGEM, 100, NULL);
+// 
+// 				m_nXgemStep = 300;
+// 			}
+// 			else 
+// 			{
+// 				m_dwXgemTime[1] = GetTickCount();
+// 				m_dwXgemTime[2] = m_dwXgemTime[1] - m_dwXgemTime[0];
+// 
+// 				if (m_dwXgemTime[2] <= (DWORD)0)
+// 				{
+// 					m_dwXgemTime[0] = GetTickCount();
+// 					break;
+// 				}
+// 
+// 				if (m_dwXgemTime[2] > 5000)
+// 				{
+// 					m_nXgemStep = 0;
+// 
+// 				}
+// 			}
+// 			break;
+// 
+// 		case 300:
+// 			m_dwXgemTime[0] = GetTickCount();
+// 			clsXgem.OnXgemInitialize(_T("d:\\XGEM\\EqSample.cfg"));
+// 
+// 			m_nXgemStep = 400;
+// 			break;
+// 
+// 		case 400:
+// 			m_dwXgemTime[1] = GetTickCount();
+// 			m_dwXgemTime[2] = m_dwXgemTime[1] - m_dwXgemTime[0];
+// 
+// 			if (m_dwXgemTime[2] <= (DWORD)0)
+// 			{
+// 				m_dwXgemTime[0] = GetTickCount();
+// 				break;
+// 			}
+// 
+// 			if (m_dwXgemTime[2] > 1000)
+// 			{
+// 				m_nXgemStep = 500;
+// 
+// 			}
+// 			break;
+// 
+// 		case 500:
+// 			clsXgem.OnMcInterface(st_basic_info.nModeXgemInterface);
+// 
+// 			m_nXgemStep = 0;
+// 			return RET_GOOD;
+// 
+// 			break;
+// 	}
 
 	return RET_PROCEED;
 }

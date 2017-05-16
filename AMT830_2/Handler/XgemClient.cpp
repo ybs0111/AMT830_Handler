@@ -8,7 +8,7 @@ CXgemClient clsXgem;
 
 CXgemClient::CXgemClient(void)
 {
-	m_nXgemReq	= BIN_NOTUESD;
+	m_nXgemReq	= 0;
 	m_strHeader = _T("HD");
 	m_nHeader	= 6;
 }
@@ -563,48 +563,9 @@ void CXgemClient::OnXgemRecipe(int nMode, CString strPath, CString strModel)
 
 		:: WritePrivateProfileString(_T("Recipe"), _T("Name"), LPCTSTR(st_basic_info.strModelName), strRecipePath);
 
-		strTemp.Format(_T("%d"), st_recipe_info.nTestRetest_Count);
-		:: WritePrivateProfileString(_T("Mode"), _T("Retest"), LPCTSTR(strTemp), strRecipePath);
-
-		strTemp.Format(_T("%d"), st_recipe_info.nCOKBuff_IDNum_Type);
-		:: WritePrivateProfileString(_T("Mode"), _T("COK"), LPCTSTR(strTemp), strRecipePath);
-
-		strTemp.Format(_T("%d"), st_recipe_info.nAbortTime);
-		:: WritePrivateProfileString(_T("Mode"), _T("TEST TIMEOUT"), LPCTSTR(strTemp), strRecipePath);
-
 		:: WritePrivateProfileString(_T("Mode"), _T("Mode"), LPCTSTR(_T("1")), strRecipePath);
 
-		:: WritePrivateProfileString(_T("Mode"), _T("Align Buffer"), LPCTSTR(_T("0")), strRecipePath);
-
 		:: WritePrivateProfileString(_T("Mode"), _T("BYPASS MODE"), LPCTSTR(_T("1")), strRecipePath);
-
-		strTemp.Format(_T("%d"), st_basic_info.nModeDevice);
-		:: WritePrivateProfileString(_T("Mode"), _T("Mode"), LPCTSTR(strTemp), strRecipePath);
-
-		switch (st_recipe_info.nCOKBuff_IDNum_Type)
-		{
-			case 1:
-				:: WritePrivateProfileString(_T("Mode"), _T("RECIPE_NAME"), LPCTSTR(_T("POGO")), strRecipePath);
-				break;
-
-			case 2:
-				:: WritePrivateProfileString(_T("Mode"), _T("RECIPE_NAME"), LPCTSTR(_T("M-SATA")), strRecipePath);
-				break;
-
-			case 3:
-				:: WritePrivateProfileString(_T("Mode"), _T("RECIPE_NAME"), LPCTSTR(_T("25INCH Front")), strRecipePath);
-				break;
-
-			case 4:
-				:: WritePrivateProfileString(_T("Mode"), _T("RECIPE_NAME"), LPCTSTR(_T("25INCH Reverse")), strRecipePath);
-				break;
-		}
-
-		strTemp.Format(_T("%d"), st_basic_info.nModeLdBcr);
-		:: WritePrivateProfileString(_T("Mode"), _T("BARCODE_FRONT_USE"), LPCTSTR(strTemp), strRecipePath);
-
-		strTemp.Format(_T("%d"), st_basic_info.nModeUnLdBcr);
-		:: WritePrivateProfileString(_T("Mode"), _T("BARCODE_REAR_USE"), LPCTSTR(strTemp), strRecipePath);
 	}
 	else
 	{

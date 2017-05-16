@@ -290,422 +290,422 @@ void CClientEcFirst::OnDataAnalysis(CString strMsg)
 
 	strFunc = OnDataItemAnalysis(0, 0, strMsg, _T("FUNCTION_RPY"));
 
-	if (strFunc == _T("BARCODE_RULE"))
-	{
-	}
-	else if (strFunc == _T("PGM_INFO"))
-	{
-	}
-	else if (strFunc == _T("SLOT_END"))
-	{
-	}
-	else if (strFunc == _T("TEST_END"))
-	{
-		strData = OnDataItemAnalysis(0, 0, strMsg, _T("RESULT"));
-		if (strData == _T("PASS"))
-		{
-			st_track_info.nTestEndBin	= YES;
-			m_nTestEndFlag = m_nCommBin = BD_DATA_GOOD;
-		}
-		else
-		{
-			strData = OnDataItemAnalysis(0, 0, strMsg, _T("MSG"));
-			if (strData != _T(""))
-			{
-				m_strErrorMsg	= strData.Mid(1, strData.GetLength()-1);
-			}
-			m_nTestEndFlag = m_nCommBin = BD_DATA_REJECT;
-		}
-	}
-	else if (strFunc == _T("ONLINE_END"))
-	{
-		strData = OnDataItemAnalysis(0, 0, strMsg, _T("RESULT"));
-		if (strData == _T("PASS"))
-		{
-			m_nOnlineEndFlag = m_nCommBin = BD_DATA_GOOD;
-		}
-		else
-		{
-			strData = OnDataItemAnalysis(0, 0, strMsg, _T("MSG"));
-			if (strData != _T(""))
-			{
-				m_strErrorMsg	= strData.Mid(1, strData.GetLength()-1);
-			}
-			m_nOnlineEndFlag = m_nCommBin = BD_DATA_REJECT;
-		}
-	}
-	else if (strFunc == _T("SCRAP_INFO"))
-	{
-		strData = OnDataItemAnalysis(0, 0, strMsg, _T("RESULT"));
-		if (strData == _T("PASS"))
-		{
-			st_lot_display_info.nScrapCnt = 0;
-			strData = OnDataItemAnalysis(0, 0, strMsg, _T("SCRAP_CNT"));
-			//st_lot_display_info.nScrapCnt	= _wtoi(strData);
-			nCount	= _wtoi(strData);
-
-			if (nCount > 0)
-			{
-				for (i=0; i < nCount; i++)
-				{
-					strTemp.Format(_T("SCRAP_INFO%03d"), i + 1);
-					strData = OnDataItemAnalysis(2, 0, strMsg, strTemp);
-
-					strTemp = OnDataItemAnalysis(0, 0, strData, _T("EQPMODEL"));
-					strEqpModel = strTemp.Mid(0, strTemp.GetLength()-1);
-					if (strEqpModel == _T("IFT"))
-					{
-						st_lot_display_info.strScrapCode[st_lot_display_info.nScrapCnt]		= OnDataItemAnalysis(0, 0, strData, _T("SCRAP_CODE"));
-						st_lot_display_info.strArray[st_lot_display_info.nScrapCnt]			= OnDataItemAnalysis(0, 0, strData, _T("ARRAYSN"));
-						st_lot_display_info.strScrapSerial[st_lot_display_info.nScrapCnt]	= OnDataItemAnalysis(0, 0, strData, _T("SERIAL"));
-						st_lot_display_info.nScrapCnt++;
-					}
-				}
-			}
-			m_nScrapInfoFlag = m_nCommBin = BD_DATA_GOOD;
-		}
-		else
-		{
-			strData = OnDataItemAnalysis(0, 0, strMsg, _T("MSG"));
-			if (strData != _T(""))
-			{
-				m_strErrorMsg	= strData.Mid(1, strData.GetLength()-1);
-			}
-			m_nScrapInfoFlag = m_nCommBin = BD_DATA_REJECT;
-		}
-	}
-	else if (strFunc == _T("SEE_LOT"))
-	{
-		strData = OnDataItemAnalysis(0, 0, strMsg, _T("RESULT"));
-		if (strData == _T("PASS"))
-		{
-			st_lot_display_info.strLotNo		= OnDataItemAnalysis(0, 0, strMsg, _T("LOTNO"));
-			st_lot_display_info.strPartNo		= OnDataItemAnalysis(0, 0, strMsg, _T("PARTNO"));
-			st_lot_display_info.strLotState		= OnDataItemAnalysis(0, 0, strMsg, _T("LOTSTATE"));
-			st_lot_display_info.strLotType		= OnDataItemAnalysis(0, 0, strMsg, _T("LOTTYPE"));
-			st_lot_display_info.strMainState	= OnDataItemAnalysis(0, 0, strMsg, _T("MAINSTATE"));
-			st_lot_display_info.strProCid		= OnDataItemAnalysis(0, 0, strMsg, _T("PROCID"));
-			st_lot_display_info.nQty			= _wtoi(OnDataItemAnalysis(0, 0, strMsg, _T("QTY")));
-			st_lot_display_info.strStep			= OnDataItemAnalysis(0, 0, strMsg, _T("STEPSEQ"));
-			st_lot_display_info.strLine			= OnDataItemAnalysis(0, 0, strMsg, _T("LINE"));
-			st_lot_display_info.strComplot		= OnDataItemAnalysis(0, 0, strMsg, _T("COMPLOT"));
-
-			m_nSeeLotFlag = m_nCommBin = BD_DATA_GOOD;
-		}
-		else
-		{
-			strData = OnDataItemAnalysis(0, 0, strMsg, _T("MSG"));
-			if (strData != _T(""))
-			{
-				m_strErrorMsg	= strData.Mid(1, strData.GetLength()-1);
-			}
-			m_nSeeLotFlag = m_nCommBin = BD_DATA_REJECT;
-		}
-	}
-	else if (strFunc == _T("DELETE_SCRAP"))
-	{
-		strData = OnDataItemAnalysis(0, 0, strMsg, _T("RESULT"));
-		if (strData == _T("PASS"))
-		{
-			m_nDelScrapFlg = m_nCommBin = BD_DATA_GOOD;
-		}
-		else
-		{
-			strData = OnDataItemAnalysis(0, 0, strMsg, _T("MSG"));
-			if (strData != _T(""))
-			{
-				m_strErrorMsg	= strData.Mid(1, strData.GetLength()-1);
-			}
-			m_nDelScrapFlg = m_nCommBin = BD_DATA_REJECT;
-		}
-	}
-	else if (strFunc == _T("SORTER_LOT_END"))
-	{
-		strData = OnDataItemAnalysis(0, 0, strMsg, _T("RESULT"));
-		if (strData == _T("PASS"))
-		{
-			st_track_info.nTestEndBin		= NO;
-			st_track_info.strLotNo			= _T("");
-			st_track_info.strPartNo			= _T("");
-			st_track_info.nIn				= 0;
-			st_track_info.nPrimePass		= 0;
-			st_track_info.nPrimeReject		= 0;
-			st_track_info.nCumPass			= 0;
-			st_track_info.nCumReject		= 0;
-
-			if (st_track_info.nStatus == YES)
-			{
-				st_track_info.nStatus = NO;
-			}
-
-			m_nLotEndFlag = m_nCommBin = BD_DATA_GOOD;
-
-			if (st_basic_info.nModeRfid == NO)
-			{
-				if (st_handler_info.cWndMain != NULL)
-				{
-					st_handler_info.cWndMain->SendMessage(WM_WORK_COMMAND, MAIN_TRACK_OUT_DELETE_REQ, 0);
-				}
-			}
-		}
-		else
-		{
-			strData = OnDataItemAnalysis(0, 0, strMsg, _T("MSG"));
-			if (strData != _T(""))
-			{
-				m_strErrorMsg	= strData.Mid(1, strData.GetLength()-1);
-			}
-			m_nLotEndFlag = m_nCommBin = BD_DATA_REJECT;
-		}
-	}
-	else if (strFunc == _T("VERSION_UPDATE"))
-	{
-		strData = OnDataItemAnalysis(0, 0, strMsg, _T("RESULT"));
-		if (strData == _T("PASS"))
-		{
-			m_nVerFlag = m_nCommBin = BD_DATA_GOOD;
-		}
-		else
-		{
-			strData = OnDataItemAnalysis(0, 0, strMsg, _T("MSG"));
-			if (strData != _T(""))
-			{
-				m_strErrorMsg	= strData.Mid(1, strData.GetLength()-1);
-			}
-			m_nVerFlag = m_nCommBin = BD_DATA_REJECT;
-		}
-	}
-	else if (strFunc == _T("EQP_STATUS_CHANGE"))
-	{
-		strData = OnDataItemAnalysis(0, 0, strMsg, _T("RESULT"));
-		if (strData == _T("PASS"))
-		{
-			m_nStatusFlag = m_nCommBin = BD_DATA_GOOD;
-		}
-		else
-		{
-			strData = OnDataItemAnalysis(0, 0, strMsg, _T("MSG"));
-			if (strData != _T(""))
-			{
-				m_strErrorMsg	= strData.Mid(1, strData.GetLength()-1);
-			}
-			m_nStatusFlag = m_nCommBin = BD_DATA_REJECT;
-		}
-	}
-	else if (strFunc == _T("EQP_MODE_CHANGE"))
-	{
-		strData = OnDataItemAnalysis(0, 0, strMsg, _T("RESULT"));
-		if (strData == _T("PASS"))
-		{
-			m_nModeChangFlag = m_nCommBin = BD_DATA_GOOD;
-		}
-		else
-		{
-			strData = OnDataItemAnalysis(0, 0, strMsg, _T("MSG"));
-			if (strData != _T(""))
-			{
-				m_strErrorMsg	= strData.Mid(1, strData.GetLength()-1);
-			}
-			m_nModeChangFlag = m_nCommBin = BD_DATA_REJECT;
-		}
-	}
-	else if (strFunc == _T("FULL_CARRIER_MOVE_REQ"))
-	{
-		strData = OnDataItemAnalysis(0, 0, strMsg, _T("RESULT"));
-		if (strData == _T("PASS"))
-		{
-			m_nFullCarrierFlag = m_nCommBin = BD_DATA_GOOD;
-		}
-		else
-		{
-			strData = OnDataItemAnalysis(0, 0, strMsg, _T("MSG"));
-			if (strData != _T(""))
-			{
-				m_strErrorMsg	= strData.Mid(1, strData.GetLength()-1);
-			}
-			m_nFullCarrierFlag = m_nCommBin = BD_DATA_REJECT;
-		}
-
-		if (st_basic_info.nModeRfid == YES)
-		{
-			// jtkim 20150508
-			if (st_handler_info.cWndMain != NULL)
-			{
-				st_handler_info.cWndMain->SendMessage(WM_WORK_COMMAND, MAIN_TRACK_OUT_DELETE_REQ, 0);
-			}
-		}
-	}
-	else if (strFunc == _T("EMPTY_CARRIER_MOVE_REQ"))
-	{
-		strData = OnDataItemAnalysis(0, 0, strMsg, _T("RESULT"));
-		if (strData == _T("PASS"))
-		{
-			m_nEmptyCarrierFlag = m_nCommBin = BD_DATA_GOOD;
-		}
-		else
-		{
-			strData = OnDataItemAnalysis(0, 0, strMsg, _T("MSG"));
-			if (strData != _T(""))
-			{
-				m_strErrorMsg	= strData.Mid(1, strData.GetLength()-1);
-			}
-			m_nEmptyCarrierFlag = m_nCommBin = BD_DATA_REJECT;
-		}
-	}
-	else if (strFunc == _T("TOOL_CHANGE"))
-	{
-		strData = OnDataItemAnalysis(0, 0, strMsg, _T("RESULT"));
-		if (strData == _T("PASS"))
-		{
-			m_nToolChangFlag = m_nCommBin = BD_DATA_GOOD;
-		}
-		else
-		{
-			strData = OnDataItemAnalysis(0, 0, strMsg, _T("MSG"));
-			if (strData != _T(""))
-			{
-				m_strErrorMsg	= strData.Mid(1, strData.GetLength()-1);
-			}
-			m_nToolChangFlag = m_nCommBin = BD_DATA_REJECT;
-		}
-	}
-	else if (strFunc == _T("MATCH_ID"))
-	{
-		strData = OnDataItemAnalysis(0, 0, strMsg, _T("RESULT"));
-		if (strData == _T("PASS"))
-		{
-			m_nMatchFlag = m_nCommBin = BD_DATA_GOOD;
-		}
-		else
-		{
-			strData = OnDataItemAnalysis(0, 0, strMsg, _T("MSG"));
-			if (strData != _T(""))
-			{
-				m_strErrorMsg	= strData.Mid(1, strData.GetLength()-1);
-			}
-			m_nMatchFlag = m_nCommBin = BD_DATA_REJECT;
-		}
-	}
-	else if (strFunc == _T("DATE_TIME"))
-	{
-		strData = OnDataItemAnalysis(0, 0, strMsg, _T("RESULT"));
-		if (strData == _T("PASS"))
-		{
-			m_nDateFlag = m_nCommBin = BD_DATA_GOOD;
-		}
-		else
-		{
-			strData = OnDataItemAnalysis(0, 0, strMsg, _T("MSG"));
-			if (strData != _T(""))
-			{
-				m_strErrorMsg	= strData.Mid(1, strData.GetLength()-1);
-			}
-			m_nDateFlag = m_nCommBin = BD_DATA_REJECT;
-		}
-	}
-	else if (strFunc == _T("LABEL_SERIAL_INFO"))
-	{
-		// jtkim 20150806
-		m_strSerial		= _T("");
-		m_strPpid		= _T("");
-		m_strWwn		= _T("");
-		m_strCserial	= _T("");
-		m_strPsid		= _T("");
-
-		strData = OnDataItemAnalysis(0, 0, strMsg, _T("RESULT"));
-		if (strData == _T("PASS"))
-		{
-			strData			= OnDataItemAnalysis(2, 0, strMsg, _T("SRL_INFO"));
-
-			m_strSerial		= OnDataItemAnalysis(0, 0, strData, _T("SERIAL"));
-			nPos = -1;
-			nPos = m_strSerial.Find(_T("-"), 0);
-			if (nPos >= 0) m_strSerial = _T("");
-
-			if (m_strSerial != _T(""))
-			{
-				strTemp = m_strSerial.Mid(m_strSerial.GetLength() - 1, 1);
-				if (strTemp == _T(")"))
-				{
-					strTemp		= m_strSerial.Mid(0, m_strSerial.GetLength() - 1);
-					m_strSerial = strTemp;
-				}
-			}
-
-			
-			m_strPpid		= OnDataItemAnalysis(0, 0, strData, _T("PPID"));
-			nPos = -1;
-			nPos = m_strPpid.Find(_T("-"), 0);
-			if (nPos >= 0) m_strPpid = _T("");
-
-			if (m_strPpid != _T(""))
-			{
-				strTemp = m_strPpid.Mid(m_strPpid.GetLength() - 1, 1);
-				if (strTemp == _T(")"))
-				{
-					strTemp		= m_strPpid.Mid(0, m_strPpid.GetLength() - 1);
-					m_strPpid	= strTemp;
-				}
-			}
-
-			
-			m_strWwn		= OnDataItemAnalysis(0, 0, strData, _T("WWN"));
-			nPos = -1;
-			nPos = m_strWwn.Find(_T("-"), 0);
-			if (nPos >= 0) m_strWwn = _T("");
-			
-			if (m_strWwn != _T(""))
-			{
-				strTemp = m_strWwn.Mid(m_strWwn.GetLength() - 1, 1);
-				if (strTemp == _T(")"))
-				{
-					strTemp		= m_strWwn.Mid(0, m_strWwn.GetLength() - 1);
-					m_strWwn	= strTemp;
-				}
-			}
-
-			m_strCserial	= OnDataItemAnalysis(0, 0, strData, _T("C_SERIAL"));
-			nPos = -1;
-			nPos = m_strCserial.Find(_T("-"), 0);
-			if (nPos >= 0) m_strCserial = _T("");
-			
-			if (m_strCserial != _T(""))
-			{
-				strTemp = m_strCserial.Mid(m_strCserial.GetLength() - 1, 1);
-				if (strTemp == _T(")"))
-				{
-					strTemp			= m_strCserial.Mid(0, m_strCserial.GetLength() - 1);
-					m_strCserial	= strTemp;
-				}
-			}
-
-			m_strPsid		= OnDataItemAnalysis(0, 0, strData, _T("PSID"));
-			nPos = -1;
-			nPos = m_strPsid.Find(_T("-"), 0);
-			if (nPos >= 0) m_strPsid = _T("");
-
-			if (m_strPsid != _T(""))
-			{
-				strTemp = m_strPsid.Mid(m_strPsid.GetLength() - 1, 1);
-				if (strTemp == _T(")"))
-				{
-					strTemp		= m_strPsid.Mid(0, m_strPsid.GetLength() - 1);
-					m_strPsid	= strTemp;
-				}
-			}
-
-			m_nPcbInfoFlag = m_nCommBin = BD_DATA_GOOD;
-		}
-		else
-		{
-			strData = OnDataItemAnalysis(3, 0, strMsg, _T("MSG"));
-			if (strData != _T(""))
-			{
-				m_strErrorMsg	= strData.Mid(0, strData.GetLength()-1);
-			}
-			m_nPcbInfoFlag = m_nCommBin = BD_DATA_REJECT;
-		}
-	}
+// 	if (strFunc == _T("BARCODE_RULE"))
+// 	{
+// 	}
+// 	else if (strFunc == _T("PGM_INFO"))
+// 	{
+// 	}
+// 	else if (strFunc == _T("SLOT_END"))
+// 	{
+// 	}
+// 	else if (strFunc == _T("TEST_END"))
+// 	{
+// 		strData = OnDataItemAnalysis(0, 0, strMsg, _T("RESULT"));
+// 		if (strData == _T("PASS"))
+// 		{
+// 			st_track_info.nTestEndBin	= YES;
+// 			m_nTestEndFlag = m_nCommBin = BD_DATA_GOOD;
+// 		}
+// 		else
+// 		{
+// 			strData = OnDataItemAnalysis(0, 0, strMsg, _T("MSG"));
+// 			if (strData != _T(""))
+// 			{
+// 				m_strErrorMsg	= strData.Mid(1, strData.GetLength()-1);
+// 			}
+// 			m_nTestEndFlag = m_nCommBin = BD_DATA_REJECT;
+// 		}
+// 	}
+// 	else if (strFunc == _T("ONLINE_END"))
+// 	{
+// 		strData = OnDataItemAnalysis(0, 0, strMsg, _T("RESULT"));
+// 		if (strData == _T("PASS"))
+// 		{
+// 			m_nOnlineEndFlag = m_nCommBin = BD_DATA_GOOD;
+// 		}
+// 		else
+// 		{
+// 			strData = OnDataItemAnalysis(0, 0, strMsg, _T("MSG"));
+// 			if (strData != _T(""))
+// 			{
+// 				m_strErrorMsg	= strData.Mid(1, strData.GetLength()-1);
+// 			}
+// 			m_nOnlineEndFlag = m_nCommBin = BD_DATA_REJECT;
+// 		}
+// 	}
+// 	else if (strFunc == _T("SCRAP_INFO"))
+// 	{
+// 		strData = OnDataItemAnalysis(0, 0, strMsg, _T("RESULT"));
+// 		if (strData == _T("PASS"))
+// 		{
+// 			st_lot_display_info.nScrapCnt = 0;
+// 			strData = OnDataItemAnalysis(0, 0, strMsg, _T("SCRAP_CNT"));
+// 			//st_lot_display_info.nScrapCnt	= _wtoi(strData);
+// 			nCount	= _wtoi(strData);
+// 
+// 			if (nCount > 0)
+// 			{
+// 				for (i=0; i < nCount; i++)
+// 				{
+// 					strTemp.Format(_T("SCRAP_INFO%03d"), i + 1);
+// 					strData = OnDataItemAnalysis(2, 0, strMsg, strTemp);
+// 
+// 					strTemp = OnDataItemAnalysis(0, 0, strData, _T("EQPMODEL"));
+// 					strEqpModel = strTemp.Mid(0, strTemp.GetLength()-1);
+// 					if (strEqpModel == _T("IFT"))
+// 					{
+// 						st_lot_display_info.strScrapCode[st_lot_display_info.nScrapCnt]		= OnDataItemAnalysis(0, 0, strData, _T("SCRAP_CODE"));
+// 						st_lot_display_info.strArray[st_lot_display_info.nScrapCnt]			= OnDataItemAnalysis(0, 0, strData, _T("ARRAYSN"));
+// 						st_lot_display_info.strScrapSerial[st_lot_display_info.nScrapCnt]	= OnDataItemAnalysis(0, 0, strData, _T("SERIAL"));
+// 						st_lot_display_info.nScrapCnt++;
+// 					}
+// 				}
+// 			}
+// 			m_nScrapInfoFlag = m_nCommBin = BD_DATA_GOOD;
+// 		}
+// 		else
+// 		{
+// 			strData = OnDataItemAnalysis(0, 0, strMsg, _T("MSG"));
+// 			if (strData != _T(""))
+// 			{
+// 				m_strErrorMsg	= strData.Mid(1, strData.GetLength()-1);
+// 			}
+// 			m_nScrapInfoFlag = m_nCommBin = BD_DATA_REJECT;
+// 		}
+// 	}
+// 	else if (strFunc == _T("SEE_LOT"))
+// 	{
+// 		strData = OnDataItemAnalysis(0, 0, strMsg, _T("RESULT"));
+// 		if (strData == _T("PASS"))
+// 		{
+// 			st_lot_display_info.strLotNo		= OnDataItemAnalysis(0, 0, strMsg, _T("LOTNO"));
+// 			st_lot_display_info.strPartNo		= OnDataItemAnalysis(0, 0, strMsg, _T("PARTNO"));
+// 			st_lot_display_info.strLotState		= OnDataItemAnalysis(0, 0, strMsg, _T("LOTSTATE"));
+// 			st_lot_display_info.strLotType		= OnDataItemAnalysis(0, 0, strMsg, _T("LOTTYPE"));
+// 			st_lot_display_info.strMainState	= OnDataItemAnalysis(0, 0, strMsg, _T("MAINSTATE"));
+// 			st_lot_display_info.strProCid		= OnDataItemAnalysis(0, 0, strMsg, _T("PROCID"));
+// 			st_lot_display_info.nQty			= _wtoi(OnDataItemAnalysis(0, 0, strMsg, _T("QTY")));
+// 			st_lot_display_info.strStep			= OnDataItemAnalysis(0, 0, strMsg, _T("STEPSEQ"));
+// 			st_lot_display_info.strLine			= OnDataItemAnalysis(0, 0, strMsg, _T("LINE"));
+// 			st_lot_display_info.strComplot		= OnDataItemAnalysis(0, 0, strMsg, _T("COMPLOT"));
+// 
+// 			m_nSeeLotFlag = m_nCommBin = BD_DATA_GOOD;
+// 		}
+// 		else
+// 		{
+// 			strData = OnDataItemAnalysis(0, 0, strMsg, _T("MSG"));
+// 			if (strData != _T(""))
+// 			{
+// 				m_strErrorMsg	= strData.Mid(1, strData.GetLength()-1);
+// 			}
+// 			m_nSeeLotFlag = m_nCommBin = BD_DATA_REJECT;
+// 		}
+// 	}
+// 	else if (strFunc == _T("DELETE_SCRAP"))
+// 	{
+// 		strData = OnDataItemAnalysis(0, 0, strMsg, _T("RESULT"));
+// 		if (strData == _T("PASS"))
+// 		{
+// 			m_nDelScrapFlg = m_nCommBin = BD_DATA_GOOD;
+// 		}
+// 		else
+// 		{
+// 			strData = OnDataItemAnalysis(0, 0, strMsg, _T("MSG"));
+// 			if (strData != _T(""))
+// 			{
+// 				m_strErrorMsg	= strData.Mid(1, strData.GetLength()-1);
+// 			}
+// 			m_nDelScrapFlg = m_nCommBin = BD_DATA_REJECT;
+// 		}
+// 	}
+// 	else if (strFunc == _T("SORTER_LOT_END"))
+// 	{
+// 		strData = OnDataItemAnalysis(0, 0, strMsg, _T("RESULT"));
+// 		if (strData == _T("PASS"))
+// 		{
+// 			st_track_info.nTestEndBin		= NO;
+// 			st_track_info.strLotNo			= _T("");
+// 			st_track_info.strPartNo			= _T("");
+// 			st_track_info.nIn				= 0;
+// 			st_track_info.nPrimePass		= 0;
+// 			st_track_info.nPrimeReject		= 0;
+// 			st_track_info.nCumPass			= 0;
+// 			st_track_info.nCumReject		= 0;
+// 
+// 			if (st_track_info.nStatus == YES)
+// 			{
+// 				st_track_info.nStatus = NO;
+// 			}
+// 
+// 			m_nLotEndFlag = m_nCommBin = BD_DATA_GOOD;
+// 
+// 			if (st_basic_info.nModeRfid == NO)
+// 			{
+// 				if (st_handler_info.cWndMain != NULL)
+// 				{
+// 					st_handler_info.cWndMain->SendMessage(WM_WORK_COMMAND, MAIN_TRACK_OUT_DELETE_REQ, 0);
+// 				}
+// 			}
+// 		}
+// 		else
+// 		{
+// 			strData = OnDataItemAnalysis(0, 0, strMsg, _T("MSG"));
+// 			if (strData != _T(""))
+// 			{
+// 				m_strErrorMsg	= strData.Mid(1, strData.GetLength()-1);
+// 			}
+// 			m_nLotEndFlag = m_nCommBin = BD_DATA_REJECT;
+// 		}
+// 	}
+// 	else if (strFunc == _T("VERSION_UPDATE"))
+// 	{
+// 		strData = OnDataItemAnalysis(0, 0, strMsg, _T("RESULT"));
+// 		if (strData == _T("PASS"))
+// 		{
+// 			m_nVerFlag = m_nCommBin = BD_DATA_GOOD;
+// 		}
+// 		else
+// 		{
+// 			strData = OnDataItemAnalysis(0, 0, strMsg, _T("MSG"));
+// 			if (strData != _T(""))
+// 			{
+// 				m_strErrorMsg	= strData.Mid(1, strData.GetLength()-1);
+// 			}
+// 			m_nVerFlag = m_nCommBin = BD_DATA_REJECT;
+// 		}
+// 	}
+// 	else if (strFunc == _T("EQP_STATUS_CHANGE"))
+// 	{
+// 		strData = OnDataItemAnalysis(0, 0, strMsg, _T("RESULT"));
+// 		if (strData == _T("PASS"))
+// 		{
+// 			m_nStatusFlag = m_nCommBin = BD_DATA_GOOD;
+// 		}
+// 		else
+// 		{
+// 			strData = OnDataItemAnalysis(0, 0, strMsg, _T("MSG"));
+// 			if (strData != _T(""))
+// 			{
+// 				m_strErrorMsg	= strData.Mid(1, strData.GetLength()-1);
+// 			}
+// 			m_nStatusFlag = m_nCommBin = BD_DATA_REJECT;
+// 		}
+// 	}
+// 	else if (strFunc == _T("EQP_MODE_CHANGE"))
+// 	{
+// 		strData = OnDataItemAnalysis(0, 0, strMsg, _T("RESULT"));
+// 		if (strData == _T("PASS"))
+// 		{
+// 			m_nModeChangFlag = m_nCommBin = BD_DATA_GOOD;
+// 		}
+// 		else
+// 		{
+// 			strData = OnDataItemAnalysis(0, 0, strMsg, _T("MSG"));
+// 			if (strData != _T(""))
+// 			{
+// 				m_strErrorMsg	= strData.Mid(1, strData.GetLength()-1);
+// 			}
+// 			m_nModeChangFlag = m_nCommBin = BD_DATA_REJECT;
+// 		}
+// 	}
+// 	else if (strFunc == _T("FULL_CARRIER_MOVE_REQ"))
+// 	{
+// 		strData = OnDataItemAnalysis(0, 0, strMsg, _T("RESULT"));
+// 		if (strData == _T("PASS"))
+// 		{
+// 			m_nFullCarrierFlag = m_nCommBin = BD_DATA_GOOD;
+// 		}
+// 		else
+// 		{
+// 			strData = OnDataItemAnalysis(0, 0, strMsg, _T("MSG"));
+// 			if (strData != _T(""))
+// 			{
+// 				m_strErrorMsg	= strData.Mid(1, strData.GetLength()-1);
+// 			}
+// 			m_nFullCarrierFlag = m_nCommBin = BD_DATA_REJECT;
+// 		}
+// 
+// 		if (st_basic_info.nModeRfid == YES)
+// 		{
+// 			// jtkim 20150508
+// 			if (st_handler_info.cWndMain != NULL)
+// 			{
+// 				st_handler_info.cWndMain->SendMessage(WM_WORK_COMMAND, MAIN_TRACK_OUT_DELETE_REQ, 0);
+// 			}
+// 		}
+// 	}
+// 	else if (strFunc == _T("EMPTY_CARRIER_MOVE_REQ"))
+// 	{
+// 		strData = OnDataItemAnalysis(0, 0, strMsg, _T("RESULT"));
+// 		if (strData == _T("PASS"))
+// 		{
+// 			m_nEmptyCarrierFlag = m_nCommBin = BD_DATA_GOOD;
+// 		}
+// 		else
+// 		{
+// 			strData = OnDataItemAnalysis(0, 0, strMsg, _T("MSG"));
+// 			if (strData != _T(""))
+// 			{
+// 				m_strErrorMsg	= strData.Mid(1, strData.GetLength()-1);
+// 			}
+// 			m_nEmptyCarrierFlag = m_nCommBin = BD_DATA_REJECT;
+// 		}
+// 	}
+// 	else if (strFunc == _T("TOOL_CHANGE"))
+// 	{
+// 		strData = OnDataItemAnalysis(0, 0, strMsg, _T("RESULT"));
+// 		if (strData == _T("PASS"))
+// 		{
+// 			m_nToolChangFlag = m_nCommBin = BD_DATA_GOOD;
+// 		}
+// 		else
+// 		{
+// 			strData = OnDataItemAnalysis(0, 0, strMsg, _T("MSG"));
+// 			if (strData != _T(""))
+// 			{
+// 				m_strErrorMsg	= strData.Mid(1, strData.GetLength()-1);
+// 			}
+// 			m_nToolChangFlag = m_nCommBin = BD_DATA_REJECT;
+// 		}
+// 	}
+// 	else if (strFunc == _T("MATCH_ID"))
+// 	{
+// 		strData = OnDataItemAnalysis(0, 0, strMsg, _T("RESULT"));
+// 		if (strData == _T("PASS"))
+// 		{
+// 			m_nMatchFlag = m_nCommBin = BD_DATA_GOOD;
+// 		}
+// 		else
+// 		{
+// 			strData = OnDataItemAnalysis(0, 0, strMsg, _T("MSG"));
+// 			if (strData != _T(""))
+// 			{
+// 				m_strErrorMsg	= strData.Mid(1, strData.GetLength()-1);
+// 			}
+// 			m_nMatchFlag = m_nCommBin = BD_DATA_REJECT;
+// 		}
+// 	}
+// 	else if (strFunc == _T("DATE_TIME"))
+// 	{
+// 		strData = OnDataItemAnalysis(0, 0, strMsg, _T("RESULT"));
+// 		if (strData == _T("PASS"))
+// 		{
+// 			m_nDateFlag = m_nCommBin = BD_DATA_GOOD;
+// 		}
+// 		else
+// 		{
+// 			strData = OnDataItemAnalysis(0, 0, strMsg, _T("MSG"));
+// 			if (strData != _T(""))
+// 			{
+// 				m_strErrorMsg	= strData.Mid(1, strData.GetLength()-1);
+// 			}
+// 			m_nDateFlag = m_nCommBin = BD_DATA_REJECT;
+// 		}
+// 	}
+// 	else if (strFunc == _T("LABEL_SERIAL_INFO"))
+// 	{
+// 		// jtkim 20150806
+// 		m_strSerial		= _T("");
+// 		m_strPpid		= _T("");
+// 		m_strWwn		= _T("");
+// 		m_strCserial	= _T("");
+// 		m_strPsid		= _T("");
+// 
+// 		strData = OnDataItemAnalysis(0, 0, strMsg, _T("RESULT"));
+// 		if (strData == _T("PASS"))
+// 		{
+// 			strData			= OnDataItemAnalysis(2, 0, strMsg, _T("SRL_INFO"));
+// 
+// 			m_strSerial		= OnDataItemAnalysis(0, 0, strData, _T("SERIAL"));
+// 			nPos = -1;
+// 			nPos = m_strSerial.Find(_T("-"), 0);
+// 			if (nPos >= 0) m_strSerial = _T("");
+// 
+// 			if (m_strSerial != _T(""))
+// 			{
+// 				strTemp = m_strSerial.Mid(m_strSerial.GetLength() - 1, 1);
+// 				if (strTemp == _T(")"))
+// 				{
+// 					strTemp		= m_strSerial.Mid(0, m_strSerial.GetLength() - 1);
+// 					m_strSerial = strTemp;
+// 				}
+// 			}
+// 
+// 			
+// 			m_strPpid		= OnDataItemAnalysis(0, 0, strData, _T("PPID"));
+// 			nPos = -1;
+// 			nPos = m_strPpid.Find(_T("-"), 0);
+// 			if (nPos >= 0) m_strPpid = _T("");
+// 
+// 			if (m_strPpid != _T(""))
+// 			{
+// 				strTemp = m_strPpid.Mid(m_strPpid.GetLength() - 1, 1);
+// 				if (strTemp == _T(")"))
+// 				{
+// 					strTemp		= m_strPpid.Mid(0, m_strPpid.GetLength() - 1);
+// 					m_strPpid	= strTemp;
+// 				}
+// 			}
+// 
+// 			
+// 			m_strWwn		= OnDataItemAnalysis(0, 0, strData, _T("WWN"));
+// 			nPos = -1;
+// 			nPos = m_strWwn.Find(_T("-"), 0);
+// 			if (nPos >= 0) m_strWwn = _T("");
+// 			
+// 			if (m_strWwn != _T(""))
+// 			{
+// 				strTemp = m_strWwn.Mid(m_strWwn.GetLength() - 1, 1);
+// 				if (strTemp == _T(")"))
+// 				{
+// 					strTemp		= m_strWwn.Mid(0, m_strWwn.GetLength() - 1);
+// 					m_strWwn	= strTemp;
+// 				}
+// 			}
+// 
+// 			m_strCserial	= OnDataItemAnalysis(0, 0, strData, _T("C_SERIAL"));
+// 			nPos = -1;
+// 			nPos = m_strCserial.Find(_T("-"), 0);
+// 			if (nPos >= 0) m_strCserial = _T("");
+// 			
+// 			if (m_strCserial != _T(""))
+// 			{
+// 				strTemp = m_strCserial.Mid(m_strCserial.GetLength() - 1, 1);
+// 				if (strTemp == _T(")"))
+// 				{
+// 					strTemp			= m_strCserial.Mid(0, m_strCserial.GetLength() - 1);
+// 					m_strCserial	= strTemp;
+// 				}
+// 			}
+// 
+// 			m_strPsid		= OnDataItemAnalysis(0, 0, strData, _T("PSID"));
+// 			nPos = -1;
+// 			nPos = m_strPsid.Find(_T("-"), 0);
+// 			if (nPos >= 0) m_strPsid = _T("");
+// 
+// 			if (m_strPsid != _T(""))
+// 			{
+// 				strTemp = m_strPsid.Mid(m_strPsid.GetLength() - 1, 1);
+// 				if (strTemp == _T(")"))
+// 				{
+// 					strTemp		= m_strPsid.Mid(0, m_strPsid.GetLength() - 1);
+// 					m_strPsid	= strTemp;
+// 				}
+// 			}
+// 
+// 			m_nPcbInfoFlag = m_nCommBin = BD_DATA_GOOD;
+// 		}
+// 		else
+// 		{
+// 			strData = OnDataItemAnalysis(3, 0, strMsg, _T("MSG"));
+// 			if (strData != _T(""))
+// 			{
+// 				m_strErrorMsg	= strData.Mid(0, strData.GetLength()-1);
+// 			}
+// 			m_nPcbInfoFlag = m_nCommBin = BD_DATA_REJECT;
+// 		}
+// 	}
 }
 
 
@@ -776,284 +776,9 @@ void CClientEcFirst::OnCommunication()
 {
 	if (st_handler_info.nRunStatus == dWARNING) return;
 
-	switch (m_nCommStep)
-	{
-		case 0:
-			// 공유메모리에 전송할 데이터가 있으면 
-			if (m_pQueueEcFirst->m_nCount <= 0) break;
-				
-			m_nRetry		= 0;
-			m_strSendMsg	= OnMessageRead();
-
-			m_nCommStep = 100;
-			break;
-
-		case 100:
-			// interface 상태 체크
-			if (st_basic_info.nModeInterface == EQP_ON_LINE)
-			{
-				m_nCommBin	= BD_NONE;
-
-				m_nCommStep = 2000;
-			}
-			else
-			{
-				// off line mode 임의로 데이터 생성
-				m_dwWaitTime[0] = GetTickCount();
-
-				m_nCommStep = 1000;
-			}
-			break;
-
-		case 1000:
-			m_dwWaitTime[1] = GetTickCount();
-			m_dwWaitTime[2] = m_dwWaitTime[1] - m_dwWaitTime[0];
-
-			if (m_dwWaitTime[2] < 0)
-			{
-				m_dwWaitTime[0] = GetTickCount();
-				break;
-			}
-
-			if (m_dwWaitTime[2] > (DWORD)st_recipe_info.nAbortTime)
-			{
-				m_nCommBin	= BD_DATA_GOOD;
-
-				m_nCommStep = 0;
-			}
-			break;
-
-		case 2000:
-			if (st_client_info[EC_FIRST_NETWORK].nConnect == YES)
-			{
-				m_nCommStep = 2200;
-			}
-			else
-			{
-				m_dwWaitTime[0] = GetTickCount();
-
-				::SendMessage(st_handler_info.hWnd, WM_CLIENT_MSG + EC_FIRST_NETWORK, CLIENT_CONNECT, 0);
-
-				m_nCommStep = 2100;
-			}
-			break;
-
-		case 2100:
-			if (st_client_info[EC_FIRST_NETWORK].nConnect == YES)
-			{
-				m_nCommStep = 2200;
-			}
-			else
-			{
-				m_dwWaitTime[1] = GetTickCount();
-				m_dwWaitTime[2] = m_dwWaitTime[1] - m_dwWaitTime[0];
-
-				if (m_dwWaitTime[2] < 0)
-				{
-					m_dwWaitTime[0] = GetTickCount();
-					break;
-				}
-
-				if (m_dwWaitTime[2] > 60000)
-				{
-					m_nRetry++;
-
-					if (m_nRetry > 3)
-					{
-						m_nCommBin	= BD_CONT_TIMEOUT;
-
-						::SendMessage(st_handler_info.hWnd, WM_CLIENT_MSG + EC_FIRST_NETWORK, CLIENT_CLOSE, 0);
-
-						m_dwWaitTime[0] = GetTickCount();
-						CTL_Lib.Alarm_Error_Occurrence(20000, dWARNING, _T("610000"));
-
-						m_nCommStep = 0;
-					}
-					else
-					{
-						m_dwWaitTime[0] = GetTickCount();
-
-						::SendMessage(st_handler_info.hWnd, WM_CLIENT_MSG + EC_FIRST_NETWORK, CLIENT_CLOSE, 0);
-
-						m_nCommStep = 2150;
-					}
-				}
-			}
-			break;
-
-		case 2150:
-			m_dwWaitTime[1] = GetTickCount();
-			m_dwWaitTime[2] = m_dwWaitTime[1] - m_dwWaitTime[0];
-
-			if (m_dwWaitTime[2] < 0)
-			{
-				m_dwWaitTime[0] = GetTickCount();
-				break;
-			}
-
-			if (m_dwWaitTime[2] > WAIT_CLOSE)
-			{
-				m_nCommStep = 100;
-			}
-			break;
-
-		case 2200:
-			m_dwWaitTime[0] = GetTickCount();
-			st_client_info[EC_FIRST_NETWORK].strSend = m_strSendMsg;
-
-			::SendMessage(st_handler_info.hWnd, WM_CLIENT_MSG + EC_FIRST_NETWORK, CLIENT_SEND, 0);
-
-			m_nCommStep = 2300;
-			break;
-
-		case 2300:
-			if (m_nCommBin == BD_DATA_GOOD)
-			{
-				m_dwWaitTime[0] = GetTickCount();
-				::SendMessage(st_handler_info.hWnd, WM_CLIENT_MSG + EC_FIRST_NETWORK, CLIENT_CLOSE, 0);
-
-				m_nCommStep = 2350;
-			}
-			else if (m_nCommBin == BD_DATA_REJECT)
-			{
-				m_dwWaitTime[0] = GetTickCount();
-				::SendMessage(st_handler_info.hWnd, WM_CLIENT_MSG + EC_FIRST_NETWORK, CLIENT_CLOSE, 0);
-
-				m_nCommStep = 2350;
-			}
-			else
-			{
-				m_dwWaitTime[1] = GetTickCount();
-				m_dwWaitTime[2] = m_dwWaitTime[1] - m_dwWaitTime[0];
-
-				if (m_dwWaitTime[2] < 0)
-				{
-					m_dwWaitTime[0] = GetTickCount();
-					break;
-				}
-
-				if (m_dwWaitTime[2] > 100000)
-				{
-					m_nRetry++;
-
-					if (m_nRetry > 3)
-					{
-						m_nCommBin	= BD_RCV_TIMEOUT;
-
-						::SendMessage(st_handler_info.hWnd, WM_CLIENT_MSG + EC_FIRST_NETWORK, CLIENT_CLOSE, 0);
-
-						m_dwWaitTime[0] = GetTickCount();
-						CTL_Lib.Alarm_Error_Occurrence(20001, dWARNING, _T("610001"));
-
-						m_nCommStep = 0;
-					}
-					else
-					{
-						m_dwWaitTime[0] = GetTickCount();
-						::SendMessage(st_handler_info.hWnd, WM_CLIENT_MSG + EC_FIRST_NETWORK, CLIENT_CLOSE, 0);
-
-						m_nCommStep = 2150;
-					}
-				}
-			}
-			break;
-
-		case 2350:
-			m_dwWaitTime[1] = GetTickCount();
-			m_dwWaitTime[2] = m_dwWaitTime[1] - m_dwWaitTime[0];
-
-			if (m_dwWaitTime[2] < 0)
-			{
-				m_dwWaitTime[0] = GetTickCount();
-				break;
-			}
-
-			if (m_dwWaitTime[2] > WAIT_CLOSE)
-			{
-				m_nCommStep = 0;
-			}
-			break;
-	}
 }
 
-void CClientEcFirst::OnEcSLotEnd(tagPCB_INFO pcb_info)
-{
-	CString strTemp;
-	CString strData;
-	CString strMsg;
-	
-	strData = _T("FUNCTION=SLOT_END");
-	strData += _T(" ");
-	
-	strTemp.Format(_T("EQPID=%s"), st_basic_info.strEqp);
-	strData += strTemp;
-	strData += _T(" ");
 
-	strData += _T("OPERID=AUTO");
-	strData += _T(" ");
-
-	strTemp.Format(_T("LOTNO=%s"), pcb_info.strLotNo);
-	strData += strTemp;
-	strData += _T(" ");
-
-	strTemp.Format(_T("PARTID=%s"), pcb_info.strPartNo);
-	strData += strTemp;
-	strData += _T(" ");
-
-	strTemp.Format(_T("SERIAL=%s"), pcb_info.strSerialNo);
-	strData += strTemp;
-	strData += _T(" ");
-
-	if (pcb_info.nBin == BD_DATA_GOOD)
-	{
-		strData += _T("TESTRESULT=PASS");
-		strData += _T(" ");
-	}
-	else
-	{
-		strData += _T("TESTRESULT=FAIL");
-		strData += _T(" ");
-	}
-
-	strTemp.Format(_T("PPID=%s"), pcb_info.strPPID);
-	strData += strTemp;
-	strData += _T(" ");
-
-	strTemp.Format(_T("WWN=%s"), pcb_info.strWWN);
-	strData += strTemp;
-	strData += _T(" ");
-
-	strTemp.Format(_T("SCRAP_CODE=%d"), pcb_info.nScrCode);
-	strData += strTemp;
-	strData += _T(" ");
-
-	strTemp.Format(_T("BIN=%d"), pcb_info.nBin);
-	strData += strTemp;
-	strData += _T(" ");
-
-	strTemp.Format(_T("SLOT=%d"), pcb_info.nBdNum);
-	strData += strTemp;
-	strData += _T(" ");
-
-	strTemp.Format(_T("ARRAY_SN=%s"), pcb_info.strArrNo);
-	strData += strTemp;
-	strData += _T(" ");
-
-	strTemp.Format(_T("C_SERIAL=%s"), pcb_info.strCSerialNo);
-	strData += strTemp;
-	strData += _T(" ");
-
-	strTemp.Format(_T("PSID=%s"), pcb_info.strPSID);
-	strData += strTemp;
-	strData += _T(" ");
-
-	strTemp.Format(_T("P_SERIAL=%d"), pcb_info.strPSID);
-	strData += strTemp;
-
-	strMsg.Format(_T("%016d%s"), strData.GetLength(), strData);
-
-	OnMessageWrite(strMsg);
-}
 
 void CClientEcFirst::OnEcPcbInfo(CString strLotId, CString strPartId, CString strSerial)
 {
@@ -1084,7 +809,7 @@ void CClientEcFirst::OnEcPcbInfo(CString strLotId, CString strPartId, CString st
 
 	strMsg.Format(_T("%016d%s"), strData.GetLength(), strData);
 
-	m_nPcbInfoFlag = BD_NONE;
+	m_nPcbInfoFlag = 0;
 
 	OnMessageWrite(strMsg);
 }
@@ -1094,127 +819,12 @@ void CClientEcFirst::OnEcTestEnd(CString strLotId, CString strPartId)
 	CString strTemp;
 	CString strData;
 	CString strMsg;
-	
-	strData = _T("FUNCTION=TEST_END");
-	strData += _T(" ");
-	
-	strTemp.Format(_T("EQPID=%s"), st_basic_info.strEqp);
-	strData += strTemp;
-	strData += _T(" ");
 
-	strTemp.Format(_T("LOTID=%s"), strLotId);
-	strData += strTemp;
-	strData += _T(" ");
-
-	strTemp.Format(_T("PARTNO=%s"), strPartId);
-	strData += strTemp;
-
-	strMsg.Format(_T("%016d%s"), strData.GetLength(), strData);
-
-	m_nTestEndFlag = BD_NONE;
-
-	OnMessageWrite(strMsg);
 }
 
-void CClientEcFirst::OnEcOnlineEnd(tagLOT_DISPLAY_INFO lot_display)
-{
-	CString strTemp;
-	CString strData;
-	CString strMsg;
 
-	int i;
 
-	strData = _T("FUNCTION=ONLINE_END");
-	strData += _T(" ");
-	
-	strTemp.Format(_T("EQPID=%s"), st_basic_info.strEqp);
-	strData += strTemp;
-	strData += _T(" ");
 
-	strData += _T("EQPMODEL=IFT");
-	strData += _T(" ");
-
-	// jtkim 20150627
-	//if (st_basic_info.nModeRearSmema == YES)
-// 	if (st_handler_info.nAutoLine == 1 && st_lot_info[LOT_CURR].nTrayRunMode_StandAlone == NO)
-// 	{
-// 		strData += _T("AUTOLINE=YES");
-// 	}
-// 	else
-// 	{
-// 		strData += _T("AUTOLINE=NO");
-// 	}
-// 	strData += _T(" ");
-
-	strTemp.Format(_T("LOTID=%s"), lot_display.strLotNo);
-	strData += strTemp;
-	strData += _T(" ");
-
-	strData += _T("OPERID=AUTO");
-	strData += _T(" ");
-
-	if (lot_display.nScrapCnt > 0)
-	{
-		strTemp.Format(_T("SCRAP_CNT=%d"), lot_display.nScrapCnt);
-		strData += strTemp;
-		strData += _T(" ");
-
-		for (i=0; i<lot_display.nScrapCnt; i++)
-		{
-			strTemp.Format(_T("SCRAP_INFO%03d=(SCRAP_CODE=%s ARRAYSN=%s SERIAL=%s)"), i + 1,
-																					  lot_display.strScrapCode[i],
-																					  lot_display.strArray[i],
-																					  lot_display.strScrapSerial[i]);
-			strData += strTemp;
-			strData += _T(" ");
-		}
-	}
-	else
-	{
-		strData += _T("SCRAP_CNT=0");
-	}
-
-	strMsg.Format(_T("%016d%s"), strData.GetLength(), strData);
-
-	m_nOnlineEndFlag = BD_NONE;
-
-	OnMessageWrite(strMsg);
-}
-
-void CClientEcFirst::OnEcScrapInfo(CString strLotId)
-{
-	CString strTemp;
-	CString strData;
-	CString strMsg;
-
-	strData = _T("FUNCTION=SCRAP_INFO");
-	strData += _T(" ");
-	
-	strTemp.Format(_T("EQPID=%s"), st_basic_info.strEqp);
-	strData += strTemp;
-	strData += _T(" ");
-
-	strTemp.Format(_T("LOTID=%s"), strLotId);
-	strData += strTemp;
-	strData += _T(" ");
-
-	// jtkim 20150627
-	//if (st_basic_info.nModeRearSmema == YES)
-// 	if (st_handler_info.nAutoLine == 1 && st_lot_info[LOT_CURR].nTrayRunMode_StandAlone == NO)
-// 	{
-// 		strData += _T("AUTOLINE=YES");
-// 	}
-// 	else
-// 	{
-// 		strData += _T("AUTOLINE=NO");
-// 	}
-
-	strMsg.Format(_T("%016d%s"), strData.GetLength(), strData);
-
-	m_nScrapInfoFlag = BD_NONE;
-
-	OnMessageWrite(strMsg);
-}
 
 void CClientEcFirst::OnEcSeeLot(CString strLotId)
 {
@@ -1237,114 +847,15 @@ void CClientEcFirst::OnEcSeeLot(CString strLotId)
 
 	strMsg.Format(_T("%016d%s"), strData.GetLength(), strData);
 
-	m_nSeeLotFlag = BD_NONE;
+	m_nSeeLotFlag = 0;
 
 	OnMessageWrite(strMsg);
 }
 
-void CClientEcFirst::OnEcDeleteScrap(CString strLotId, CString strSerial, CString strArray)
-{
-	CString strTemp;
-	CString strData;
-	CString strMsg;
 
-	strData = _T("FUNCTION=DELETE_SCRAP");
-	strData += _T(" ");
 
-	strTemp.Format(_T("EQPID=%s"), st_basic_info.strEqp);
-	strData += strTemp;
-	strData += _T(" ");
 
-	// jtkim 20150627
-	//if (st_basic_info.nModeRearSmema == YES)
-// 	if (st_handler_info.nAutoLine == 1 && st_lot_info[LOT_CURR].nTrayRunMode_StandAlone == NO)
-// 	{
-// 		strData += _T("AUTOLINE=YES");
-// 	}
-// 	else
-// 	{
-// 		strData += _T("AUTOLINE=NO");
-// 	}
-// 	strData += _T(" ");
 
-	strTemp.Format(_T("LOTID=%s"), strLotId);
-	strData += strTemp;
-	strData += _T(" ");
-
-	strTemp.Format(_T("SERIAL=%s"), strSerial);
-	strData += strTemp;
-	strData += _T(" ");
-
-	strTemp.Format(_T("ARRAYSN=%s"), strArray);
-	strData += strTemp;
-
-	strMsg.Format(_T("%016d%s"), strData.GetLength(), strData);
-
-	m_nDelScrapFlg = BD_NONE;
-
-	OnMessageWrite(strMsg);
-}
-
-void CClientEcFirst::OnEcLotEnd(CString strLotId)
-{
-	CString strTemp;
-	CString strData;
-	CString strMsg;
-
-	strData = _T("FUNCTION=SORTER_LOT_END");
-	strData += _T(" ");
-
-	strTemp.Format(_T("LOTID=%s"), strLotId);
-	strData += strTemp;
-	strData += _T(" ");
-
-	strTemp.Format(_T("EQPID=%s"), st_basic_info.strEqp);
-	strData += strTemp;
-	strData += _T(" ");
-
-	// jtkim 20150627
-	//if (st_basic_info.nModeRearSmema == YES)
-// 	if (st_handler_info.nAutoLine == 1 && st_lot_info[LOT_CURR].nTrayRunMode_StandAlone == NO)
-// 	{
-// 		strData += _T("AUTOLINE=YES");
-// 	}
-// 	else
-// 	{
-// 		strData += _T("AUTOLINE=NO");
-// 	}
-
-	strMsg.Format(_T("%016d%s"), strData.GetLength(), strData);
-
-	m_nLotEndFlag = BD_NONE;
-
-	OnMessageWrite(strMsg);
-}
-
-void CClientEcFirst::OnEqpVersionUpdate(CString strDescrip)
-{
-	CString strTemp;
-	CString strData;
-	CString strMsg;
-
-	strData = _T("FUNCTION=VERSION_UPDATE");
-	strData += _T(" ");
-
-	strTemp.Format(_T("EQPID=%s"), st_basic_info.strEqp);
-	strData += strTemp;
-	strData += _T(" ");
-
-	strData += _T("EQPMODEL=ROUTER");
-	strData += _T(" ");
-
-	strTemp.Format(_T("DESC=%s"), strDescrip);
-	strData += strTemp;
-
-	strMsg.Format(_T("%016d%s"), strData.GetLength(), strData);
-
-	m_nVerFlag = BD_NONE;
-
-	OnMessageWrite(strMsg);
-}
 
 void CClientEcFirst::OnEqpStatusChange(CString strMode, CString strCode, CString strDescrip)
 {
@@ -1385,7 +896,7 @@ void CClientEcFirst::OnEqpStatusChange(CString strMode, CString strCode, CString
 
 	strMsg.Format(_T("%016d%s"), strData.GetLength(), strData);
 
-	m_nStatusFlag = BD_NONE;
+	m_nStatusFlag = 0;
 
 	OnMessageWrite(strMsg);
 }
@@ -1411,7 +922,7 @@ void CClientEcFirst::OnEqpModeChange(CString strMode)
 
 	strMsg.Format(_T("%016d%s"), strData.GetLength(), strData);
 
-	m_nModeChangFlag = BD_NONE;
+	m_nModeChangFlag = 0;
 
 	OnMessageWrite(strMsg);
 }
@@ -1440,113 +951,8 @@ void CClientEcFirst::OnEqpFullCarrierMove(CString srtCarrierId)
 
 	strMsg.Format(_T("%016d%s"), strData.GetLength(), strData);
 
-	m_nFullCarrierFlag = BD_NONE;
+	m_nFullCarrierFlag = 0;
 
 	OnMessageWrite(strMsg);
 }
 
-void CClientEcFirst::OnEqpEmptyCarrierMove()
-{
-	CString strTemp;
-	CString strData;
-	CString strMsg;
-
-	strData = _T("FUNCTION=EMPTY_CARRIER_MOVE_REQ");
-	strData += _T(" ");
-
-	strTemp.Format(_T("EQPID=%s"), st_basic_info.strEqp);
-	strData += strTemp;
-	strData += _T(" ");
-
-	strData += _T("LOTID=");
-	strData += _T(" ");
-
-	strData += _T("PORTID=AROUT-01_I1");
-	strData += _T(" ");
-
-	strData += _T("CARRIERID=");
-	strData += _T(" ");
-
-	strData += _T("FEEDERID=");
-	strData += _T(" ");
-
-	strData += _T("MATCODE=");
-	strData += _T(" ");
-
-	strData += _T("QTY=");
-
-	strMsg.Format(_T("%016d%s"), strData.GetLength(), strData);
-
-	m_nEmptyCarrierFlag = BD_NONE;
-
-	OnMessageWrite(strMsg);
-}
-
-void CClientEcFirst::OnEqpToolChange(CString strToolId)
-{
-	CString strTemp;
-	CString strData;
-	CString strMsg;
-
-	strData = _T("FUNCTION=TOOL_CHANGE");
-	strData += _T(" ");
-
-	strTemp.Format(_T("EQPID=%s"), st_basic_info.strEqp);
-	strData += strTemp;
-	strData += _T(" ");
-
-	strTemp.Format(_T("TOOID=%s"), strToolId);
-	strData += strTemp;
-
-	strMsg.Format(_T("%016d%s"), strData.GetLength(), strData);
-
-	m_nToolChangFlag = BD_NONE;
-
-	OnMessageWrite(strMsg);
-}
-
-void CClientEcFirst::OnEqpMatch(CString strLotId, CString strCarrierId)
-{
-	CString strTemp;
-	CString strData;
-	CString strMsg;
-
-	strData = _T("FUNCTION=MATCH_ID");
-	strData += _T(" ");
-
-	strTemp.Format(_T("EQPID=%s"), st_basic_info.strEqp);
-	strData += strTemp;
-	strData += _T(" ");
-
-	strTemp.Format(_T("CARRIER_ID=%s"), strCarrierId);
-	strData += strTemp;
-	strData += _T(" ");
-
-	strTemp.Format(_T("LOT_ID=%s"), strLotId);
-	strData += strTemp;
-
-	strMsg.Format(_T("%016d%s"), strData.GetLength(), strData);
-
-	m_nMatchFlag = BD_NONE;
-
-	OnMessageWrite(strMsg);
-}
-
-void CClientEcFirst::OnEqpDate()
-{
-	CString strTemp;
-	CString strData;
-	CString strMsg;
-
-	strData = _T("FUNCTION=DATE_TIME");
-	strData += _T(" ");
-
-	strTemp.Format(_T("EQPID=%s"), st_basic_info.strEqp);
-	strData += strTemp;
-
-	strMsg.Format(_T("%016d%s"), strData.GetLength(), strData);
-
-	m_nDateFlag = BD_NONE;
-
-	OnMessageWrite(strMsg);
-}

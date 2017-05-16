@@ -47,9 +47,9 @@ public:
 	void					OnEcPcbInfo(CString strLotId, CString strPartId, CString strSerial);
 	void					OnOpen();
 	void					OnClose();
-	void					OnEcSLotEnd(tagPCB_INFO pcb_info);
+//	void					OnEcSLotEnd(tagPCB_INFO pcb_info);
 	void					OnEcTestEnd(CString strLotId, CString strPartId);
-	void					OnEcOnlineEnd(tagLOT_DISPLAY_INFO lot_display);
+	//void					OnEcOnlineEnd(tagLOT_DISPLAY_INFO lot_display);
 	void					OnEcScrapInfo(CString strLotId);
 	void					OnEcSeeLot(CString strLotId);
 	void					OnEcDeleteScrap(CString strLotId, CString strSerial, CString strArray);

@@ -119,12 +119,6 @@ void CScreenMain::OnMainDisplay()
 	{
 		st_handler_info.cWndTitle->PostMessage(WM_STATUS_CHANGE, DEVICE_MODE, st_basic_info.nModeDevice);			// Device Mode
 	}
-
-	// jtkim 20150818
-	if (st_track_info.nStatus == YES)
-	{
-		OnMainWorkInfoCommand(MAIN_TRACK_OUT_CREATE_REQ, 0);
-	}
 }
 
 
@@ -218,9 +212,7 @@ LRESULT CScreenMain::OnMainWorkInfoDisplay(WPARAM wParam, LPARAM lParam)
 			OnMainCountDisplay();
 			break;
 
-		case MAIN_LOT_DISPLAY:
-
-			break;
+		
 	}
 
 	return 0;
@@ -575,6 +567,18 @@ void CScreenMain::OnMainTimeDisplay()
 		strTime.Format(_T("%d / %0.2f"), st_count_info.nUph , dTemp);
 		m_pGridTimeInfo.SetItemText(4, 1, strTime);
 
+		if (st_work_info.nCycleCount > 0)
+		{
+			dTemp = (double)st_work_info.dwLotCycle / (double)st_work_info.nCycleCount;
+
+			strTime.Format(_T("%d / %0.2f"), st_work_info.dwTrayCycle , dTemp);
+			m_pGridTimeInfo.SetItemText(5, 1, strTime);
+		}
+		else
+		{
+			strTime.Format(_T("%d / %0.2f"), st_work_info.dwTrayCycle , 0.0);
+			m_pGridTimeInfo.SetItemText(5, 1, strTime);
+		}
 	}
 
 
@@ -699,7 +703,8 @@ void CScreenMain::OnClickedBtnMainAnimate()
 	int nResponse;
 
 	dlgMsg.m_nMessageType	= 1;
-
+	
+	nResponse = (int)dlgMsg.DoModal();
 
 }
 
@@ -712,32 +717,6 @@ void CScreenMain::OnClickedBtnMainData()
  	if (st_handler_info.nRunStatus != dSTOP) return;
  
  	CDialog_Message dlgMsg;
-
-	if (FAS_IO.get_in_bit(st_io_info.i_FrontSelectSwChk, IO_ON) == IO_OFF ||
-		FAS_IO.get_in_bit(st_io_info.i_RearSelectSwChk1, IO_ON)	== IO_OFF ||
-		FAS_IO.get_in_bit(st_io_info.i_RearSelectSwChk2, IO_ON)	== IO_OFF)
-	{
-		FAS_IO.set_out_bit(st_io_info.o_DoorLock, IO_OFF);
-	}
-	else
-	{
-		dlgMsg.m_nMessageType	= 0;
-		dlgMsg.m_strMessage		= _T("Please Check Manual Key Status.");
-
-		dlgMsg.DoModal();
-
-/*		if (FAS_IO.get_in_bit(st_io_info.i_ManualModeChk, IO_OFF) == IO_ON)
-		{
-			FAS_IO.set_out_bit(st_io_info.o_DoorLock, IO_OFF);
-		}
-		else
-		{
-			dlgMsg.m_nMessageType	= 0;
-			dlgMsg.m_strMessage		= _T("Please Check Manual Key Status.");
-
-			dlgMsg.DoModal();
-		}*/
-	}
 }
 
 
@@ -745,10 +724,5 @@ void CScreenMain::OnBnClickedButtonTrackOut()
 {
 	if (st_handler_info.nLotStatus != dSTOP) return;
 
-	st_track_info.nStatus = YES;
-	if (st_handler_info.cWndMain != NULL)
-	{
-		st_handler_info.cWndMain->SendMessage(WM_WORK_COMMAND, MAIN_TRACK_OUT_CREATE_REQ, 0);
-	}
 }
 
