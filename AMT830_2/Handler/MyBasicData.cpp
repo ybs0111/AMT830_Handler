@@ -1175,10 +1175,7 @@ void CMyBasicData::OnBasic_Data_Load(int nMode)
 			nSecond = 0;
 		}
 		else  nSecond = mn_chk;
-
-		
 	}
-
 
 	if (nMode == 0)
 	{
@@ -1292,6 +1289,240 @@ void CMyBasicData::OnBasic_Data_Load(int nMode)
 		}
 		else  st_count_info.dDailyPer = md_chk;
 	}
+
+	//kwlee 2017.0517
+	GetPrivateProfileString(_T("BASIC_SCREEN"), _T("LotSetModuleLoad"), _T(""), chr_data, sizeof(chr_data), st_path_info.strFileBasic);
+	str_temp.Format(_T("%s"), chr_data);
+	mn_chk = _wtoi(str_temp);
+	if (mn_chk < 0)
+	{
+		st_basic_info.nLotSetModuleLoad = 0;
+	}
+	else  st_basic_info.nLotSetModuleLoad = mn_chk;
+
+	GetPrivateProfileString(_T("BASIC_SCREEN"), _T("LotSetHeatSinkLeft"), _T(""), chr_data, sizeof(chr_data), st_path_info.strFileBasic);
+	str_temp.Format(_T("%s"), chr_data);
+	mn_chk = _wtoi(str_temp);
+	if (mn_chk < 0)
+	{
+		st_basic_info.nLotSetHeatSinkLeft = 0;
+	}
+	else  st_basic_info.nLotSetHeatSinkLeft = mn_chk;
+
+	GetPrivateProfileString(_T("BASIC_SCREEN"), _T("LotSetHeatSinkRight"), _T(""), chr_data, sizeof(chr_data), st_path_info.strFileBasic);
+	str_temp.Format(_T("%s"), chr_data);
+	mn_chk = _wtoi(str_temp);
+	if (mn_chk < 0)
+	{
+		st_basic_info.nLotSetHeatSinkRight = 0;
+	}
+	else  st_basic_info.nLotSetHeatSinkRight = mn_chk;
+
+	GetPrivateProfileString(_T("BASIC_SCREEN"), _T("LotSetClip"), _T(""), chr_data, sizeof(chr_data), st_path_info.strFileBasic);
+	str_temp.Format(_T("%s"), chr_data);
+	mn_chk = _wtoi(str_temp);
+	if (mn_chk < 0)
+	{
+		st_basic_info.nLotSetClip = 0;
+	}
+	else  st_basic_info.nLotSetClip = mn_chk;
+
+	GetPrivateProfileString(_T("BASIC_SCREEN"), _T("LotSetUnloader"), _T(""), chr_data, sizeof(chr_data), st_path_info.strFileBasic);
+	str_temp.Format(_T("%s"), chr_data);
+	mn_chk = _wtoi(str_temp);
+	if (mn_chk < 0)
+	{
+		st_basic_info.nLotSetUnloader = 0;
+	}
+	else  st_basic_info.nLotSetUnloader = mn_chk;
+
+	GetPrivateProfileString(_T("BASIC_SCREEN"), _T("LotSetReject"), _T(""), chr_data, sizeof(chr_data), st_path_info.strFileBasic);
+	str_temp.Format(_T("%s"), chr_data);
+	mn_chk = _wtoi(str_temp);
+	if (mn_chk < 0)
+	{
+		st_basic_info.nLotSetReject = 0;
+	}
+	else  st_basic_info.nLotSetReject = mn_chk;
+
+
+	GetPrivateProfileString(_T("BASIC_SCREEN"), _T("PickGapModuleLoad"), _T(""), chr_data, sizeof(chr_data), st_path_info.strFileBasic);
+	str_temp.Format(_T("%s"), chr_data);
+	md_chk = _wtof(str_temp);
+	if (mn_chk < 0)
+	{
+		st_basic_info.dPickGapModuleLoad = 0.0f;
+	}
+	else  st_basic_info.dPickGapModuleLoad = md_chk;
+
+	GetPrivateProfileString(_T("BASIC_SCREEN"), _T("PickGapHeatSinkLeft"), _T(""), chr_data, sizeof(chr_data), st_path_info.strFileBasic);
+	str_temp.Format(_T("%s"), chr_data);
+	md_chk = _wtof(str_temp);
+	if (mn_chk < 0)
+	{
+		st_basic_info.dPickGapHeatSinkLeft = 0.0f;
+	}
+	else  st_basic_info.dPickGapHeatSinkLeft = md_chk;
+
+	GetPrivateProfileString(_T("BASIC_SCREEN"), _T("PickGapHeatSinkRight"), _T(""), chr_data, sizeof(chr_data), st_path_info.strFileBasic);
+	str_temp.Format(_T("%s"), chr_data);
+	md_chk = _wtof(str_temp);
+	if (mn_chk < 0)
+	{
+		st_basic_info.dPickGapHeatSinkRight = 0.0f;
+	}
+	else  st_basic_info.dPickGapHeatSinkRight = md_chk;
+
+
+	GetPrivateProfileString(_T("BASIC_SCREEN"), _T("NetworkWaitTime"), _T(""), chr_data, sizeof(chr_data), st_path_info.strFileBasic);
+	str_temp.Format(_T("%s"), chr_data);
+	mn_chk = _wtoi(str_temp);
+	if (mn_chk < 0)
+	{
+		st_basic_info.nNetworkWaitTime = 0;
+	}
+	else  st_basic_info.nNetworkWaitTime = mn_chk;
+
+	GetPrivateProfileString(_T("BASIC_SCREEN"), _T("NetworkRetryCnt"), _T(""), chr_data, sizeof(chr_data), st_path_info.strFileBasic);
+	str_temp.Format(_T("%s"), chr_data);
+	mn_chk = _wtoi(str_temp);
+	if (mn_chk < 0)
+	{
+		st_basic_info.nNetworkRetryCnt = 0;
+	}
+	else  st_basic_info.nNetworkRetryCnt = mn_chk;
+
+	GetPrivateProfileString(_T("BASIC_SCREEN"), _T("LabelBinPrint"), _T(""), chr_data, sizeof(chr_data), st_path_info.strFileBasic);
+	str_temp.Format(_T("%s"), chr_data);
+	mn_chk = _wtoi(str_temp);
+	if (mn_chk < 0)
+	{
+		st_basic_info.nLabelBinPrint = 0;
+	}
+	else  st_basic_info.nLabelBinPrint = mn_chk;
+
+	GetPrivateProfileString(_T("BASIC_SCREEN"), _T("LabelErrorCnt"), _T(""), chr_data, sizeof(chr_data), st_path_info.strFileBasic);
+	str_temp.Format(_T("%s"), chr_data);
+	mn_chk = _wtoi(str_temp);
+	if (mn_chk < 0)
+	{
+		st_basic_info.nLabelErrorCnt = 0;
+	}
+	else  st_basic_info.nLabelErrorCnt = mn_chk;
+
+	GetPrivateProfileString(_T("BASIC_SCREEN"), _T("LabelVisionPaper"), _T(""), chr_data, sizeof(chr_data), st_path_info.strFileBasic);
+	str_temp.Format(_T("%s"), chr_data);
+	mn_chk = _wtoi(str_temp);
+	if (mn_chk < 0)
+	{
+		st_basic_info.nLabelVisionPaper = 0;
+	}
+	else  st_basic_info.nLabelVisionPaper = mn_chk;
+
+	GetPrivateProfileString(_T("BASIC_SCREEN"), _T("AlarmDelayTime"), _T(""), chr_data, sizeof(chr_data), st_path_info.strFileBasic);
+	str_temp.Format(_T("%s"), chr_data);
+	mn_chk = _wtoi(str_temp);
+	if (mn_chk < 0)
+	{
+		st_basic_info.nAlarmDelayTime = 0;
+	}
+	else  st_basic_info.nAlarmDelayTime = mn_chk;
+
+	GetPrivateProfileString(_T("BASIC_SCREEN"), _T("DvcRepickCnt"), _T(""), chr_data, sizeof(chr_data), st_path_info.strFileBasic);
+	str_temp.Format(_T("%s"), chr_data);
+	mn_chk = _wtoi(str_temp);
+	if (mn_chk < 0)
+	{
+		st_basic_info.nDvcRepickCnt = 0;
+	}
+	else  st_basic_info.nDvcRepickCnt = mn_chk;
+
+	GetPrivateProfileString(_T("BASIC_SCREEN"), _T("mode_cap_remove"), _T(""), chr_data, sizeof(chr_data), st_path_info.strFileBasic);
+	str_temp.Format(_T("%s"), chr_data);
+	mn_chk = _wtoi(str_temp);
+	if (mn_chk < 0 || mn_chk > 1 )
+	{
+		st_basic_info.n_mode_cap_remove = 0;
+	}
+	else  st_basic_info.n_mode_cap_remove = mn_chk;
+
+	GetPrivateProfileString(_T("BASIC_SCREEN"), _T("mode_clip_alarm"), _T(""), chr_data, sizeof(chr_data), st_path_info.strFileBasic);
+	str_temp.Format(_T("%s"), chr_data);
+	mn_chk = _wtoi(str_temp);
+	if (mn_chk < 0 || mn_chk > 1 )
+	{
+		st_basic_info.n_mode_clip_alarm = 0;
+	}
+	else  st_basic_info.n_mode_clip_alarm = mn_chk;
+
+	GetPrivateProfileString(_T("BASIC_SCREEN"), _T("mode_m_direction"), _T(""), chr_data, sizeof(chr_data), st_path_info.strFileBasic);
+	str_temp.Format(_T("%s"), chr_data);
+	mn_chk = _wtoi(str_temp);
+
+	if (mn_chk < 0 || mn_chk > 1 )
+	{
+		st_basic_info.n_mode_m_direction = 0;
+	}
+	else  st_basic_info.n_mode_m_direction = mn_chk;
+
+	GetPrivateProfileString(_T("BASIC_SCREEN"), _T("mode_hs_direction"), _T(""), chr_data, sizeof(chr_data), st_path_info.strFileBasic);
+	str_temp.Format(_T("%s"), chr_data);
+	mn_chk = _wtoi(str_temp);
+
+	if (mn_chk < 0 || mn_chk > 1 )
+	{
+		st_basic_info.n_mode_hs_direction = 0;
+	}
+	else  st_basic_info.n_mode_hs_direction = mn_chk;
+
+	GetPrivateProfileString(_T("BASIC_SCREEN"), _T("mode_use_sorter_picker"), _T(""), chr_data, sizeof(chr_data), st_path_info.strFileBasic);
+	str_temp.Format(_T("%s"), chr_data);
+	mn_chk = _wtoi(str_temp);
+
+	if (mn_chk < 0 || mn_chk > 1 )
+	{
+		st_basic_info.n_mode_use_sorter_picker = 0;
+	}
+	st_basic_info.n_mode_use_sorter_picker = mn_chk;
+
+	GetPrivateProfileString(_T("BASIC_SCREEN"), _T("mode_use_vis_cont_err"), _T(""), chr_data, sizeof(chr_data), st_path_info.strFileBasic);
+	str_temp.Format(_T("%s"), chr_data);
+	mn_chk = _wtoi(str_temp);
+
+	if (mn_chk < 0 || mn_chk > 1 )
+	{
+		st_basic_info.n_mode_use_vis_cont_err = 0;
+	}
+	else  st_basic_info.n_mode_use_vis_cont_err = mn_chk;
+
+	GetPrivateProfileString(_T("BASIC_SCREEN"), _T("TrayTubeBcrMode"), _T(""), chr_data, sizeof(chr_data), st_path_info.strFileBasic);
+	str_temp.Format(_T("%s"), chr_data);
+	mn_chk = _wtoi(str_temp);
+	if (mn_chk < 0 || mn_chk > 1 )
+	{
+		st_basic_info.n_TrayTubeBcrMode = 0;
+	}
+	else  st_basic_info.n_TrayTubeBcrMode = mn_chk;
+
+	GetPrivateProfileString(_T("BASIC_SCREEN"), _T("n_vis_cont_err"), _T(""), chr_data, sizeof(chr_data), st_path_info.strFileBasic);
+	str_temp.Format(_T("%s"), chr_data);
+	mn_chk = _wtoi(str_temp);
+	if (mn_chk < 0)
+	{
+		st_basic_info.n_vis_cont_err = 0;
+	}
+	else  st_basic_info.n_vis_cont_err = mn_chk;
+
+	GetPrivateProfileString(_T("BASIC_SCREEN"), _T("n_vis_tot_err"), _T(""), chr_data, sizeof(chr_data), st_path_info.strFileBasic);
+	str_temp.Format(_T("%s"), chr_data);
+	mn_chk = _wtoi(str_temp);
+	if (mn_chk < 0)
+	{
+		st_basic_info.n_vis_tot_err = 0;
+	}
+	else  st_basic_info.n_vis_tot_err = mn_chk;
+
+	
 }
 
 void CMyBasicData::OnBasic_Data_Load(CString strDeviceName)
@@ -1419,6 +1650,82 @@ void CMyBasicData::OnBasic_Data_Save()
 
 	str_tmp.Format(_T("%.2f"), st_count_info.dDailyPer);
 	:: WritePrivateProfileString(_T("BASIC_SCREEN"), _T("dDailyPer"), str_tmp, st_path_info.strFileBasic);
+
+	//kwlee 2017.0517
+	str_tmp.Format(_T("%d"), st_basic_info.nLotSetModuleLoad);
+	:: WritePrivateProfileString(_T("BASIC_SCREEN"), _T("LotSetModuleLoad"), str_tmp, st_path_info.strFileBasic);
+
+	str_tmp.Format(_T("%d"), st_basic_info.nLotSetHeatSinkLeft);
+	:: WritePrivateProfileString(_T("BASIC_SCREEN"), _T("LotSetHeatSinkLeft"), str_tmp, st_path_info.strFileBasic);
+
+	str_tmp.Format(_T("%d"), st_basic_info.nLotSetHeatSinkRight);
+	:: WritePrivateProfileString(_T("BASIC_SCREEN"), _T("LotSetHeatSinkRight"), str_tmp, st_path_info.strFileBasic);
+
+	str_tmp.Format(_T("%d"), st_basic_info.nLotSetClip);
+	:: WritePrivateProfileString(_T("BASIC_SCREEN"), _T("LotSetClip"), str_tmp, st_path_info.strFileBasic);
+
+	str_tmp.Format(_T("%d"), st_basic_info.nLotSetUnloader);
+	:: WritePrivateProfileString(_T("BASIC_SCREEN"), _T("LotSetUnloader"), str_tmp, st_path_info.strFileBasic);
+
+	str_tmp.Format(_T("%d"), st_basic_info.nLotSetReject);
+	:: WritePrivateProfileString(_T("BASIC_SCREEN"), _T("LotSetReject"), str_tmp, st_path_info.strFileBasic);
+
+	str_tmp.Format(_T("%.2f"), st_basic_info.dPickGapModuleLoad);
+	:: WritePrivateProfileString(_T("BASIC_SCREEN"), _T("PickGapModuleLoad"), str_tmp, st_path_info.strFileBasic);
+
+	str_tmp.Format(_T("%.2f"), st_basic_info.dPickGapHeatSinkLeft);
+	:: WritePrivateProfileString(_T("BASIC_SCREEN"), _T("PickGapHeatSinkLeft"), str_tmp, st_path_info.strFileBasic);
+
+	str_tmp.Format(_T("%.2f"), st_basic_info.dPickGapHeatSinkRight);
+	:: WritePrivateProfileString(_T("BASIC_SCREEN"), _T("PickGapHeatSinkRight"), str_tmp, st_path_info.strFileBasic);
+
+	str_tmp.Format(_T("%d"), st_basic_info.nNetworkWaitTime);
+	:: WritePrivateProfileString(_T("BASIC_SCREEN"), _T("NetworkWaitTime"), str_tmp, st_path_info.strFileBasic);
+
+	str_tmp.Format(_T("%d"), st_basic_info.nNetworkRetryCnt);
+	:: WritePrivateProfileString(_T("BASIC_SCREEN"), _T("NetworkRetryCnt"), str_tmp, st_path_info.strFileBasic);
+
+	str_tmp.Format(_T("%d"), st_basic_info.nLabelBinPrint);
+	:: WritePrivateProfileString(_T("BASIC_SCREEN"), _T("LabelBinPrint"), str_tmp, st_path_info.strFileBasic);
+
+	str_tmp.Format(_T("%d"), st_basic_info.nLabelErrorCnt);
+	:: WritePrivateProfileString(_T("BASIC_SCREEN"), _T("LabelErrorCnt"), str_tmp, st_path_info.strFileBasic);
+
+	str_tmp.Format(_T("%d"), st_basic_info.nLabelVisionPaper);
+	:: WritePrivateProfileString(_T("BASIC_SCREEN"), _T("LabelVisionPaper"), str_tmp, st_path_info.strFileBasic);
+
+	str_tmp.Format(_T("%d"), st_basic_info.nAlarmDelayTime);
+	:: WritePrivateProfileString(_T("BASIC_SCREEN"), _T("AlarmDelayTime"), str_tmp, st_path_info.strFileBasic);
+
+	str_tmp.Format(_T("%d"), st_basic_info.nDvcRepickCnt);
+	:: WritePrivateProfileString(_T("BASIC_SCREEN"), _T("DvcRepickCnt"), str_tmp, st_path_info.strFileBasic);
+
+	str_tmp.Format(_T("%d"), st_basic_info.n_mode_cap_remove);
+	:: WritePrivateProfileString(_T("BASIC_SCREEN"), _T("mode_cap_remove"), str_tmp, st_path_info.strFileBasic);
+
+	str_tmp.Format(_T("%d"), st_basic_info.n_mode_clip_alarm);
+	:: WritePrivateProfileString(_T("BASIC_SCREEN"), _T("mode_clip_alarm"), str_tmp, st_path_info.strFileBasic);
+
+	str_tmp.Format(_T("%d"), st_basic_info.n_mode_m_direction);
+	:: WritePrivateProfileString(_T("BASIC_SCREEN"), _T("mode_m_direction"), str_tmp, st_path_info.strFileBasic);
+
+	str_tmp.Format(_T("%d"), st_basic_info.n_mode_hs_direction);
+	:: WritePrivateProfileString(_T("BASIC_SCREEN"), _T("mode_hs_direction"), str_tmp, st_path_info.strFileBasic);
+
+	str_tmp.Format(_T("%d"), st_basic_info.n_mode_use_sorter_picker);
+	:: WritePrivateProfileString(_T("BASIC_SCREEN"), _T("mode_use_sorter_picker"), str_tmp, st_path_info.strFileBasic);
+
+	str_tmp.Format(_T("%d"), st_basic_info.n_mode_use_vis_cont_err);
+	:: WritePrivateProfileString(_T("BASIC_SCREEN"), _T("mode_use_vis_cont_err"), str_tmp, st_path_info.strFileBasic);
+
+	str_tmp.Format(_T("%d"), st_basic_info.n_vis_cont_err);
+	:: WritePrivateProfileString(_T("BASIC_SCREEN"), _T("n_vis_cont_err"), str_tmp, st_path_info.strFileBasic);
+
+	str_tmp.Format(_T("%d"), st_basic_info.n_vis_tot_err);
+	:: WritePrivateProfileString(_T("BASIC_SCREEN"), _T("n_vis_tot_err"), str_tmp, st_path_info.strFileBasic);
+
+	str_tmp.Format(_T("%d"), st_basic_info.n_TrayTubeBcrMode);
+	:: WritePrivateProfileString(_T("BASIC_SCREEN"), _T("TrayTubeBcrMode"), str_tmp, st_path_info.strFileBasic);
 }
 
 CString CMyBasicData::OnGet_File_Name()

@@ -36,6 +36,7 @@ public:
 	int                 m_nSorterPickerMode[2];
 	int                 m_nHsDirChkMode[2];
 	int                 m_nModuledirMode[2];
+	int                 m_nTrayTubeBcrMode[2];
 	
 	int                 m_nLotSet_Module_Load[2];
 	int                 m_nLotSet_HeatSinkLeft[2];
@@ -44,9 +45,9 @@ public:
 	int                 m_nLotSet_Unloader[2];
 	int                 m_nLotSet_Reject[2];
 
-	int                 m_nPicker_Gap_Module_Load[2];
-	int                 m_nPicker_Gap_HeatSink_Left[2];
-	int                 m_nPicker_Gap_HeatSink_Right[2];
+	double                m_dPicker_Gap_Module_Load[2];
+	double                m_dPicker_Gap_HeatSink_Left[2];
+	double                m_dPicker_Gap_HeatSink_Right[2];
 
 	int                 m_nAlarm_Delay[2];
 	int                 m_nNetwork_Wait_Time[2];
@@ -115,7 +116,12 @@ public:
 	CDigit				m_dgt_Label_Vision_Paper;
 	CDigit				m_dgt_Label_Error_Cnt;
 	CDigit				m_dgt_Dvc_Repick_Cnt;
-
+	CButtonST m_btn_Hs_Vis_Continue;
+	CGradientStatic m_msg_Continue_error;
+	CGradientStatic m_msg_Total_Error;
+	CDigit m_dgt_Continue_Error;
+	CDigit m_dgt_Total_Error;
+	CXPGroupBox m_group_Hs_Vis_Continue;
 	void				OnInitGroupBox();
 	void				OnInitLabel();
 	void				OnInitButton();
@@ -168,16 +174,25 @@ public:
 	afx_msg void OnDestroy();
 	afx_msg HBRUSH OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor);
 	afx_msg void OnTimer(UINT_PTR nIDEvent);
-	
-	afx_msg void OnStnClickedDgtLotsetClip();
-	CButtonST m_btn_Hs_Vis_Continue;
-	CGradientStatic m_msg_Continue_error;
-	CGradientStatic m_msg_Total_Error;
-	CDigit m_dgt_Continue_Error;
-	CDigit m_dgt_Total_Error;
-	CXPGroupBox m_group_Hs_Vis_Continue;
-	afx_msg void OnStnClickedDgtPickerGapModuleLoad();
 	afx_msg void OnBnClickedBtnHsVisContinue();
+	afx_msg void OnStnClickedDgtContinueError();
+	afx_msg void OnStnClickedDgtPickerGapHeatsinkLeft();
+	afx_msg void OnStnClickedDgtPickerGapHeatsinkRight();
+	afx_msg void OnStnClickedDgtPickerGapModuleLoad();
+	afx_msg void OnStnClickedDgtTotalError();
+	afx_msg void OnStnClickedDgtLotsetModuleLoad();
+	afx_msg void OnStnClickedDgtLotsetHeatsinkLeft();
+	afx_msg void OnStnClickedDgtLotsetHeatsinkRight();
+	afx_msg void OnStnClickedDgtLotsetClip();
+	afx_msg void OnStnClickedDgtLotsetUnloader();
+	afx_msg void OnStnClickedDgtLotsetReject();
+	afx_msg void OnStnClickedDgtNetworkRetryCnt();
+	afx_msg void OnStnClickedDgtLabelErrorCnt();
+	afx_msg void OnStnClickedDgtNetworkWaitTime();
+	afx_msg void OnStnClickedDgtLabelVisionPaper();
+	afx_msg void OnStnClickedDgtAlarmDelay();
+	afx_msg void OnStnClickedDgtLabelBinPrint();
+	afx_msg void OnStnClickedDgtDvcRepickCnt();
 };
 
 

@@ -735,9 +735,9 @@ struct tagBASIC_INFO
 	int nLotSetUnloader;
 	int nLotSetReject;
 
-	int nPickGapModuleLoad;
-	int nPickGapHeatSinkLeft;
-	int nPickGapHeatSinkRight;
+	double dPickGapModuleLoad;
+	double dPickGapHeatSinkLeft;
+	double dPickGapHeatSinkRight;
 
 	int nAlarmDelayTime;
 	int nNetworkWaitTime;
@@ -756,6 +756,8 @@ struct tagBASIC_INFO
 	int n_mode_use_vis_cont_err;
 	int n_vis_cont_err;
 	int n_vis_tot_err;
+
+	int n_TrayTubeBcrMode;
 } ;
 extern  tagBASIC_INFO  st_basic_info;
 // ******************************************************************************
@@ -764,7 +766,13 @@ extern  tagBASIC_INFO  st_basic_info;
 // 레시피 화면 환경 설정 정보 저장 구조체 선언                                   
 // **********************************************************************************
 // ******************************************************************************
-
+struct tagRECIPE_INFO
+{
+	int	nTrayY;						
+	int nTrayX;						
+	
+};
+extern tagRECIPE_INFO	st_recipe_info;
 // *****************************************************************************
 //  Tower Lamp 화면에 대한 정보 저장 구조체 변수 선언                           
 // *****************************************************************************

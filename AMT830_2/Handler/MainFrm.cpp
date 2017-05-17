@@ -61,7 +61,7 @@ tagWAIT_INFO				st_wait_info;
 tagSYNC_INFO				st_sync_info = {0};		//구조체 0으로 초기화
 tagRS232_INFO				st_rs232_info;
 tagMOTOR_INFO				st_motor_info[MOT_MAXMOTOR];
-//tagRECIPE_INFO				st_recipe_info;
+tagRECIPE_INFO				st_recipe_info;
 tagRECOVERY_INFO			st_recovery_info;
 tagANIMATE_INFO				st_animate_info	= {0};	//구조체 0으로 초기화
 tagCOUNT_INFO				st_count_info;

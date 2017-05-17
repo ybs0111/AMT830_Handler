@@ -101,6 +101,25 @@ BEGIN_MESSAGE_MAP(CScreenBasic, CFormView)
 	ON_WM_DESTROY()
 	ON_WM_CTLCOLOR()
 	ON_WM_TIMER()
+	ON_BN_CLICKED(IDC_BTN_HS_VIS_CONTINUE, &CScreenBasic::OnBnClickedBtnHsVisContinue)
+	ON_STN_CLICKED(IDC_DGT_CONTINUE_ERROR, &CScreenBasic::OnStnClickedDgtContinueError)
+	ON_STN_CLICKED(IDC_DGT_PICKER_GAP_HEATSINK_LEFT, &CScreenBasic::OnStnClickedDgtPickerGapHeatsinkLeft)
+	ON_STN_CLICKED(IDC_DGT_PICKER_GAP_HEATSINK_RIGHT, &CScreenBasic::OnStnClickedDgtPickerGapHeatsinkRight)
+	ON_STN_CLICKED(IDC_DGT_PICKER_GAP_MODULE_LOAD, &CScreenBasic::OnStnClickedDgtPickerGapModuleLoad)
+	ON_STN_CLICKED(IDC_DGT_TOTAL_ERROR, &CScreenBasic::OnStnClickedDgtTotalError)
+	ON_STN_CLICKED(IDC_DGT_LOTSET_MODULE_LOAD, &CScreenBasic::OnStnClickedDgtLotsetModuleLoad)
+	ON_STN_CLICKED(IDC_DGT_LOTSET_HEATSINK_LEFT, &CScreenBasic::OnStnClickedDgtLotsetHeatsinkLeft)
+	ON_STN_CLICKED(IDC_DGT_LOTSET_HEATSINK_RIGHT, &CScreenBasic::OnStnClickedDgtLotsetHeatsinkRight)
+	ON_STN_CLICKED(IDC_DGT_LOTSET_CLIP, &CScreenBasic::OnStnClickedDgtLotsetClip)
+	ON_STN_CLICKED(IDC_DGT_LOTSET_UNLOADER, &CScreenBasic::OnStnClickedDgtLotsetUnloader)
+	ON_STN_CLICKED(IDC_DGT_LOTSET_REJECT, &CScreenBasic::OnStnClickedDgtLotsetReject)
+	ON_STN_CLICKED(IDC_DGT_NETWORK_RETRY_CNT, &CScreenBasic::OnStnClickedDgtNetworkRetryCnt)
+	ON_STN_CLICKED(IDC_DGT_LABEL_ERROR_CNT, &CScreenBasic::OnStnClickedDgtLabelErrorCnt)
+	ON_STN_CLICKED(IDC_DGT_NETWORK_WAIT_TIME, &CScreenBasic::OnStnClickedDgtNetworkWaitTime)
+	ON_STN_CLICKED(IDC_DGT_LABEL_VISION_PAPER, &CScreenBasic::OnStnClickedDgtLabelVisionPaper)
+	ON_STN_CLICKED(IDC_DGT_ALARM_DELAY, &CScreenBasic::OnStnClickedDgtAlarmDelay)
+	ON_STN_CLICKED(IDC_DGT_LABEL_BIN_PRINT, &CScreenBasic::OnStnClickedDgtLabelBinPrint)
+	ON_STN_CLICKED(IDC_DGT_DVC_REPICK_CNT, &CScreenBasic::OnStnClickedDgtDvcRepickCnt)
 END_MESSAGE_MAP()
 
 
@@ -333,14 +352,14 @@ void CScreenBasic::OnInitDigit()
 	m_dgt_LotSet_Reject.SetStyle(CDigit::DS_INT, 3, CDigit::DC_BGREEN, CDigit::DC_BDISABLE);
 	m_dgt_LotSet_Reject.SetVal(m_nLotSet_Reject[1]);
 
-	m_dgt_Picker_gap_Module_load.SetStyle(CDigit::DS_INT, 6, CDigit::DC_BGREEN, CDigit::DC_BDISABLE);
-	m_dgt_Picker_gap_Module_load.SetVal(m_nPicker_Gap_Module_Load[1]);
+	m_dgt_Picker_gap_Module_load.SetStyle(CDigit::DS_FLOAT3, 6, CDigit::DC_BGREEN, CDigit::DC_BDISABLE);
+	m_dgt_Picker_gap_Module_load.SetFloatVal((float)m_dPicker_Gap_Module_Load[1]);
 
-	m_dgt_Picker_gap_HeatSink_Left.SetStyle(CDigit::DS_INT, 6, CDigit::DC_BGREEN, CDigit::DC_BDISABLE);
-	m_dgt_Picker_gap_HeatSink_Left.SetVal(m_nPicker_Gap_HeatSink_Left[1]);
+	m_dgt_Picker_gap_HeatSink_Left.SetStyle(CDigit::DS_FLOAT3, 6, CDigit::DC_BGREEN, CDigit::DC_BDISABLE);
+	m_dgt_Picker_gap_HeatSink_Left.SetFloatVal((float)m_dPicker_Gap_HeatSink_Left[1]);
 
-	m_dgt_Picker_gap_HeatSink_Right.SetStyle(CDigit::DS_INT, 6, CDigit::DC_BGREEN, CDigit::DC_BDISABLE);
-	m_dgt_Picker_gap_HeatSink_Right.SetVal(m_nPicker_Gap_HeatSink_Right[1]);
+	m_dgt_Picker_gap_HeatSink_Right.SetStyle(CDigit::DS_FLOAT3, 6, CDigit::DC_BGREEN, CDigit::DC_BDISABLE);
+	m_dgt_Picker_gap_HeatSink_Right.SetFloatVal((float)m_dPicker_Gap_HeatSink_Right[1]);
 
 	m_dgt_Alarm_Delay.SetStyle(CDigit::DS_INT, 3, CDigit::DC_BGREEN, CDigit::DC_BDISABLE);
 	m_dgt_Alarm_Delay.SetVal(m_nAlarm_Delay[1]);
@@ -413,6 +432,27 @@ void CScreenBasic::OnInitButton()
 	m_btnReLoad.SetFont(clsFunc.m_pFont[3]);
 	m_btnReLoad.SetTooltipText(_T("Basic Data ReLoad"));
 
+	if(mn_mode_use_vis_cont_err[1] == YES)
+	{
+		mn_mode_use_vis_cont_err[1] = NO;
+		m_btn_Hs_Vis_Continue.SetBitmaps(IDC_BTN_SM_PASSWORD_CHANGE_LEVEL2, IDB_BITMAP_USED_DN, WINDOW_DN, IDB_BITMAP_USED_DN, WINDOW_UP);
+		m_btn_Hs_Vis_Continue.SetWindowTextW(_T("Continue Err Not Use"));
+	}
+	else
+	{
+		mn_mode_use_vis_cont_err[1] = YES;
+		m_btn_Hs_Vis_Continue.SetBitmaps(IDC_BTN_SM_PASSWORD_CHANGE_LEVEL2, IDB_BITMAP_USED_UP, WINDOW_DN, IDB_BITMAP_USED_UP, WINDOW_UP);
+		m_btn_Hs_Vis_Continue.SetWindowTextW(_T("Continue Err Use"));
+	}
+
+	m_btn_Hs_Vis_Continue.SetColor(CButtonST::BTNST_COLOR_BK_IN, WINDOW_UP1);
+	m_btn_Hs_Vis_Continue.SetColor(CButtonST::BTNST_COLOR_BK_OUT, WINDOW_UP1);
+	m_btn_Hs_Vis_Continue.SetColor(CButtonST::BTNST_COLOR_BK_FOCUS, WINDOW_UP1);
+	m_btn_Hs_Vis_Continue.SetColor(CButtonST::BTNST_COLOR_FG_IN, BLUE_C);
+	m_btn_Hs_Vis_Continue.SetColor(CButtonST::BTNST_COLOR_FG_OUT, BLUE_C);
+	m_btn_Hs_Vis_Continue.SetColor(CButtonST::BTNST_COLOR_FG_FOCUS, BLUE_C);
+	m_btn_Hs_Vis_Continue.SetFont(clsFunc.m_pFont[2]);
+	m_btn_Hs_Vis_Continue.SetTooltipText(_T("Continue Err Change"));
 }
 
 void CScreenBasic::OnInitGridDeviceMode()
@@ -427,7 +467,7 @@ void CScreenBasic::OnInitGridDeviceMode()
 	m_pGridDevice.SetGridLineColor(BLACK_C);
 	m_pGridDevice.SetGridLines(1);
 
-	m_pGridDevice.SetRowCount(24);
+	m_pGridDevice.SetRowCount(27);
 	m_pGridDevice.SetColumnCount(2);
 
 	m_pGridDevice.SetFixedRowCount(0);
@@ -436,16 +476,16 @@ void CScreenBasic::OnInitGridDeviceMode()
 	m_pGridDevice.SetFixedBkColor(RGB(200,200,255));
 	m_pGridDevice.SetTextBkColor(RGB(150,150,200));
 
-	for (i=0; i<24; i++) 
+	for (i=0; i<27; i++) 
 	{
-		m_pGridDevice.SetRowHeight(i, 31);
+		m_pGridDevice.SetRowHeight(i, 27);
 
 		for (j=0; j<2; j++) 
 		{
 			switch (j)
 			{
 				case 0:
-					m_pGridDevice.SetColumnWidth(j, 25);
+					m_pGridDevice.SetColumnWidth(j, 26);
 					break;
 
 				case 1:
@@ -559,7 +599,6 @@ void CScreenBasic::OnInitGridDeviceMode()
 		m_pGridDevice.SetItemBkColour(8, 0, GREEN_C, BLACK_C);
 		m_pGridDevice.SetItemBkColour(8, 1, GREEN_C, BLACK_C);
 	}
-	/////////////////////////////////////////////////////////////////
 	/////////////////////////////////////////////////////////////////
 	//kwlee 2017.0515
 	m_pGridDevice.MergeCells(9, 0, 9, 1);
@@ -724,6 +763,38 @@ void CScreenBasic::OnInitGridDeviceMode()
 		m_pGridDevice.SetItemBkColour(23, 1, GREEN_C, BLACK_C);
 	}
 
+	m_pGridDevice.MergeCells(24, 0, 24, 1);
+	m_pGridDevice.SetItemBkColour(24, 0, RGB(219, 229, 241), BLACK_L);
+	m_pGridDevice.SetItemFont(24, 0, &clsFunc.OnLogFont(16));
+	m_pGridDevice.SetItemText(24, 0, _T("Tray&Tube BcrMode"));
+
+	m_pGridDevice.SetItemBkColour(25, 0, GREEN_D, BLACK_C);
+	m_pGridDevice.SetItemFont(25, 0, &clsFunc.OnLogFont(16));
+	m_pGridDevice.SetItemText(25, 0, _T("1"));
+
+	m_pGridDevice.SetItemBkColour(25, 1, GREEN_D, BLACK_C);
+	m_pGridDevice.SetItemFont(25, 1, &clsFunc.OnLogFont(16));
+	m_pGridDevice.SetItemText(25, 1, _T("Tray&Tube Bcr Use"));
+
+	m_pGridDevice.SetItemBkColour(26, 0, GREEN_D, BLACK_C);
+	m_pGridDevice.SetItemFont(26, 0, &clsFunc.OnLogFont(16));
+	m_pGridDevice.SetItemText(26, 0, _T("2"));
+
+	m_pGridDevice.SetItemBkColour(26, 1, GREEN_D, BLACK_C);
+	m_pGridDevice.SetItemFont(26, 1, &clsFunc.OnLogFont(16));
+	m_pGridDevice.SetItemText(26, 1, _T("Tray&Tube Bcr Skip"));
+
+	if (m_nTrayTubeBcrMode[1] == YES)
+	{
+		m_pGridDevice.SetItemBkColour(25, 0, GREEN_C, BLACK_C);
+		m_pGridDevice.SetItemBkColour(25, 1, GREEN_C, BLACK_C);
+	}
+	else
+	{
+		m_pGridDevice.SetItemBkColour(26, 0, GREEN_C, BLACK_C);
+		m_pGridDevice.SetItemBkColour(26, 1, GREEN_C, BLACK_C);
+	}
+
 	m_pGridDevice.Invalidate(FALSE);
 }
 
@@ -828,8 +899,303 @@ void CScreenBasic::OnDeviceCellClick(NMHDR *pNotifyStruct, LRESULT* pResult)
 		m_pGridDevice.SetItemBkColour(5, 0, GREEN_C, BLACK_C);
 		m_pGridDevice.SetItemBkColour(5, 1, GREEN_C, BLACK_C);
 	}
-	
-	
+	//kwlee 2017.0517
+	else if (nRow == 7 && m_nModeRearSmema[1] != NO)
+	{
+		if (st_lot_info[LOT_CURR].nLotStatus >= LOT_START || st_lot_info[LOT_NEXT].nLotStatus >= LOT_START)
+		{
+			if (st_handler_info.cWndList != NULL)
+			{
+				clsMem.OnNormalMessageWrite(_T("Data Change Fail. Lot Start Status...."));
+				st_handler_info.cWndList->SendMessage(WM_LIST_DATA, 0, NORMAL_MSG);
+			}
+
+			return;
+		}
+
+		m_nModeRearSmema[1] = NO;
+
+		m_pGridDevice.SetItemBkColour(7, 0, GREEN_C, BLACK_C);
+		m_pGridDevice.SetItemBkColour(7, 1, GREEN_C, BLACK_C);
+
+		m_pGridDevice.SetItemBkColour(8, 0, GREEN_D, BLACK_C);
+		m_pGridDevice.SetItemBkColour(8, 1, GREEN_D, BLACK_C);
+	}
+	else if (nRow == 8 && m_nModeRearSmema[1] != YES)
+	{
+		if (st_lot_info[LOT_CURR].nLotStatus >= LOT_START || st_lot_info[LOT_NEXT].nLotStatus >= LOT_START)
+		{
+			if (st_handler_info.cWndList != NULL)
+			{
+				clsMem.OnNormalMessageWrite(_T("Data Change Fail. Lot Start Status...."));
+				st_handler_info.cWndList->SendMessage(WM_LIST_DATA, 0, NORMAL_MSG);
+			}
+
+			return;
+		}
+
+		m_nModeRearSmema[1] = YES;
+
+		m_pGridDevice.SetItemBkColour(7, 0, GREEN_D, BLACK_C);
+		m_pGridDevice.SetItemBkColour(7, 1, GREEN_D, BLACK_C);
+
+		m_pGridDevice.SetItemBkColour(8, 0, GREEN_C, BLACK_C);
+		m_pGridDevice.SetItemBkColour(8, 1, GREEN_C, BLACK_C);
+	}
+	////////////////
+	else if (nRow == 10 && m_nClipRemoverErrorMode[1] != YES)
+	{
+		if (st_lot_info[LOT_CURR].nLotStatus >= LOT_START || st_lot_info[LOT_NEXT].nLotStatus >= LOT_START)
+		{
+			if (st_handler_info.cWndList != NULL)
+			{
+				clsMem.OnNormalMessageWrite(_T("Data Change Fail. Lot Start Status...."));
+				st_handler_info.cWndList->SendMessage(WM_LIST_DATA, 0, NORMAL_MSG);
+			}
+
+			return;
+		}
+
+		m_nClipRemoverErrorMode[1] = YES;
+
+		m_pGridDevice.SetItemBkColour(10, 0, GREEN_C, BLACK_C);
+		m_pGridDevice.SetItemBkColour(10, 1, GREEN_C, BLACK_C);
+
+		m_pGridDevice.SetItemBkColour(11, 0, GREEN_D, BLACK_C);
+		m_pGridDevice.SetItemBkColour(11, 1, GREEN_D, BLACK_C);
+	}
+	else if (nRow == 11 && m_nClipRemoverErrorMode[1] != NO)
+	{
+		if (st_lot_info[LOT_CURR].nLotStatus >= LOT_START || st_lot_info[LOT_NEXT].nLotStatus >= LOT_START)
+		{
+			if (st_handler_info.cWndList != NULL)
+			{
+				clsMem.OnNormalMessageWrite(_T("Data Change Fail. Lot Start Status...."));
+				st_handler_info.cWndList->SendMessage(WM_LIST_DATA, 0, NORMAL_MSG);
+			}
+
+			return;
+		}
+
+		m_nClipRemoverErrorMode[1] = NO;
+
+		m_pGridDevice.SetItemBkColour(10, 0, GREEN_D, BLACK_C);
+		m_pGridDevice.SetItemBkColour(10, 1, GREEN_D, BLACK_C);
+
+		m_pGridDevice.SetItemBkColour(11, 0, GREEN_C, BLACK_C);
+		m_pGridDevice.SetItemBkColour(11, 1, GREEN_C, BLACK_C);
+	}
+	///////////////////
+	else if (nRow == 13 && m_nCapRemoverMode[1] != YES)
+	{
+		if (st_lot_info[LOT_CURR].nLotStatus >= LOT_START || st_lot_info[LOT_NEXT].nLotStatus >= LOT_START)
+		{
+			if (st_handler_info.cWndList != NULL)
+			{
+				clsMem.OnNormalMessageWrite(_T("Data Change Fail. Lot Start Status...."));
+				st_handler_info.cWndList->SendMessage(WM_LIST_DATA, 0, NORMAL_MSG);
+			}
+
+			return;
+		}
+
+		m_nCapRemoverMode[1] = YES;
+
+		m_pGridDevice.SetItemBkColour(13, 0, GREEN_C, BLACK_C);
+		m_pGridDevice.SetItemBkColour(13, 1, GREEN_C, BLACK_C);
+
+		m_pGridDevice.SetItemBkColour(14, 0, GREEN_D, BLACK_C);
+		m_pGridDevice.SetItemBkColour(14, 1, GREEN_D, BLACK_C);
+	}
+	else if (nRow == 14 && m_nCapRemoverMode[1] != NO)
+	{
+		if (st_lot_info[LOT_CURR].nLotStatus >= LOT_START || st_lot_info[LOT_NEXT].nLotStatus >= LOT_START)
+		{
+			if (st_handler_info.cWndList != NULL)
+			{
+				clsMem.OnNormalMessageWrite(_T("Data Change Fail. Lot Start Status...."));
+				st_handler_info.cWndList->SendMessage(WM_LIST_DATA, 0, NORMAL_MSG);
+			}
+
+			return;
+		}
+
+		m_nCapRemoverMode[1] = NO;
+
+		m_pGridDevice.SetItemBkColour(13, 0, GREEN_D, BLACK_C);
+		m_pGridDevice.SetItemBkColour(13, 1, GREEN_D, BLACK_C);
+
+		m_pGridDevice.SetItemBkColour(14, 0, GREEN_C, BLACK_C);
+		m_pGridDevice.SetItemBkColour(14, 1, GREEN_C, BLACK_C);
+	}
+	///////////////////
+	else if (nRow == 16 && m_nSorterPickerMode[1] != YES)
+	{
+		if (st_lot_info[LOT_CURR].nLotStatus >= LOT_START || st_lot_info[LOT_NEXT].nLotStatus >= LOT_START)
+		{
+			if (st_handler_info.cWndList != NULL)
+			{
+				clsMem.OnNormalMessageWrite(_T("Data Change Fail. Lot Start Status...."));
+				st_handler_info.cWndList->SendMessage(WM_LIST_DATA, 0, NORMAL_MSG);
+			}
+
+			return;
+		}
+
+		m_nSorterPickerMode[1] = YES;
+		m_pGridDevice.SetItemBkColour(16, 0, GREEN_C, BLACK_C);
+		m_pGridDevice.SetItemBkColour(16, 1, GREEN_C, BLACK_C);
+
+		m_pGridDevice.SetItemBkColour(17, 0, GREEN_D, BLACK_C);
+		m_pGridDevice.SetItemBkColour(17, 1, GREEN_D, BLACK_C);
+	}
+	else if (nRow == 17 && m_nSorterPickerMode[1] != NO)
+	{
+		if (st_lot_info[LOT_CURR].nLotStatus >= LOT_START || st_lot_info[LOT_NEXT].nLotStatus >= LOT_START)
+		{
+			if (st_handler_info.cWndList != NULL)
+			{
+				clsMem.OnNormalMessageWrite(_T("Data Change Fail. Lot Start Status...."));
+				st_handler_info.cWndList->SendMessage(WM_LIST_DATA, 0, NORMAL_MSG);
+			}
+
+			return;
+		}
+
+		m_nSorterPickerMode[1] = NO;
+		m_pGridDevice.SetItemBkColour(16, 0, GREEN_D, BLACK_C);
+		m_pGridDevice.SetItemBkColour(16, 1, GREEN_D, BLACK_C);
+
+		m_pGridDevice.SetItemBkColour(17, 0, GREEN_C, BLACK_C);
+		m_pGridDevice.SetItemBkColour(17, 1, GREEN_C, BLACK_C);
+	}
+	///////////////////
+	else if (nRow == 19 && m_nHsDirChkMode[1] != YES)
+	{
+		if (st_lot_info[LOT_CURR].nLotStatus >= LOT_START || st_lot_info[LOT_NEXT].nLotStatus >= LOT_START)
+		{
+			if (st_handler_info.cWndList != NULL)
+			{
+				clsMem.OnNormalMessageWrite(_T("Data Change Fail. Lot Start Status...."));
+				st_handler_info.cWndList->SendMessage(WM_LIST_DATA, 0, NORMAL_MSG);
+			}
+
+			return;
+		}
+
+		m_nHsDirChkMode[1] = YES;
+
+		m_pGridDevice.SetItemBkColour(19, 0, GREEN_C, BLACK_C);
+		m_pGridDevice.SetItemBkColour(19, 1, GREEN_C, BLACK_C);
+
+		m_pGridDevice.SetItemBkColour(20, 0, GREEN_D, BLACK_C);
+		m_pGridDevice.SetItemBkColour(20, 1, GREEN_D, BLACK_C);
+	}
+	else if (nRow == 20 && m_nHsDirChkMode[1] != NO)
+	{
+		if (st_lot_info[LOT_CURR].nLotStatus >= LOT_START || st_lot_info[LOT_NEXT].nLotStatus >= LOT_START)
+		{
+			if (st_handler_info.cWndList != NULL)
+			{
+				clsMem.OnNormalMessageWrite(_T("Data Change Fail. Lot Start Status...."));
+				st_handler_info.cWndList->SendMessage(WM_LIST_DATA, 0, NORMAL_MSG);
+			}
+
+			return;
+		}
+
+		m_nHsDirChkMode[1] = NO;
+		m_pGridDevice.SetItemBkColour(19, 0, GREEN_D, BLACK_C);
+		m_pGridDevice.SetItemBkColour(19, 1, GREEN_D, BLACK_C);
+
+		m_pGridDevice.SetItemBkColour(20, 0, GREEN_C, BLACK_C);
+		m_pGridDevice.SetItemBkColour(20, 1, GREEN_C, BLACK_C);
+	}
+	///////////////////
+	else if (nRow == 22 && m_nModuledirMode[1] != YES)
+	{
+		if (st_lot_info[LOT_CURR].nLotStatus >= LOT_START || st_lot_info[LOT_NEXT].nLotStatus >= LOT_START)
+		{
+			if (st_handler_info.cWndList != NULL)
+			{
+				clsMem.OnNormalMessageWrite(_T("Data Change Fail. Lot Start Status...."));
+				st_handler_info.cWndList->SendMessage(WM_LIST_DATA, 0, NORMAL_MSG);
+			}
+
+			return;
+		}
+
+		m_nModuledirMode[1] = YES;
+
+		m_pGridDevice.SetItemBkColour(22, 0, GREEN_C, BLACK_C);
+		m_pGridDevice.SetItemBkColour(22, 1, GREEN_C, BLACK_C);
+
+		m_pGridDevice.SetItemBkColour(23, 0, GREEN_D, BLACK_C);
+		m_pGridDevice.SetItemBkColour(23, 1, GREEN_D, BLACK_C);
+	}
+	else if (nRow == 23 && m_nModuledirMode[1] != NO)
+	{
+		if (st_lot_info[LOT_CURR].nLotStatus >= LOT_START || st_lot_info[LOT_NEXT].nLotStatus >= LOT_START)
+		{
+			if (st_handler_info.cWndList != NULL)
+			{
+				clsMem.OnNormalMessageWrite(_T("Data Change Fail. Lot Start Status...."));
+				st_handler_info.cWndList->SendMessage(WM_LIST_DATA, 0, NORMAL_MSG);
+			}
+
+			return;
+		}
+
+		m_nModuledirMode[1] = NO;
+		m_pGridDevice.SetItemBkColour(22, 0, GREEN_D, BLACK_C);
+		m_pGridDevice.SetItemBkColour(22, 1, GREEN_D, BLACK_C);
+
+		m_pGridDevice.SetItemBkColour(23, 0, GREEN_C, BLACK_C);
+		m_pGridDevice.SetItemBkColour(23, 1, GREEN_C, BLACK_C);
+	}
+	///////////////////
+	else if (nRow == 25 && m_nTrayTubeBcrMode[1] != YES)
+	{
+		if (st_lot_info[LOT_CURR].nLotStatus >= LOT_START || st_lot_info[LOT_NEXT].nLotStatus >= LOT_START)
+		{
+			if (st_handler_info.cWndList != NULL)
+			{
+				clsMem.OnNormalMessageWrite(_T("Data Change Fail. Lot Start Status...."));
+				st_handler_info.cWndList->SendMessage(WM_LIST_DATA, 0, NORMAL_MSG);
+			}
+
+			return;
+		}
+
+		m_nTrayTubeBcrMode[1] = YES;
+
+		m_pGridDevice.SetItemBkColour(25, 0, GREEN_C, BLACK_C);
+		m_pGridDevice.SetItemBkColour(25, 1, GREEN_C, BLACK_C);
+
+		m_pGridDevice.SetItemBkColour(26, 0, GREEN_D, BLACK_C);
+		m_pGridDevice.SetItemBkColour(26, 1, GREEN_D, BLACK_C);
+	}
+	else if (nRow == 26 && m_nTrayTubeBcrMode[1] != NO)
+	{
+		if (st_lot_info[LOT_CURR].nLotStatus >= LOT_START || st_lot_info[LOT_NEXT].nLotStatus >= LOT_START)
+		{
+			if (st_handler_info.cWndList != NULL)
+			{
+				clsMem.OnNormalMessageWrite(_T("Data Change Fail. Lot Start Status...."));
+				st_handler_info.cWndList->SendMessage(WM_LIST_DATA, 0, NORMAL_MSG);
+			}
+
+			return;
+		}
+		m_nTrayTubeBcrMode[1] = NO;
+
+		m_pGridDevice.SetItemBkColour(25, 0, GREEN_D, BLACK_C);
+		m_pGridDevice.SetItemBkColour(25, 1, GREEN_D, BLACK_C);
+
+		m_pGridDevice.SetItemBkColour(26, 0, GREEN_C, BLACK_C);
+		m_pGridDevice.SetItemBkColour(26, 1, GREEN_C, BLACK_C);
+	}
+
 
 	m_pGridDevice.Invalidate();
 }
@@ -1059,24 +1425,6 @@ void CScreenBasic::OnDataHistoryLog()
 		clsFunc.OnLogFileAdd(0, strMsg);
 	}
 
-	if (m_nModeFrontSmema[0]			!= m_nModeFrontSmema[1])
-	{
-		strMsg.Format(_T("[BASIC] Front Smema Check Mode Change %d -> %d"), m_nModeFrontSmema[0], m_nModeFrontSmema[1]);
-		clsFunc.OnLogFileAdd(0, strMsg);
-	}
-
-	if (m_nModeRearSmema[0]			!= m_nModeRearSmema[1])
-	{
-		strMsg.Format(_T("[BASIC] Rear Smema Check Mode Change %d -> %d"), m_nModeRearSmema[0], m_nModeRearSmema[1]);
-		clsFunc.OnLogFileAdd(0, strMsg);
-	}
-	
-	if (m_nModeRfid[0]			!= m_nModeRfid[1])
-	{
-		strMsg.Format(_T("[BASIC] RFID Mode Change %d -> %d"), m_nModeRfid[0], m_nModeRfid[1]);
-		clsFunc.OnLogFileAdd(0, strMsg);
-	}
-
 	
 	if (m_strModelName[0]		!= m_strModelName[1])
 	{
@@ -1111,19 +1459,20 @@ void CScreenBasic::OnDataHistoryLog()
 
 	if (m_nModuledirMode[0]		!= m_nModuledirMode[1])
 	{
-		strMsg.Format(_T("[BASIC] Module direction Mode Change %s -> %s"), m_nModuledirMode[0], m_nModuledirMode[1]);
+		strMsg.Format(_T("[BASIC] Module direction Mode Change %d -> %d"), m_nModuledirMode[0], m_nModuledirMode[1]);
+		clsFunc.OnLogFileAdd(0, strMsg);
+	}
+
+	//kwlee 2017.0517
+	if (m_nTrayTubeBcrMode[0]		!= m_nTrayTubeBcrMode[1])
+	{
+		strMsg.Format(_T("[BASIC] Tray & Tube Bcr Mode Mode Change %d -> %d"), m_nTrayTubeBcrMode[0], m_nTrayTubeBcrMode[1]);
 		clsFunc.OnLogFileAdd(0, strMsg);
 	}
 
 	if (m_nLotSet_Module_Load[0]			!= m_nLotSet_Module_Load[1])
 	{
 		strMsg.Format(_T("[BASIC] LotSet_Module_Load Change %d -> %d"), m_nLotSet_Module_Load[0], m_nLotSet_Module_Load[1]);
-		clsFunc.OnLogFileAdd(0, strMsg);
-	}
-
-	if (m_nModeRearSmema[0]			!= m_nModeRearSmema[1])
-	{
-		strMsg.Format(_T("[BASIC] Rear Smema Check Mode Change %d -> %d"), m_nModeRearSmema[0], m_nModeRearSmema[1]);
 		clsFunc.OnLogFileAdd(0, strMsg);
 	}
 
@@ -1136,7 +1485,7 @@ void CScreenBasic::OnDataHistoryLog()
 
 	if (m_nLotSet_HeatSinkRight[0]		!= m_nLotSet_HeatSinkRight[1])
 	{
-		strMsg.Format(_T("[BASIC] LotSet_HeatSink Right Change %s -> %s"), m_nLotSet_HeatSinkRight[0], m_nLotSet_HeatSinkRight[1]);
+		strMsg.Format(_T("[BASIC] LotSet_HeatSink Right Change %d -> %d"), m_nLotSet_HeatSinkRight[0], m_nLotSet_HeatSinkRight[1]);
 		clsFunc.OnLogFileAdd(0, strMsg);
 	}
 
@@ -1158,21 +1507,21 @@ void CScreenBasic::OnDataHistoryLog()
 		clsFunc.OnLogFileAdd(0, strMsg);
 	}
 
-	if (m_nPicker_Gap_Module_Load[0]		!= m_nPicker_Gap_Module_Load[1])
+	if (m_dPicker_Gap_Module_Load[0]		!= m_dPicker_Gap_Module_Load[1])
 	{
-		strMsg.Format(_T("[BASIC] Picker_Gap_Module_Load Change %d -> %d"), m_nPicker_Gap_Module_Load[0], m_nPicker_Gap_Module_Load[1]);
+		strMsg.Format(_T("[BASIC] Picker_Gap_Module_Load Change %0.3f -> %0.3f"), m_dPicker_Gap_Module_Load[0], m_dPicker_Gap_Module_Load[1]);
 		clsFunc.OnLogFileAdd(0, strMsg);
 	}
 
-	if (m_nPicker_Gap_HeatSink_Left[0]		!= m_nPicker_Gap_HeatSink_Left[1])
+	if (m_dPicker_Gap_HeatSink_Left[0]		!= m_dPicker_Gap_HeatSink_Left[1])
 	{
-		strMsg.Format(_T("[BASIC] Picker_Gap_HeatSink_Left Change %s -> %s"), m_nPicker_Gap_HeatSink_Left[0], m_nPicker_Gap_HeatSink_Left[1]);
+		strMsg.Format(_T("[BASIC] Picker_Gap_HeatSink_Left Change %0.3f -> %0.3f"), m_dPicker_Gap_HeatSink_Left[0], m_dPicker_Gap_HeatSink_Left[1]);
 		clsFunc.OnLogFileAdd(0, strMsg);
 	}
 
-	if (m_nPicker_Gap_HeatSink_Right[0]			!= m_nPicker_Gap_HeatSink_Right[1])
+	if (m_dPicker_Gap_HeatSink_Right[0]			!= m_dPicker_Gap_HeatSink_Right[1])
 	{
-		strMsg.Format(_T("[BASIC] Picker_Gap_HeatSink_Right Change %d -> %d"), m_nPicker_Gap_HeatSink_Right[0], m_nPicker_Gap_HeatSink_Right[1]);
+		strMsg.Format(_T("[BASIC] Picker_Gap_HeatSink_Right Change %0.3f -> %d"), m_dPicker_Gap_HeatSink_Right[0], m_dPicker_Gap_HeatSink_Right[1]);
 		clsFunc.OnLogFileAdd(0, strMsg);
 	}
 
@@ -1190,49 +1539,49 @@ void CScreenBasic::OnDataHistoryLog()
 
 	if (m_nNetwork_Retry_Cnt[0]		!= m_nNetwork_Retry_Cnt[1])
 	{
-		strMsg.Format(_T("[BASIC]Network_Retry_Cnt Change %s -> %s"), m_nNetwork_Retry_Cnt[0], m_nNetwork_Retry_Cnt[1]);
+		strMsg.Format(_T("[BASIC]Network_Retry_Cnt Change %d -> %d"), m_nNetwork_Retry_Cnt[0], m_nNetwork_Retry_Cnt[1]);
 		clsFunc.OnLogFileAdd(0, strMsg);
 	}
 
 	if (m_nLabel_Bin_Printer[0]		!= m_nLabel_Bin_Printer[1])
 	{
-		strMsg.Format(_T("[BASIC] Label_Bin_Printer Change %s -> %s"), m_nLabel_Bin_Printer[0], m_nLabel_Bin_Printer[1]);
+		strMsg.Format(_T("[BASIC] Label_Bin_Printer Change %d -> %d"), m_nLabel_Bin_Printer[0], m_nLabel_Bin_Printer[1]);
 		clsFunc.OnLogFileAdd(0, strMsg);
 	}
 
 	if (m_nLabel_Vision_Paper[0]		!= m_nLabel_Vision_Paper[1])
 	{
-		strMsg.Format(_T("[BASIC] Label_Vision_Paper Change %s -> %s"), m_nLabel_Vision_Paper[0], m_nLabel_Vision_Paper[1]);
+		strMsg.Format(_T("[BASIC] Label_Vision_Paper Change %d -> %d"), m_nLabel_Vision_Paper[0], m_nLabel_Vision_Paper[1]);
 		clsFunc.OnLogFileAdd(0, strMsg);
 	}
 
 	if (m_nLabel_Error_Cnt[0]		!= m_nLabel_Error_Cnt[1])
 	{
-		strMsg.Format(_T("[BASIC] Label_Error_Cnt Change %s -> %s"), m_nLabel_Error_Cnt[0], m_nLabel_Error_Cnt[1]);
+		strMsg.Format(_T("[BASIC] Label_Error_Cnt Change %d -> %d"), m_nLabel_Error_Cnt[0], m_nLabel_Error_Cnt[1]);
 		clsFunc.OnLogFileAdd(0, strMsg);
 	}
 
 	if (m_nDvc_Repick_Cnt[0]		!= m_nDvc_Repick_Cnt[1])
 	{
-		strMsg.Format(_T("[BASIC] Dvc_Repick_Cnt Change %s -> %s"), m_nDvc_Repick_Cnt[0], m_nDvc_Repick_Cnt[1]);
+		strMsg.Format(_T("[BASIC] Dvc_Repick_Cnt Change %d -> %d"), m_nDvc_Repick_Cnt[0], m_nDvc_Repick_Cnt[1]);
 		clsFunc.OnLogFileAdd(0, strMsg);
 	}
 
 	if (m_nContinue_Error[0]		!= m_nContinue_Error[1])
 	{
-		strMsg.Format(_T("[BASIC] Continue_Error Cnt Change %s -> %s"), m_nContinue_Error[0], m_nContinue_Error[1]);
+		strMsg.Format(_T("[BASIC] Continue_Error Cnt Change %d -> %d"), m_nContinue_Error[0], m_nContinue_Error[1]);
 		clsFunc.OnLogFileAdd(0, strMsg);
 	}
 
 	if (m_nTotal_Error[0]		!= m_nTotal_Error[1])
 	{
-		strMsg.Format(_T("[BASIC] Total_Error Cnt Change %s -> %s"), m_nTotal_Error[0], m_nTotal_Error[1]);
+		strMsg.Format(_T("[BASIC] Total_Error Cnt Change %d -> %d"), m_nTotal_Error[0], m_nTotal_Error[1]);
 		clsFunc.OnLogFileAdd(0, strMsg);
 	}
 
 	if (mn_mode_use_vis_cont_err[0]		!= mn_mode_use_vis_cont_err[1])
 	{
-		strMsg.Format(_T("[BASIC] mode_use_vis_cont_err Change %s -> %s"), mn_mode_use_vis_cont_err[0], mn_mode_use_vis_cont_err[1]);
+		strMsg.Format(_T("[BASIC] mode_use_vis_cont_err Change %d -> %d"), mn_mode_use_vis_cont_err[0], mn_mode_use_vis_cont_err[1]);
 		clsFunc.OnLogFileAdd(0, strMsg);
 	}
 }
@@ -1259,9 +1608,9 @@ void CScreenBasic::OnDataRecovery()
 	m_nLotSet_Unloader[1]			=	m_nLotSet_Unloader[0];
 	m_nLotSet_Reject[1]				=	m_nLotSet_Reject[0];
 
-	m_nPicker_Gap_Module_Load[1]	=  m_nPicker_Gap_Module_Load[0];
-	m_nPicker_Gap_HeatSink_Left[1]  =  m_nPicker_Gap_HeatSink_Left[0];
-	m_nPicker_Gap_HeatSink_Right[1]	=  m_nPicker_Gap_HeatSink_Right[0];
+	m_dPicker_Gap_Module_Load[1]	=  m_dPicker_Gap_Module_Load[0];
+	m_dPicker_Gap_HeatSink_Left[1]  =  m_dPicker_Gap_HeatSink_Left[0];
+	m_dPicker_Gap_HeatSink_Right[1]	=  m_dPicker_Gap_HeatSink_Right[0];
 
 	m_nNetwork_Wait_Time[1]	   =  m_nNetwork_Wait_Time[0];
 	m_nNetwork_Retry_Cnt[1]	   =  m_nNetwork_Retry_Cnt[0];
@@ -1280,6 +1629,8 @@ void CScreenBasic::OnDataRecovery()
 	m_nContinue_Error[1]		=	m_nContinue_Error[0];
 	m_nTotal_Error[1]			=	m_nTotal_Error[0];
 	mn_mode_use_vis_cont_err[1]	=	mn_mode_use_vis_cont_err[0];
+
+	m_nTrayTubeBcrMode[1]		   =  m_nTrayTubeBcrMode[0]; //kwlee 2017.0517
 }
 
 
@@ -1298,34 +1649,36 @@ int	CScreenBasic::OnDataComparison()
 	if (m_strModelName[0]		!= m_strModelName[1])			return RET_ERROR;
 
 	//kwlee 2017.0515
-	if (m_nLotSet_Module_Load[1]		!=	m_nLotSet_Module_Load[0]) return RET_ERROR;
-	if (m_nLotSet_HeatSinkLeft[1]		!=	m_nLotSet_HeatSinkLeft[0]) return RET_ERROR;
-	if (m_nLotSet_HeatSinkRight[1]		!=	m_nLotSet_HeatSinkRight[0]) return RET_ERROR;
-	if (m_nLotSet_Clip[1]				!=	m_nLotSet_Clip[0]) return RET_ERROR;
-	if (m_nLotSet_Unloader[1]			!=	m_nLotSet_Unloader[0]) return RET_ERROR;
-	if (m_nLotSet_Reject[1]				!=	m_nLotSet_Reject[0]) return RET_ERROR;
+	if (m_nLotSet_Module_Load[0]		!=	m_nLotSet_Module_Load[1]) return RET_ERROR;
+	if (m_nLotSet_HeatSinkLeft[0]		!=	m_nLotSet_HeatSinkLeft[1]) return RET_ERROR;
+	if (m_nLotSet_HeatSinkRight[0]		!=	m_nLotSet_HeatSinkRight[1]) return RET_ERROR;
+	if (m_nLotSet_Clip[0]				!=	m_nLotSet_Clip[1]) return RET_ERROR;
+	if (m_nLotSet_Unloader[0]			!=	m_nLotSet_Unloader[1]) return RET_ERROR;
+	if (m_nLotSet_Reject[0]				!=	m_nLotSet_Reject[1]) return RET_ERROR;
 
-	if (m_nPicker_Gap_Module_Load[1]	!=  m_nPicker_Gap_Module_Load[0]) return RET_ERROR;
-	if (m_nPicker_Gap_HeatSink_Left[1]  !=  m_nPicker_Gap_HeatSink_Left[0]) return RET_ERROR;
-	if (m_nPicker_Gap_HeatSink_Right[1]	!=  m_nPicker_Gap_HeatSink_Right[0]) return RET_ERROR;
+	if (m_dPicker_Gap_Module_Load[0]	!=  m_dPicker_Gap_Module_Load[1]) return RET_ERROR;
+	if (m_dPicker_Gap_HeatSink_Left[0]  !=  m_dPicker_Gap_HeatSink_Left[1]) return RET_ERROR;
+	if (m_dPicker_Gap_HeatSink_Right[0]	!=  m_dPicker_Gap_HeatSink_Right[1]) return RET_ERROR;
 
-	if (m_nNetwork_Wait_Time[1]	   !=  m_nNetwork_Wait_Time[0]) return RET_ERROR;
-	if (m_nNetwork_Retry_Cnt[1]	   !=  m_nNetwork_Retry_Cnt[0]) return RET_ERROR;
-	if (m_nLabel_Bin_Printer[1]	   !=  m_nLabel_Bin_Printer[0]) return RET_ERROR;
-	if (m_nLabel_Error_Cnt[1]	   !=  m_nLabel_Error_Cnt[0]) return RET_ERROR;
-	if (m_nLabel_Vision_Paper[1]   !=  m_nLabel_Vision_Paper[0]) return RET_ERROR;
-	if (m_nAlarm_Delay[1]		   !=  m_nAlarm_Delay[0]) return RET_ERROR;
-	if (m_nDvc_Repick_Cnt[1]	   !=  m_nDvc_Repick_Cnt[0]) return RET_ERROR;
+	if (m_nNetwork_Wait_Time[0]	   !=  m_nNetwork_Wait_Time[1]) return RET_ERROR;
+	if (m_nNetwork_Retry_Cnt[0]	   !=  m_nNetwork_Retry_Cnt[1]) return RET_ERROR;
+	if (m_nLabel_Bin_Printer[0]	   !=  m_nLabel_Bin_Printer[1]) return RET_ERROR;
+	if (m_nLabel_Error_Cnt[0]	   !=  m_nLabel_Error_Cnt[1]) return RET_ERROR;
+	if (m_nLabel_Vision_Paper[0]   !=  m_nLabel_Vision_Paper[1]) return RET_ERROR;
+	if (m_nAlarm_Delay[0]		   !=  m_nAlarm_Delay[1]) return RET_ERROR;
+	if (m_nDvc_Repick_Cnt[0]	   !=  m_nDvc_Repick_Cnt[1]) return RET_ERROR;
 
-	if (m_nCapRemoverMode[1]	   !=  m_nCapRemoverMode[0]) return RET_ERROR;
-	if (m_nClipRemoverErrorMode[1] !=  m_nClipRemoverErrorMode[0]) return RET_ERROR;
-	if (m_nModuledirMode[1]		   !=  m_nModuledirMode[0]) return RET_ERROR;
-	if (m_nHsDirChkMode[1]		   !=  m_nHsDirChkMode[0]) return RET_ERROR;
-	if (m_nSorterPickerMode[1]	   !=  m_nSorterPickerMode[0]) return RET_ERROR;
+	if (m_nCapRemoverMode[0]	   !=  m_nCapRemoverMode[1]) return RET_ERROR;
+	if (m_nClipRemoverErrorMode[0] !=  m_nClipRemoverErrorMode[1]) return RET_ERROR;
+	if (m_nModuledirMode[0]		   !=  m_nModuledirMode[1]) return RET_ERROR;
+	if (m_nHsDirChkMode[0]		   !=  m_nHsDirChkMode[1]) return RET_ERROR;
+	if (m_nSorterPickerMode[0]	   !=  m_nSorterPickerMode[1]) return RET_ERROR;
 	
-	if (m_nContinue_Error[1]	   !=  m_nContinue_Error[0]) return RET_ERROR;
-	if (m_nTotal_Error[1]		   !=  m_nTotal_Error[0]) return RET_ERROR;
-	if (mn_mode_use_vis_cont_err[1]	   !=  mn_mode_use_vis_cont_err[0]) return RET_ERROR;
+	if (m_nContinue_Error[0]	   !=  m_nContinue_Error[1]) return RET_ERROR;
+	if (m_nTotal_Error[0]		   !=  m_nTotal_Error[1]) return RET_ERROR;
+	if (mn_mode_use_vis_cont_err[0]	   !=  mn_mode_use_vis_cont_err[1]) return RET_ERROR;
+
+	if (m_nTrayTubeBcrMode[0]		   !=  m_nTrayTubeBcrMode[1]) return RET_ERROR; //kwlee 2017.0517
 	return RET_GOOD;
 }
 
@@ -1347,9 +1700,9 @@ void CScreenBasic::OnDataApply()
 	st_basic_info.nLotSetUnloader = m_nLotSet_Unloader[1];
 	st_basic_info.nLotSetReject = m_nLotSet_Reject[1];
 
-	st_basic_info.nPickGapModuleLoad = m_nPicker_Gap_Module_Load[1];
-	st_basic_info.nPickGapHeatSinkLeft = m_nPicker_Gap_HeatSink_Left[1];
-	st_basic_info.nPickGapHeatSinkRight = m_nPicker_Gap_HeatSink_Right[1];
+	st_basic_info.dPickGapModuleLoad = m_dPicker_Gap_Module_Load[1];
+	st_basic_info.dPickGapHeatSinkLeft = m_dPicker_Gap_HeatSink_Left[1];
+	st_basic_info.dPickGapHeatSinkRight = m_dPicker_Gap_HeatSink_Right[1];
 
 	st_basic_info.nNetworkWaitTime = m_nNetwork_Wait_Time[1];
 	st_basic_info.nNetworkRetryCnt = m_nNetwork_Retry_Cnt[1];
@@ -1368,7 +1721,7 @@ void CScreenBasic::OnDataApply()
 	st_basic_info.n_mode_use_vis_cont_err = mn_mode_use_vis_cont_err[1];
 	st_basic_info.n_vis_cont_err = m_nContinue_Error[1];
 	st_basic_info.n_vis_tot_err = m_nTotal_Error[1];
-
+	st_basic_info.n_TrayTubeBcrMode = m_nTrayTubeBcrMode[1]; //kwlee 2017.0517
 
 }
 
@@ -1392,9 +1745,9 @@ void CScreenBasic::OnDataBackup()
 	m_nLotSet_Unloader[0]			=	m_nLotSet_Unloader[1];
 	m_nLotSet_Reject[0]				=	m_nLotSet_Reject[1];
 
-	m_nPicker_Gap_Module_Load[0]	=  m_nPicker_Gap_Module_Load[1];
-	m_nPicker_Gap_HeatSink_Left[0]  =  m_nPicker_Gap_HeatSink_Left[1];
-	m_nPicker_Gap_HeatSink_Right[0]	=  m_nPicker_Gap_HeatSink_Right[1];
+	m_dPicker_Gap_Module_Load[0]	=  m_dPicker_Gap_Module_Load[1];
+	m_dPicker_Gap_HeatSink_Left[0]  =  m_dPicker_Gap_HeatSink_Left[1];
+	m_dPicker_Gap_HeatSink_Right[0]	=  m_dPicker_Gap_HeatSink_Right[1];
 
 	m_nNetwork_Wait_Time[0]	   =  m_nNetwork_Wait_Time[1];
 	m_nNetwork_Retry_Cnt[0]	   =  m_nNetwork_Retry_Cnt[1];
@@ -1414,6 +1767,7 @@ void CScreenBasic::OnDataBackup()
 	m_nTotal_Error[0]			   =	m_nTotal_Error[1];
 	mn_mode_use_vis_cont_err[0]    =	mn_mode_use_vis_cont_err[1];
 
+	m_nTrayTubeBcrMode[0]		   =  m_nTrayTubeBcrMode[1];
 }
 
 
@@ -1425,16 +1779,16 @@ void CScreenBasic::OnDataInit()
 	m_strModelName[1]					= st_basic_info.strModelName;
 
 	//kwlee 2017.0515
-	m_nLotSet_Module_Load[1]	=		st_basic_info.nLotSetModuleLoad;		 
-	m_nLotSet_HeatSinkLeft[1]	=		st_basic_info.nLotSetHeatSinkLeft;		 
-	m_nLotSet_HeatSinkRight[1]	=		st_basic_info.nLotSetHeatSinkRight;	 
-	m_nLotSet_Clip[1]			=		st_basic_info.nLotSetClip;				 
-	m_nLotSet_Unloader[1]		=		st_basic_info.nLotSetUnloader;			 
-	m_nLotSet_Reject[1]			=		st_basic_info.nLotSetReject;			 
+	m_nLotSet_Module_Load[1]		 =		st_basic_info.nLotSetModuleLoad;		 
+	m_nLotSet_HeatSinkLeft[1]		 =		st_basic_info.nLotSetHeatSinkLeft;		 
+	m_nLotSet_HeatSinkRight[1]		 =		st_basic_info.nLotSetHeatSinkRight;	 
+	m_nLotSet_Clip[1]				 =		st_basic_info.nLotSetClip;				 
+	m_nLotSet_Unloader[1]			 =		st_basic_info.nLotSetUnloader;			 
+	m_nLotSet_Reject[1]				 =		st_basic_info.nLotSetReject;			 
 											 
-	m_nPicker_Gap_Module_Load[1]	 =	st_basic_info.nPickGapModuleLoad;		 
-	m_nPicker_Gap_HeatSink_Left[1]	 =	st_basic_info.nPickGapHeatSinkLeft;	 
-	m_nPicker_Gap_HeatSink_Right[1]  =	st_basic_info.nPickGapHeatSinkRight;	 
+	m_dPicker_Gap_Module_Load[1]	 =	st_basic_info.dPickGapModuleLoad;		 
+	m_dPicker_Gap_HeatSink_Left[1]	 =	st_basic_info.dPickGapHeatSinkLeft;	 
+	m_dPicker_Gap_HeatSink_Right[1]  =	st_basic_info.dPickGapHeatSinkRight;	 
 											 
 	m_nNetwork_Wait_Time[1]			=	st_basic_info.nNetworkWaitTime;		 
 	m_nNetwork_Retry_Cnt[1]			=	st_basic_info.nNetworkRetryCnt;		 
@@ -1450,10 +1804,11 @@ void CScreenBasic::OnDataInit()
 	m_nHsDirChkMode[1]				=	st_basic_info.n_mode_hs_direction;		 
 	m_nSorterPickerMode[1]			=	st_basic_info.n_mode_use_sorter_picker; 
 
- 	// mn_mode_use_vis_cont_err[1]	=  st_basic_info.n_mode_use_vis_cont_err ;
+ 	 mn_mode_use_vis_cont_err[1]	=  st_basic_info.n_mode_use_vis_cont_err ;
  	m_nContinue_Error[1]			=  st_basic_info.n_vis_cont_err;
  	m_nTotal_Error[1]               =  st_basic_info.n_vis_tot_err;
 
+	m_nTrayTubeBcrMode[1]			=  st_basic_info.n_TrayTubeBcrMode; //kwlee 2017.0517	
 	OnDataBackup();
 }
 
@@ -1895,4 +2250,220 @@ HBRUSH CScreenBasic::OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor)
 void CScreenBasic::OnTimer(UINT_PTR nIDEvent)
 {
 	CFormView::OnTimer(nIDEvent);
+}
+
+
+void CScreenBasic::OnBnClickedBtnHsVisContinue()
+{
+	if(mn_mode_use_vis_cont_err[1] == YES)
+	{
+		mn_mode_use_vis_cont_err[1] = NO;
+		m_btn_Hs_Vis_Continue.SetBitmaps(IDC_BTN_SM_PASSWORD_CHANGE_LEVEL2, IDB_BITMAP_USED_DN, WINDOW_DN, IDB_BITMAP_USED_DN, WINDOW_UP);
+		m_btn_Hs_Vis_Continue.SetWindowTextW(_T("Continue Err Not Use"));
+	}
+	else
+	{
+		mn_mode_use_vis_cont_err[1] = YES;
+		m_btn_Hs_Vis_Continue.SetBitmaps(IDC_BTN_SM_PASSWORD_CHANGE_LEVEL2, IDB_BITMAP_USED_UP, WINDOW_DN, IDB_BITMAP_USED_UP, WINDOW_UP);
+		m_btn_Hs_Vis_Continue.SetWindowTextW(_T("Continue Err Use"));
+	}
+}
+
+
+void CScreenBasic::OnStnClickedDgtContinueError()
+{
+	int nKey = m_nContinue_Error[1];
+
+	KeyPadI(1, 100, &nKey);
+
+	m_nContinue_Error[1] = nKey;
+	m_dgt_Continue_Error.SetVal(nKey);
+}
+
+
+void CScreenBasic::OnStnClickedDgtPickerGapHeatsinkLeft()
+{
+	double dKey = m_dPicker_Gap_HeatSink_Left[1];
+
+	KeyPadD(0.0f, 1000.00f, &dKey);
+
+	m_dPicker_Gap_HeatSink_Left[1] = dKey;
+	m_dgt_Picker_gap_HeatSink_Left.SetFloatVal((float)dKey);
+}
+
+
+void CScreenBasic::OnStnClickedDgtPickerGapHeatsinkRight()
+{
+	double dKey = m_dPicker_Gap_HeatSink_Right[1];
+
+	KeyPadD(0.0f, 1000.00f, &dKey);
+
+	m_dPicker_Gap_HeatSink_Right[1] = dKey;
+	m_dgt_Picker_gap_HeatSink_Right.SetFloatVal((float)dKey);
+}
+
+
+void CScreenBasic::OnStnClickedDgtPickerGapModuleLoad()
+{
+	double dKey = m_dPicker_Gap_Module_Load[1];
+	KeyPadD(0.0f, 100000.00f, &dKey);
+	m_dPicker_Gap_Module_Load[1] = dKey;
+	
+	m_dgt_Picker_gap_Module_load.SetFloatVal((float)dKey);
+}
+
+
+void CScreenBasic::OnStnClickedDgtTotalError()
+{
+	int nKey = m_nTotal_Error[1];
+
+	KeyPadI(1, 100, &nKey);
+
+	m_nTotal_Error[1] = nKey;
+	m_dgt_Total_Error.SetVal(nKey);
+}
+
+
+void CScreenBasic::OnStnClickedDgtLotsetModuleLoad()
+{
+	int nKey = m_nLotSet_Module_Load[1];
+
+	KeyPadI(1, 100, &nKey);
+
+	m_nLotSet_Module_Load[1] = nKey;
+	m_dgt_LotSet_Module_Load.SetVal(nKey);
+}
+
+
+void CScreenBasic::OnStnClickedDgtLotsetHeatsinkLeft()
+{
+	int nKey = m_nLotSet_HeatSinkLeft[1];
+
+	KeyPadI(1, 100, &nKey);
+
+	m_nLotSet_HeatSinkLeft[1] = nKey;
+	m_dgt_LotSet_HeatSink_Left.SetVal(nKey);
+}
+
+
+void CScreenBasic::OnStnClickedDgtLotsetHeatsinkRight()
+{
+	int nKey = m_nLotSet_HeatSinkRight[1];
+
+	KeyPadI(1, 100, &nKey);
+
+	m_nLotSet_HeatSinkRight[1] = nKey;
+	m_dgt_LotSet_HeatSink_Right.SetVal(nKey);
+}
+
+
+void CScreenBasic::OnStnClickedDgtLotsetClip()
+{
+	int nKey = m_nLotSet_Clip[1];
+
+	KeyPadI(1, 100, &nKey);
+
+	m_nLotSet_Clip[1] = nKey;
+	m_dgt_LotSet_Clip.SetVal(nKey);
+}
+
+
+void CScreenBasic::OnStnClickedDgtLotsetUnloader()
+{
+	int nKey = m_nLotSet_Unloader[1];
+
+	KeyPadI(1, 100, &nKey);
+
+	m_nLotSet_Unloader[1] = nKey;
+	m_dgt_LotSet_Unloader.SetVal(nKey);
+}
+
+
+void CScreenBasic::OnStnClickedDgtLotsetReject()
+{
+	int nKey = m_nLotSet_Reject[1];
+
+	KeyPadI(1, 100, &nKey);
+
+	m_nLotSet_Reject[1] = nKey;
+	m_dgt_LotSet_Reject.SetVal(nKey);
+}
+
+
+void CScreenBasic::OnStnClickedDgtNetworkRetryCnt()
+{
+	int nKey = m_nNetwork_Retry_Cnt[1];
+
+	KeyPadI(1, 100, &nKey);
+
+	m_nNetwork_Retry_Cnt[1] = nKey;
+	m_dgt_network_retry_cnt.SetVal(nKey);
+	
+}
+
+
+void CScreenBasic::OnStnClickedDgtLabelErrorCnt()
+{
+	int nKey = m_nLabel_Error_Cnt[1];
+
+	KeyPadI(1, 100, &nKey);
+
+	m_nLabel_Error_Cnt[1] = nKey;
+	m_dgt_Label_Error_Cnt.SetVal(nKey);
+}
+
+
+void CScreenBasic::OnStnClickedDgtNetworkWaitTime()
+{
+	int nKey = m_nNetwork_Wait_Time[1];
+
+	KeyPadI(1, 100, &nKey);
+
+	m_nNetwork_Wait_Time[1] = nKey;
+	m_dgt_network_wait_time.SetVal(nKey);
+}
+
+
+void CScreenBasic::OnStnClickedDgtLabelVisionPaper()
+{
+	int nKey = m_nLabel_Vision_Paper[1];
+
+	KeyPadI(1, 100, &nKey);
+
+	m_nLabel_Vision_Paper[1] = nKey;
+	m_dgt_Label_Vision_Paper.SetVal(nKey);
+}
+
+
+void CScreenBasic::OnStnClickedDgtAlarmDelay()
+{
+	int nKey = m_nAlarm_Delay[1];
+
+	KeyPadI(1, 100, &nKey);
+
+	m_nAlarm_Delay[1] = nKey;
+	m_dgt_Alarm_Delay.SetVal(nKey);
+}
+
+
+void CScreenBasic::OnStnClickedDgtLabelBinPrint()
+{
+	int nKey = m_nLabel_Bin_Printer[1];
+
+	KeyPadI(1, 100, &nKey);
+
+	m_nLabel_Bin_Printer[1] = nKey;
+	m_dgt_Label_bin_Print.SetVal(nKey);
+
+}
+
+
+void CScreenBasic::OnStnClickedDgtDvcRepickCnt()
+{
+	int nKey = m_nDvc_Repick_Cnt[1];
+
+	KeyPadI(1, 100, &nKey);
+
+	m_nDvc_Repick_Cnt[1] = nKey;
+	m_dgt_Dvc_Repick_Cnt.SetVal(nKey);
 }
