@@ -719,6 +719,7 @@ struct tagBASIC_INFO
 	CString strModelName;			// [Title Bar 상태 표시] < 비젼에서 설정한 JOB 정보 표시 >
 	CString strEqp;
 	CString strDevice;
+	
 	bool bEnableFlag;
 
 	int nModeDevice;
@@ -728,6 +729,8 @@ struct tagBASIC_INFO
 	int nModeXgemInterface;
 	int nModeXgemRunChk;
 	//kwlee 2017.0515
+	CString mstr_label_name;
+
 	int nLotSetModuleLoad;
 	int nLotSetHeatSinkLeft;
 	int nLotSetHeatSinkRight;
@@ -758,6 +761,34 @@ struct tagBASIC_INFO
 	int n_vis_tot_err;
 
 	int n_TrayTubeBcrMode;
+
+	//kwlee 2017.0518
+	int mn_data_change_list; 
+	int n_mode_label;		   
+	int mn_labelset_sd;	   
+	int mn_labelset_lt;	   
+	int mn_labelset_lh1;	   
+	int mn_labelset_lh2;	   
+	int md_labelset_x1_pos;   
+	int md_labelset_x2_pos;   
+	int md_labelset_x3_pos;   
+	int md_labelset_x4_pos;   
+	int md_labelset_x5_pos;   
+	int md_labelset_x6_pos;   
+	int md_labelset_y1_pos;   
+	int md_labelset_y2_pos;   
+	int md_labelset_y3_pos;   
+	int md_labelset_y4_pos;   
+	int md_labelset_y5_pos;   
+	int md_labelset_y6_pos;   
+	int md_labelset_x1_width; 
+	int md_labelset_x2_width; 
+	int md_labelset_x3_width; 
+	int md_labelset_x4_width; 
+	int md_labelset_y1_height;
+	int md_labelset_y2_height;
+	int md_labelset_y3_height;
+	int md_labelset_y4_height;
 } ;
 extern  tagBASIC_INFO  st_basic_info;
 // ******************************************************************************

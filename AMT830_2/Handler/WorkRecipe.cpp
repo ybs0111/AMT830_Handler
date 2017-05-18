@@ -109,8 +109,6 @@ void CWorkRecipe::OnInitLabel()
 	m_msg_Tray_Size_y.SetColor(WHITE_C);
 	m_msg_Tray_Size_y.SetGradientColor(GREEN_C);
 	m_msg_Tray_Size_y.SetTextColor(BLACK_C);
-
-	
 }
 
 void CWorkRecipe::OnInitDigit()
@@ -147,7 +145,18 @@ void CWorkRecipe::OnInitButton()
 
 void CWorkRecipe::OnDataHistoryLog()
 {	
-	
+	CString strMsg;
+
+	if (m_nTraySize_X[0]	!=	m_nTraySize_X[1])
+	{
+		strMsg.Format(_T("Tray Size X Change %d -> %d"), m_nTraySize_X[0], m_nTraySize_X[1]);
+		clsFunc.OnLogFileAdd(0, strMsg);
+	}
+	if (m_nTraySize_Y[0]	!=	m_nTraySize_Y[1])		
+	{
+		strMsg.Format(_T("Tray Size Y Change %d -> %d"), m_nTraySize_Y[0], m_nTraySize_Y[1]);
+		clsFunc.OnLogFileAdd(0, strMsg);
+	}
 }
 
 
@@ -159,27 +168,34 @@ void CWorkRecipe::OnDataRecovery()
 
 int CWorkRecipe::OnDataComparison()
 {
-
-
+	//kwlee 2017.0518
+	if (m_nTraySize_X[0]	!= m_nTraySize_X[1]) return RET_ERROR;
+	if (m_nTraySize_Y[0]	!= m_nTraySize_Y[1]) return RET_ERROR;
 	return RET_GOOD;
 }
 
 
 void CWorkRecipe::OnDataApply()
 {
-	
+	//kwlee 2017.0518
+	st_recipe_info.nTrayY				=	m_nTraySize_X[1];	
+	st_recipe_info.nTrayX				=	m_nTraySize_Y[1];	
 }
 
 
 void CWorkRecipe::OnDataBackup()
 {
-
+	//kwlee 2017.0518
+	m_nTraySize_X[0] =	m_nTraySize_X[1]; 
+	m_nTraySize_Y[0] =	m_nTraySize_Y[1]; 
 }
 
 
 void CWorkRecipe::OnDataInit()
 {
-
+	//kwlee 2017.0518
+	m_nTraySize_X[1] = st_recipe_info.nTrayY;	
+	m_nTraySize_Y[1] = st_recipe_info.nTrayX;
 	OnDataBackup();  // 현재 클래스 변수 설정 상태 백업
 }
 

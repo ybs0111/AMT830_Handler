@@ -2216,11 +2216,18 @@ void CMyBasicData::OnRecipe_Data_Load()
 	CString strHead;
 	CString strLoadFile;
 
-//	char chData[200];
+	char chData[200];
 
 	// 읽을 경로 
 	strLoadFile = st_path_info.strBasic + st_basic_info.strDeviceName;  
 
+	:: GetPrivateProfileString(_T("RECIPE"), _T("nTrayY"), _T(""), (LPWSTR)chData, 30, strLoadFile);
+	strTemp.Format(_T("%s"), chData);
+	st_recipe_info.nTrayY = _wtoi(strTemp);
+
+	:: GetPrivateProfileString(_T("RECIPE"), _T("nTrayX"), _T(""), (LPWSTR)chData, 30, strLoadFile);
+	strTemp.Format(_T("%s"), chData);
+	st_recipe_info.nTrayX = _wtoi(strTemp);
 }
 
 
@@ -2234,6 +2241,14 @@ void CMyBasicData::OnRecipe_Data_Load(CString strDeviceName)
 
 	// 읽을 경로  
 	strLoadFile = st_path_info.strBasic + strDeviceName; 
+	//kwlee 2017.0518
+	:: GetPrivateProfileString(_T("RECIPE"), _T("nTrayY"), _T(""), (LPWSTR)chData, 30, strLoadFile);
+	strTemp.Format(_T("%s"), chData);
+	st_recipe_info.nTrayY = _wtoi(strTemp);
+
+	:: GetPrivateProfileString(_T("RECIPE"), _T("nTrayX"), _T(""), (LPWSTR)chData, 30, strLoadFile);
+	strTemp.Format(_T("%s"), chData);
+	st_recipe_info.nTrayX = _wtoi(strTemp);
 }
 
 
@@ -2248,6 +2263,13 @@ void CMyBasicData::OnRecipe_Data_Save()
 	COleDateTime time_cur;
 
 	strSaveFile = st_path_info.strBasic + st_basic_info.strDeviceName;  // 티칭 데이터 저장 파일 설정
+	
+	//kwlee 2017.0518
+	strTemp.Format(_T("%d"), st_recipe_info.nTrayY);
+	:: WritePrivateProfileString(_T("RECIPE"), _T("nTrayY"), LPCTSTR(strTemp), strSaveFile);
+
+	strTemp.Format(_T("%d"), st_recipe_info.nTrayX);
+	:: WritePrivateProfileString(_T("RECIPE"), _T("nTrayX"), LPCTSTR(strTemp), strSaveFile);
 
 }
 
@@ -2263,7 +2285,12 @@ void CMyBasicData::OnRecipe_Data_Save_As(CString strDeviceName)
 
 	strSaveFile = st_path_info.strBasic + strDeviceName;  // 티칭 데이터 저장 파일 설정
 
-	
+	//kwlee 2017.0518
+	strTemp.Format(_T("%d"), st_recipe_info.nTrayY);
+	:: WritePrivateProfileString(_T("RECIPE"), _T("nTrayY"), LPCTSTR(strTemp), strSaveFile);
+
+	strTemp.Format(_T("%d"), st_recipe_info.nTrayX);
+	:: WritePrivateProfileString(_T("RECIPE"), _T("nTrayX"), LPCTSTR(strTemp), strSaveFile);
 }
 
 void CMyBasicData::OnRecoveryDataLoad()

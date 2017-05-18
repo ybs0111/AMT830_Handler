@@ -87,6 +87,12 @@ void CScreenBasic::DoDataExchange(CDataExchange* pDX)
 	DDX_Control(pDX, IDC_DGT_CONTINUE_ERROR, m_dgt_Continue_Error);
 	DDX_Control(pDX, IDC_DGT_TOTAL_ERROR, m_dgt_Total_Error);
 	DDX_Control(pDX, IDC_GROUP_HS_VIS_CONTINUE_CHECK, m_group_Hs_Vis_Continue);
+	DDX_Control(pDX, IDC_GROUP_LABEL_INFO, m_group_Label_Info);
+	DDX_Control(pDX, IDC_BTN_LABEL_CREATE, m_btn_Label_Create);
+	DDX_Control(pDX, IDC_BTN_LABEL_DELETE, m_btn_Label_Del);
+	DDX_Control(pDX, IDC_BTN_LABEL_APPLY, m_btn_Label_Apply);
+	DDX_Control(pDX, IDC_BTN_LABEL_CANCEL, m_btn_Label_Cancel);
+	DDX_Control(pDX, IDC_LIST_LABEL_TYPE, m_list_label_type);
 }
 
 BEGIN_MESSAGE_MAP(CScreenBasic, CFormView)
@@ -120,6 +126,10 @@ BEGIN_MESSAGE_MAP(CScreenBasic, CFormView)
 	ON_STN_CLICKED(IDC_DGT_ALARM_DELAY, &CScreenBasic::OnStnClickedDgtAlarmDelay)
 	ON_STN_CLICKED(IDC_DGT_LABEL_BIN_PRINT, &CScreenBasic::OnStnClickedDgtLabelBinPrint)
 	ON_STN_CLICKED(IDC_DGT_DVC_REPICK_CNT, &CScreenBasic::OnStnClickedDgtDvcRepickCnt)
+	ON_BN_CLICKED(IDC_BTN_LABEL_APPLY, &CScreenBasic::OnBnClickedBtnLabelApply)
+	ON_BN_CLICKED(IDC_BTN_LABEL_CANCEL, &CScreenBasic::OnBnClickedBtnLabelCancel)
+	ON_BN_CLICKED(IDC_BTN_LABEL_CREATE, &CScreenBasic::OnBnClickedBtnLabelCreate)
+	ON_BN_CLICKED(IDC_BTN_LABEL_DELETE, &CScreenBasic::OnBnClickedBtnLabelDelete)
 END_MESSAGE_MAP()
 
 
@@ -155,7 +165,9 @@ void CScreenBasic::OnInitialUpdate()
 
 	OnInitGridDeviceMode();
 	OnInitGridModelList();
-	
+	//kwlee 2017.0518
+	OnBasic_Label_Init_List(st_path_info.strpathLabel);
+	OnBasic_Label_Focus_Set();
 	UpdateData(FALSE);
 
 	st_handler_info.cWndBasic = this;
@@ -248,6 +260,13 @@ void CScreenBasic::OnInitGroupBox()
 	m_group_Hs_Vis_Continue.SetBorderColor(ORANGE_C);
 	m_group_Hs_Vis_Continue.SetFontBold(TRUE);
 	m_group_Hs_Vis_Continue.SetBackgroundColor(WINDOW_UP);
+	
+	//kwlee 2017.0518
+	m_group_Label_Info.SetFont(clsFunc.OnLogFont(16));
+	m_group_Label_Info.SetCatptionTextColor(BLUE_C);
+	m_group_Label_Info.SetBorderColor(ORANGE_C);
+	m_group_Label_Info.SetFontBold(TRUE);
+	m_group_Label_Info.SetBackgroundColor(WINDOW_UP);
 }
 
 
@@ -434,15 +453,14 @@ void CScreenBasic::OnInitButton()
 
 	if(mn_mode_use_vis_cont_err[1] == YES)
 	{
-		mn_mode_use_vis_cont_err[1] = NO;
-		m_btn_Hs_Vis_Continue.SetBitmaps(IDC_BTN_SM_PASSWORD_CHANGE_LEVEL2, IDB_BITMAP_USED_DN, WINDOW_DN, IDB_BITMAP_USED_DN, WINDOW_UP);
-		m_btn_Hs_Vis_Continue.SetWindowTextW(_T("Continue Err Not Use"));
+		
+		m_btn_Hs_Vis_Continue.SetBitmaps(IDC_BTN_SM_PASSWORD_CHANGE_LEVEL2, IDB_BITMAP_USED_UP, WINDOW_DN, IDB_BITMAP_USED_UP, WINDOW_UP);
+		m_btn_Hs_Vis_Continue.SetWindowTextW(_T("Continue Err Use"));
 	}
 	else
 	{
-		mn_mode_use_vis_cont_err[1] = YES;
-		m_btn_Hs_Vis_Continue.SetBitmaps(IDC_BTN_SM_PASSWORD_CHANGE_LEVEL2, IDB_BITMAP_USED_UP, WINDOW_DN, IDB_BITMAP_USED_UP, WINDOW_UP);
-		m_btn_Hs_Vis_Continue.SetWindowTextW(_T("Continue Err Use"));
+		m_btn_Hs_Vis_Continue.SetBitmaps(IDC_BTN_SM_PASSWORD_CHANGE_LEVEL2, IDB_BITMAP_USED_DN, WINDOW_DN, IDB_BITMAP_USED_DN, WINDOW_UP);
+		m_btn_Hs_Vis_Continue.SetWindowTextW(_T("Continue Err Not Use"));
 	}
 
 	m_btn_Hs_Vis_Continue.SetColor(CButtonST::BTNST_COLOR_BK_IN, WINDOW_UP1);
@@ -453,6 +471,47 @@ void CScreenBasic::OnInitButton()
 	m_btn_Hs_Vis_Continue.SetColor(CButtonST::BTNST_COLOR_FG_FOCUS, BLUE_C);
 	m_btn_Hs_Vis_Continue.SetFont(clsFunc.m_pFont[2]);
 	m_btn_Hs_Vis_Continue.SetTooltipText(_T("Continue Err Change"));
+
+	//kwlee 2017.0518
+	m_btn_Label_Create.SetBitmaps(IDC_BTN_LABEL_CREATE, IDB_BITMAP_CREATE_DN, WINDOW_DN, IDB_BITMAP_CREATE_UP, WINDOW_UP);
+	m_btn_Label_Create.SetColor(CButtonST::BTNST_COLOR_BK_IN, WINDOW_UP1);
+	m_btn_Label_Create.SetColor(CButtonST::BTNST_COLOR_BK_OUT, WINDOW_UP1);
+	m_btn_Label_Create.SetColor(CButtonST::BTNST_COLOR_BK_FOCUS, WINDOW_UP1);
+	m_btn_Label_Create.SetColor(CButtonST::BTNST_COLOR_FG_IN, BLUE_C);
+	m_btn_Label_Create.SetColor(CButtonST::BTNST_COLOR_FG_OUT, BLUE_C);
+	m_btn_Label_Create.SetColor(CButtonST::BTNST_COLOR_FG_FOCUS, BLUE_C);
+	m_btn_Label_Create.SetFont(clsFunc.m_pFont[2]);
+	m_btn_Label_Create.SetTooltipText(_T("Create"));
+
+	m_btn_Label_Del.SetBitmaps(IDC_BTN_LABEL_DELETE, IDB_BITMAP_DELETE_DN, WINDOW_DN, IDB_BITMAP_DELETE_UP, WINDOW_UP);
+	m_btn_Label_Del.SetColor(CButtonST::BTNST_COLOR_BK_IN, WINDOW_UP1);
+	m_btn_Label_Del.SetColor(CButtonST::BTNST_COLOR_BK_OUT, WINDOW_UP1);
+	m_btn_Label_Del.SetColor(CButtonST::BTNST_COLOR_BK_FOCUS, WINDOW_UP1);
+	m_btn_Label_Del.SetColor(CButtonST::BTNST_COLOR_FG_IN, BLUE_C);
+	m_btn_Label_Del.SetColor(CButtonST::BTNST_COLOR_FG_OUT, BLUE_C);
+	m_btn_Label_Del.SetColor(CButtonST::BTNST_COLOR_FG_FOCUS, BLUE_C);
+	m_btn_Label_Del.SetFont(clsFunc.m_pFont[2]);
+	m_btn_Label_Del.SetTooltipText(_T("Delete"));
+
+	m_btn_Label_Apply.SetBitmaps(IDC_BTN_LABEL_APPLY, IDB_BITMAP_APPLY_DN, WINDOW_DN, IDB_BITMAP_APPLY_UP, WINDOW_UP);
+	m_btn_Label_Apply.SetColor(CButtonST::BTNST_COLOR_BK_IN, WINDOW_UP1);
+	m_btn_Label_Apply.SetColor(CButtonST::BTNST_COLOR_BK_OUT, WINDOW_UP1);
+	m_btn_Label_Apply.SetColor(CButtonST::BTNST_COLOR_BK_FOCUS, WINDOW_UP1);
+	m_btn_Label_Apply.SetColor(CButtonST::BTNST_COLOR_FG_IN, BLUE_C);
+	m_btn_Label_Apply.SetColor(CButtonST::BTNST_COLOR_FG_OUT, BLUE_C);
+	m_btn_Label_Apply.SetColor(CButtonST::BTNST_COLOR_FG_FOCUS, BLUE_C);
+	m_btn_Label_Apply.SetFont(clsFunc.m_pFont[2]);
+	m_btn_Label_Apply.SetTooltipText(_T("Apply"));
+
+	m_btn_Label_Cancel.SetBitmaps(IDC_BTN_LABEL_CANCEL, IDB_BITMAP_RELOAD_DN, WINDOW_DN, IDB_BITMAP_RELOAD_UP, WINDOW_UP);
+	m_btn_Label_Cancel.SetColor(CButtonST::BTNST_COLOR_BK_IN, WINDOW_UP1);
+	m_btn_Label_Cancel.SetColor(CButtonST::BTNST_COLOR_BK_OUT, WINDOW_UP1);
+	m_btn_Label_Cancel.SetColor(CButtonST::BTNST_COLOR_BK_FOCUS, WINDOW_UP1);
+	m_btn_Label_Cancel.SetColor(CButtonST::BTNST_COLOR_FG_IN, BLUE_C);
+	m_btn_Label_Cancel.SetColor(CButtonST::BTNST_COLOR_FG_OUT, BLUE_C);
+	m_btn_Label_Cancel.SetColor(CButtonST::BTNST_COLOR_FG_FOCUS, BLUE_C);
+	m_btn_Label_Cancel.SetFont(clsFunc.m_pFont[2]);
+	m_btn_Label_Cancel.SetTooltipText(_T("Cancel"));
 }
 
 void CScreenBasic::OnInitGridDeviceMode()
@@ -1768,6 +1827,8 @@ void CScreenBasic::OnDataBackup()
 	mn_mode_use_vis_cont_err[0]    =	mn_mode_use_vis_cont_err[1];
 
 	m_nTrayTubeBcrMode[0]		   =  m_nTrayTubeBcrMode[1];
+
+	mstr_label_name[0]             = mstr_label_name[1]; //kwlee 2017.0518
 }
 
 
@@ -2466,4 +2527,284 @@ void CScreenBasic::OnStnClickedDgtDvcRepickCnt()
 
 	m_nDvc_Repick_Cnt[1] = nKey;
 	m_dgt_Dvc_Repick_Cnt.SetVal(nKey);
+}
+//kwlee 2017.0518
+int CScreenBasic::OnBasic_New_Label_Check(CString str_label)
+{
+	CString str_chk_file;  // 생성할 [폴더]+[파일명] 저장 변수
+	CString str_chk_ext;   // 확장자 저장 변수
+	int n_pos;
+
+	/* ************************************************************************** */
+	/* 입력된 디바이스명 설정한다                                                 */
+	/* ************************************************************************** */
+	str_label.MakeUpper();
+	str_label.TrimLeft(' ');               
+	str_label.TrimRight(' ');
+
+	if(str_label.IsEmpty())  
+	{
+		if (st_handler_info.cWndList != NULL)	
+		{
+			clsMem.OnAbNormalMessagWrite(_T("[LABEL] A name input error occurrence."));
+			st_handler_info.cWndList->SendMessage(WM_LIST_DATA, 0, NORMAL_MSG);
+		}
+		return FALSE;
+	}
+	/* ************************************************************************** */
+
+	str_chk_file = st_path_info.strpathLabel + str_label;  // 생성할 [폴더]+[파일명] 설정
+	n_pos = str_chk_file.Find(_T("."),0);  // 확장자 검사
+	if (n_pos == -1) 
+		str_chk_file += _T(".TXT");
+	else 
+	{
+		str_chk_ext = str_chk_file.Mid(n_pos);  // 확장자 정보 설정
+		if (str_chk_ext != _T(".TXT"))  
+		{
+
+			if (st_handler_info.cWndList != NULL)	
+			{
+				clsMem.OnAbNormalMessagWrite(_T("[LABEL] A name extension input error occurrence."));
+				st_handler_info.cWndList->SendMessage(WM_LIST_DATA, 0, NORMAL_MSG);
+			}
+			return FALSE;
+		}
+	}
+
+	mstr_load_file = str_chk_file;  // 생성할 [폴더]+[파일명]+[확장자] 설정
+
+	return TRUE;
+}
+
+void CScreenBasic::OnBnClickedBtnLabelApply()
+{
+	if (mstr_label_name[0] != mstr_label_name[1])//mstr_temp_label)
+	{
+// 		OnBasic_Label_DeviceData_Apply();
+// 		OnBasic_Label_Data_Set();				// 전역 변수의 Data를 받아온다.
+// 		OnBasic_Label_Data_BackUp();
+// 		OnBasic_Label_Data_Display();		
+	}
+	else
+	{
+		st_basic_info.n_mode_label		    =  mn_label_mode[1];		// With, With Out, No Tra										
+		st_basic_info.mn_labelset_sd	    =  mn_labelset_sd[1];
+		st_basic_info.mn_labelset_lt	    =  mn_labelset_lt[1];
+		st_basic_info.mn_labelset_lh1	    =  mn_labelset_lh1[1];
+		st_basic_info.mn_labelset_lh2	    =  mn_labelset_lh2[1];
+		st_basic_info.md_labelset_x1_pos    =  md_labelset_x1_pos[1];
+		st_basic_info.md_labelset_x2_pos    =  md_labelset_x2_pos[1];
+		st_basic_info.md_labelset_x3_pos    =  md_labelset_x3_pos[1];
+		st_basic_info.md_labelset_x4_pos    =  md_labelset_x4_pos[1];
+		st_basic_info.md_labelset_x5_pos    =  md_labelset_x5_pos[1];
+		st_basic_info.md_labelset_x6_pos    =  md_labelset_x6_pos[1];
+		st_basic_info.md_labelset_y1_pos    =  md_labelset_y1_pos[1];
+		st_basic_info.md_labelset_y2_pos    =  md_labelset_y2_pos[1];
+		st_basic_info.md_labelset_y3_pos    =  md_labelset_y3_pos[1];
+		st_basic_info.md_labelset_y4_pos    =  md_labelset_y4_pos[1];
+		st_basic_info.md_labelset_y5_pos    =  md_labelset_y5_pos[1];
+		st_basic_info.md_labelset_y6_pos    =  md_labelset_y6_pos[1];
+		st_basic_info.md_labelset_x1_width  =  md_labelset_x1_width[1];
+		st_basic_info.md_labelset_x2_width  =  md_labelset_x2_width[1];
+		st_basic_info.md_labelset_x3_width  =  md_labelset_x3_width[1];
+		st_basic_info.md_labelset_x4_width  =  md_labelset_x4_width[1];
+		st_basic_info.md_labelset_y1_height =  md_labelset_y1_height[1];
+		st_basic_info.md_labelset_y2_height =  md_labelset_y2_height[1];
+		st_basic_info.md_labelset_y3_height =  md_labelset_y3_height[1];
+		st_basic_info.md_labelset_y4_height =  md_labelset_y4_height[1];
+		////////////////////
+	}
+}
+
+
+void CScreenBasic::OnBnClickedBtnLabelCancel()
+{
+	
+}
+
+
+void CScreenBasic::OnBnClickedBtnLabelCreate()
+{
+	int n_response,nPos;									// 대화 상자 리턴 플래그
+	CString str_selected_lbl, str_filename;		//20120530					// 선택된 디바이스 이름 저장 변수
+
+	CString str_tmp;
+	CString str_print_data;
+	CString strTmp, strFileName;
+
+	KeyBoard(&strFileName);
+
+	//(strFileName).Empty();
+
+	//////////////////////////////////////// 20120608
+	str_tmp.Format(_T("%03d"), (st_basic_info.mn_data_change_list + 1));
+	str_print_data = str_tmp + _T(")");
+	strFileName = str_print_data;
+	////////////////////////////////////////
+
+	if(strFileName != "")
+	{
+		nPos = -1;
+		nPos = strFileName.Find(_T("."), 0);
+
+		strTmp = _T("");
+		if(nPos > 0)
+		{
+			strTmp = strFileName.Mid(nPos+1, 3);
+		}
+
+		if(strTmp != "TXT")
+		{
+			strFileName += ".TXT";
+		}
+
+		mstr_new_label = strFileName;
+		if (OnBasic_New_Label_Check(mstr_new_label) == FALSE)	return;
+		b_create_list = TRUE;
+		OnBasic_Create_Label();
+
+		// ******************************************************************
+		// 폴더에 존재하는 파일 목록 리스트 박스에 재설정한다
+		// ******************************************************************
+		m_list_label_type.ResetContent();		// 리스트 박스의 모든 목록 삭제
+
+		st_basic_info.mn_data_change_list = 0;	//20120608
+		OnBasic_Label_Init_List(st_path_info.strpathLabel);// 파일 폴더 초기화 함수
+		//OnSelchangeListLabelType();
+		OnBasic_Label_Focus_Set();				// 선택된 디바이스명 포커스 설정 함수
+
+		if (mn_label_name > 0)
+		{
+			m_list_label_type.GetText(mn_label_name, str_selected_lbl);
+		}
+	}
+}
+void CScreenBasic::OnBasic_Create_Label()
+{
+	int n_existence;								// 파일 존재 유무 플래그
+	char chr_file_name[256];
+	CString str_label_temp;
+	CString str_original_path;
+	CString str_original_file;
+	CString str_copy_file;
+	CString str_chk_ext;
+	CString str_copy_info;
+
+	//sprintf(chr_file_name, _T("%s"), mstr_load_file);	// [폴더]+[파일명] 설정
+	clsFunc.OnStringToChar(mstr_load_file,chr_file_name);
+	n_existence = access(chr_file_name, 0) ;
+
+	if (n_existence != -1)							// 파일 존재
+		return ;
+	else  
+	{
+		str_label_temp = st_basic_info.mstr_label_name;
+		st_basic_info.mstr_label_name = mstr_new_label;
+
+		:: WritePrivateProfileString(_T("Device"), _T("DeviceFile"), LPCTSTR(mstr_new_label), mstr_load_file); 
+
+		st_basic_info.mstr_label_name = str_label_temp;
+	}
+}
+void CScreenBasic::OnBasic_Label_Focus_Set()
+{
+	if (mn_label_name == -1)
+		return;
+
+	m_list_label_type.SetCurSel(mn_label_name);
+
+}
+BOOL CScreenBasic::Label_AddItem(int nIndex, WIN32_FIND_DATA *pfd)
+{
+	CString str_temp_lbl;
+	CString str_label;
+	CString str_expansion;
+	int n_pos;
+
+	HICON	hIcon = NULL;
+
+	str_temp_lbl = (pfd->cFileName);	// 파일 이름 설정
+
+	str_temp_lbl.MakeUpper();
+
+	// **************************************************************************
+	// 파일 이름 중 확장자 확인
+	// **************************************************************************
+	n_pos = str_temp_lbl.Find('.');		// 확장자 위치 설정
+
+	if (n_pos == -1)					// 확장자 미존재
+		str_expansion = "";
+	else								// 확장자 존재
+		str_expansion = str_temp_lbl.Mid(n_pos + 1);
+	// **************************************************************************
+
+	if (str_expansion != "TXT")
+	{
+		return RET_GOOD;	
+	}
+
+	str_label=str_temp_lbl;			// 파일명 전체 화면 출력
+
+	if (str_label == mstr_label_name[1])
+		mn_label_name = nIndex-1;
+	// **************************************************************************
+
+	// 	hIcon = AfxGetApp()->LoadIcon(IDI_MODULE);
+	// 	mp_device_image_list.Add(hIcon);
+
+	//if (m_list_label_type.AddString(_T(str_label), nIndex - 1) == -1)
+	if (m_list_label_type.AddString(str_label) == -1)
+		return FALSE;
+
+	return TRUE;
+}
+
+int CScreenBasic::OnBasic_Label_Init_List(LPCTSTR pszPath)
+{
+	int n_chk = 0;						// 함수 리턴 플래그
+	CString str_path = pszPath;		// 폴더 설정
+
+	HANDLE hFind;
+	WIN32_FIND_DATA fd;
+	int n_count = 0;				// 리스트 박스에 추가한 목록 갯수 저장 변수
+
+	mn_label_name = -1;
+
+	if (str_path.Right (1) != "\\")
+		str_path += "\\";
+
+	str_path += "*.*";
+
+	if ((hFind = ::FindFirstFile ((LPCTSTR) str_path, &fd)) != INVALID_HANDLE_VALUE) 
+	{
+		if (!(fd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY)) 
+		{
+			n_chk = Label_AddItem(n_count, &fd);
+			if (n_chk == TRUE)
+				n_count++;
+		}
+
+		while (::FindNextFile (hFind, &fd)) 
+		{
+			if (!(fd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY))
+			{
+				n_chk = Label_AddItem(n_count, &fd);
+				st_basic_info.mn_data_change_list++;	//20120608
+				if (n_chk == FALSE) 
+					break;
+			}
+			if (n_chk != RET_GOOD)
+				n_count++;
+
+		}
+		::FindClose(hFind);
+	}
+
+	return n_count;
+}
+
+void CScreenBasic::OnBnClickedBtnLabelDelete()
+{
+	
 }
