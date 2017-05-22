@@ -57,7 +57,7 @@ typedef unsigned int					UINT32;			// 0 .. 4,294,967,295
 #define	WM_DISPENSER_APPLY		WM_USER + 20
 #define	WM_MOTORSPEED_APPLY		WM_USER + 21
 #define WM_SERIAL_PORT			WM_USER + 25
-
+#define	WM_TESTREFERENCE_MANUAL		WM_USER + 21
 
 #define	WM_LOTOPEN_APPLY		WM_USER + 26
 #define	WM_LOTSTART_APPLY		WM_USER + 27
@@ -106,7 +106,9 @@ typedef unsigned int					UINT32;			// 0 .. 4,294,967,295
 #define SERVER_REV				3
 #define SERVER_ACCEPT			4
 
-
+#define INITIAL_INDEX_DUMP		0	
+#define INITIAL_TEST_DUMP		1
+#define INITIAL_INDEX_TABLE		2
 // *****************************************************************************
 
 // *****************************************************************************
@@ -114,8 +116,6 @@ typedef unsigned int					UINT32;			// 0 .. 4,294,967,295
 // *****************************************************************************
 #define NW_LOT_START_RPY				1
 #define NW_LOT_CANCEL_RPY				2
-#define NW_LOT_END						3
-
 
 // *****************************************************************************
 //  List Box 출력용 메세지 정의                                                 
@@ -134,15 +134,22 @@ typedef unsigned int					UINT32;			// 0 .. 4,294,967,295
 #define MAIN_TIMEINFO				100
 #define MAIN_COUNT_DISPLAY			101
 
-#define MAIN_PCB_INFO				200
-#define MAIN_PCB_INFO_BACK			201
-#define MAIN_PCB_INFO_NEXT			202
-
 #define MAIN_BD_ERR_CREATE_MSG		400
 #define MAIN_BD_ERR_DELETE_MSG		401
 
 #define MAIN_MESSAGE_BOX_CREATE_REQ	100
 #define MAIN_MESSAGE_BOX_DELETE_REQ	101
+
+#define MAIN_BARCODE_BOX_CREATE_REQ	110
+#define MAIN_BARCODE_BOX_DELETE_REQ	111
+
+
+#define MAIN_LOT_HISTORY_CREATE_REQ 600
+#define MAIN_LOT_HISTORY_DELETE_REQ 601
+
+
+#define MAIN_NOTICE_CREATE_REQ		800
+#define MAIN_NOTICE_DELETE_REQ		801
 
 #define MOTOR_IO_CREATE_REQ			900
 #define MOTOR_IO_DELETE_REQ			901
@@ -245,6 +252,8 @@ typedef unsigned int					UINT32;			// 0 .. 4,294,967,295
 #define FUN_CTU				3
 
 #define PICKER				0
+#define FINGER				1
+
 
 #define TIMECOUNT			5
 #define ELEVATOR_STRATUMS	6
@@ -256,12 +265,19 @@ typedef unsigned int					UINT32;			// 0 .. 4,294,967,295
 // *************************************************************************
 #define MAX_PORT				2	// 생성할 시리얼 포트 갯수
 #define COM_ERROR				-1	// 에러 메시지
+#define CRI_BARCODE_PORT		0		// 현재 BCR READ 포트 번호
+#define MPCB_BARCODE_PORT		1		// 현재 BCR READ 포트 번호
+#define LIGHT_PORT				2
+#define A_LIGHT_PORT			3
 
 #define COM_PORT			0
 #define COM_BAUDRATE		1
 #define COM_DATA			2
 #define COM_STOP			3
 #define COM_PARITY			4
+
+//#define TESTER_PORT	2		// 현재 Tester Communication 포트 번호
+//#define COM_PORT   2	// 현재 사용 중인 시리얼 포트 번호
  
 #define BUF_SIZE  1000	// 버퍼 크기
 // *************************************************************************
@@ -276,7 +292,8 @@ typedef unsigned int					UINT32;			// 0 .. 4,294,967,295
 #define MAX_PORT_IO			4
 #define MAX_SLAVE_IO		8
 // *************************************************************************
-
+#define M_BARCODE_PORT		0
+#define C_BARCODE_PORT		1
 // *************************************************************************
 //  MOTOR 보드 관련 변수 선언한다                                                
 // *************************************************************************
@@ -315,10 +332,28 @@ typedef unsigned int					UINT32;			// 0 .. 4,294,967,295
 //  Main Screen 출력용 메세지 정의                                              
 // *****************************************************************************
 
+// *****************************************************************************
+///// test bin  result
+#define BIN_NOTUESD			0
+
 #define BUTTON_MOUSE_DN		1100
 #define BUTTON_MOUSE_UP		1000
 
+// GRID TYPE
+#define DFC_NOUSE       -1//원래시스템 그리기 사용함(0번컬럼을 원래대로 사용할때 이용하면됨)
+#define DFC_STATIC       0
+#define DFC_EDIT         1
+#define DFC_COMBO        2
+#define DFC_CHECK        3
+#define DFC_DATE         4
+#define DFC_TIME         5
+#define DFC_PROGRESS     6
+#define DFC_IMAGE        7
 
+#define IMG_LISTHDCTRL_BG _T("배경2.jpg")//_T("smflower.jpg")
+#define IMG_PICCTRL_BG _T("배경2.jpg") //_T("smflower.jpg")
+#define IMG_LISTHDCTRL_BG1 _T("배경25.gif")//_T("smflower.jpg")
+#define IMG_PICCTRL_BG1 _T("배경25.gif") //_T("smflower.jpg")
 
 // 칼라 정의
 #define SKY_C					RGB(187, 250, 255)
@@ -421,7 +456,9 @@ typedef unsigned int					UINT32;			// 0 .. 4,294,967,295
 /* ***************************************************************************** */
 #define IDW_SCREEN_MAIN					101
 #define IDW_SCREEN_INIT					102
+
 #define IDW_SCREEN_BASIC		 		201
+
 #define IDW_SCREEN_WORK_INFO			301
 #define IDW_SCREEN_SET_MAINTENANCE		302
 #define IDW_SCREEN_SET_INTERFACE		303
@@ -429,9 +466,9 @@ typedef unsigned int					UINT32;			// 0 .. 4,294,967,295
 #define IDW_SCREEN_SET_RECIPE			305
 #define IDW_SCREEN_SET_RFID				306
 #define IDW_SCREEN_SET_FTP				307
-#define IDW_SCREEN_SET_COK				308
 #define IDW_SCREEN_SET_PART_NO			309
 #define IDW_SCREEN_IO_FUNCTION			310
+
 #define IDW_SCREEN_WAIT_TIME			401
 
 #define IDW_SCREEN_MOTOR				501
@@ -513,6 +550,7 @@ struct tagHANDLER_INFO
 	int nLevelSpeed;
 	int nIoBoardInitial;			// IO 보드 초기화 작업 완료 플래그
 	int nMotorBoardInitial;			// 모션 보드 초기화 작업 완료 플래그
+	int nMatroxBoardInitial;		// matrox 초기화
 	int nIsAllSiteInitEnd;			// 모터 초기화 작업 완료 확인 플래그
 	int nRunStatus;
 	int nIdleStatus;
@@ -522,7 +560,8 @@ struct tagHANDLER_INFO
 	int nLotStatus;					// Lot start 시작유무....
 	int	nInitRetry;					// initialize retry 작업 유무.......
 	int nInitialSuccess;			// Initialize 작업 성공유무.......	
-	
+	int nFtpVer;
+
 	double dCurrCmdPos[MAXMOTOR];	// 현재 모터 위치 정보 저장 변수 
 	// *************************************************************************
 	COleDateTime tUph;
@@ -715,80 +754,23 @@ extern  tagALARM_DISPLAY_INFO  st_alarm_display_info;
 struct tagBASIC_INFO
 {
 	//int		nModeTesterDisable; //teser 사용유/무(0:tester사용, 1:사용하지 않음(소켓오프여부 보지않음)
+	
+	int		nCtrlMode;				// [Title Bar 상태 표시] < ONLINE, REMOTE, LOCAL.. 표시	> 
+	int		nModeDevice;			// [Title Bar 상태 표시] < WHIT/WHIT OUT ㅡ MODE 표시	>
+	int		nModeWork;				// [Title Bar 상태 표시] < 작업 모드 설정 표시			>
+	int		nModeXgem;
+	int     nRetry;
+	int     nModeInterface;
+	int		nModeXgemInterface;		// xgem interface [0] off line [1] on line local [2] on line remote.....
 	CString strDeviceName;			// [Title Bar 상태 표시] < 장비에서 설정한 DEVICE 표시	>
 	CString strModelName;			// [Title Bar 상태 표시] < 비젼에서 설정한 JOB 정보 표시 >
-	CString strEqp;
+
+	CString strNotice;				// Notice...
+	CString	strEqp;					// eqp id.........
+	CString strOperID;				// operator id.....
 	CString strDevice;
 	
-	bool bEnableFlag;
 
-	int nModeDevice;
-	int nModeInterface;
-	int nRetry;
-	int nModeXgem;
-	int nModeXgemInterface;
-	int nModeXgemRunChk;
-	//kwlee 2017.0515
-	CString mstr_label_name;
-
-	int nLotSetModuleLoad;
-	int nLotSetHeatSinkLeft;
-	int nLotSetHeatSinkRight;
-	int nLotSetClip;
-	int nLotSetUnloader;
-	int nLotSetReject;
-
-	double dPickGapModuleLoad;
-	double dPickGapHeatSinkLeft;
-	double dPickGapHeatSinkRight;
-
-	int nAlarmDelayTime;
-	int nNetworkWaitTime;
-	int nNetworkRetryCnt;
-	int nLabelVisionPaper;
-	int nLabelBinPrint;
-	int nLabelErrorCnt;
-	int nDvcRepickCnt;
-
-	int n_mode_cap_remove;
-	int n_mode_clip_alarm;
-	int n_mode_m_direction;
-	int n_mode_hs_direction;
-	int n_mode_use_sorter_picker;
-	
-	int n_mode_use_vis_cont_err;
-	int n_vis_cont_err;
-	int n_vis_tot_err;
-
-	int n_TrayTubeBcrMode;
-
-	//kwlee 2017.0518
-	int mn_data_change_list; 
-	int n_mode_label;		   
-	int mn_labelset_sd;	   
-	int mn_labelset_lt;	   
-	int mn_labelset_lh1;	   
-	int mn_labelset_lh2;	   
-	int md_labelset_x1_pos;   
-	int md_labelset_x2_pos;   
-	int md_labelset_x3_pos;   
-	int md_labelset_x4_pos;   
-	int md_labelset_x5_pos;   
-	int md_labelset_x6_pos;   
-	int md_labelset_y1_pos;   
-	int md_labelset_y2_pos;   
-	int md_labelset_y3_pos;   
-	int md_labelset_y4_pos;   
-	int md_labelset_y5_pos;   
-	int md_labelset_y6_pos;   
-	int md_labelset_x1_width; 
-	int md_labelset_x2_width; 
-	int md_labelset_x3_width; 
-	int md_labelset_x4_width; 
-	int md_labelset_y1_height;
-	int md_labelset_y2_height;
-	int md_labelset_y3_height;
-	int md_labelset_y4_height;
 } ;
 extern  tagBASIC_INFO  st_basic_info;
 // ******************************************************************************
@@ -796,14 +778,13 @@ extern  tagBASIC_INFO  st_basic_info;
 // **********************************************************************************
 // 레시피 화면 환경 설정 정보 저장 구조체 선언                                   
 // **********************************************************************************
-// ******************************************************************************
 struct tagRECIPE_INFO
 {
-	int	nTrayY;						
-	int nTrayX;						
 	
 };
 extern tagRECIPE_INFO	st_recipe_info;
+// ******************************************************************************
+
 // *****************************************************************************
 //  Tower Lamp 화면에 대한 정보 저장 구조체 변수 선언                           
 // *****************************************************************************
@@ -844,16 +825,42 @@ struct tagIO_INFO
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	// Module No 00
 	///////////////////////////////////////////////////////////////////////////////////////////////
-	int		o_StartLamp;
-	int		o_StopLamp;									
-	int		o_AlarmLamp;								
-	int		o_BuzzLamp;									
-	int		o_DoorLock;	
-	int		o_MainAir;
+	int		o_StartLamp;					// S0000
+	int		o_StopLamp;						// S0001
+	int		o_AlarmLamp;					// S0002
+	int		o_BuzzLamp;						// S0003
+	int		o_DoorLock;						// S0004
+	//S0005									
+	//S0006									
+	//S0007									
+	int		i_StartChk;						//PS0000
+	int		i_StopChk;						//PS0001
+	int		i_AlarmChk;						//PS0002
+	int		i_BuzzChk;						//PS0003
+	int		i_AutoModeChk;					//PS0004
+	int		i_ManualModeChk;				//PS0005
+	int		i_FrontSelectSwChk;				//PS0006
+	int		i_RearSelectSwChk1;				//PS0007
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	// Module No 01
 	//////////////////////////////////////////////////////////////////////////////////////////////
+	int		o_MainAir;						// S0100
+	int		o_TwGreenLamp;					// S0101
+	int		o_TwYellowLamp;					// S0102
+	int		o_TwRedLamp;					// S0103
+	int		o_Buzz1OnOff;					// S0104
+	int		o_Buzz2OnOff;					// S0105
+	int		o_Buzz3OnOff;					// S0106
+	//S0107									
+	int		i_MainMcChk;					//PS0100
+	int		i_MainAirChk;					//PS0101
+	int		i_LfTsiteDockSafetyChk;			//PS0102
+	int		i_RiTsiteDockSafetyChk;			//PS0103
+	int		i_Emo1SwChk;					//PS0104
+	int		i_Emo2SwChk;					//PS0105
+	int		i_Emo3SwChk;					//PS0106
+	int		i_Emo4SwChk;					//PS0107
 
 	int		o_TwLamp[3];
 	int		o_BuzzOnOff[3];
@@ -861,11 +868,327 @@ struct tagIO_INFO
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	// Module No 02
 	///////////////////////////////////////////////////////////////////////////////////////////////
-	int     i_AlarmChk;
-	int     i_BuzzChk;
-	int     i_MainMcChk;
-	int     i_MainAirChk;
-	int		i_DoorChk[18];
+	
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	// Module No 03
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	
+	// S0304
+	// S0305    
+	// S0306    
+	
+	//PS0304
+	//PS0305
+	//PS0306
+	//PS0307
+
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	// Module No 04 //Loading Conveyor
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	
+	// S0404
+	
+	//PS0409
+	//PS0410
+
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	// Module No 05	//Loading Plate_1, 2
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	
+	// S0504
+	
+	//PS0510
+
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	// Module No 06  ld index, low empty
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	
+	// S0603
+	// S0604
+	// S0605
+	// S0606
+	// S0607
+	
+
+	
+	//PS0606
+	
+
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	// Module No 07 load empty tray 
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	// Module No 10 unload rail and stacker
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	
+	// S1004
+	
+	
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	// Module No 11 unload stacker
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	
+	// S1102
+	// S1103
+	// S1104
+	// S1105
+	
+	//PS1105	2015.01.29 삭제
+
+	//PS1108
+	//PS1109
+	
+	
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	// Module No 12 move out conveyor
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	
+	// S1202
+	// S1203
+	// S1204
+	// S1205
+	
+	//PS1209
+	
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	//  Module No 13
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	
+	//PS1307
+	
+	//PS1315
+	
+	
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	// Module No 14
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	
+	// S1403
+	// S1404
+	// S1405
+	// S1406
+	// S1407
+	
+	//PS1405
+	
+	
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	//  Module No 15
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	
+	// S1506
+	// S1507
+	
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	//  Module No 16
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	
+	// S1614
+	
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	//  Module No 17
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	//  Module No 20
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	
+	// S2006
+	// S2007
+	
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	//  Module No 21
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	
+	// S2109
+	// S2110
+	
+	//PS2104
+
+
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	//  Module No 22
+	///////////////////////////////////////////////////////////////////////////////////////////////
+
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	//  Module No 23
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	//  Module No 24
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	
+	// S2402	2015.01.29 삭제
+	// S2403	2015.01.29 삭제
+	// S2404
+	// S2405
+	// S2406
+	// S2407
+	
+	//int		i_LfTsiteRiBtmHiFixContactFwdChk;	//PS2406
+	
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	//  Module No 25
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	
+	// S2509
+	// S2510
+	
+	//PS2504
+
+	
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	//  Module No 26
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	
+
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	//  Module No 27
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	
+	//PS2712
+	//PS2713
+	//PS2714
+	//PS2715
+
+	
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	//  Module No 30
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	
+	// S3009
+	// S3010
+	
+	// S3004
+
+	
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	//  Module No 31
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	//  Module No 32
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	//  Module No 33
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	
+	// S3302	2015.01.29 삭제
+	// S3303	2015.01.29 삭제
+	// S3304
+	// S3305
+	// S3306
+	// S3307
+	
+	//int		i_RiTsiteRiBtmHiFixContactFwdChk;	//PS3306
+	
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	//  Module No 34
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	
+	// S3409
+	// S3410
+	
+	//PS3404
+
+
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	//  Module No 35
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	//  Module No 36
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	
+	//PS3612
+	//PS3613
+	//PS3614
+	//PS3615
+
+	
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	//  Module No 37
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	
+	// S3704
+	// S3705
+	// S3706
+	// S3707
+	
+
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	//  Module No 40
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	
+	// S4002
+	// S4003
+	// S4004
+	// S4005
+
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	//  Module No 41
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	
+	// S4104
+	// S4105
+	// S4106
+	// S4107
+	// S4101
+	// S4102
+	// S4103
+	// S4104
+	// S4105
+	// S4106
+	// S4107
+
+	//PS4105
+	//PS4106
+	//PS4107
+
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	//  Module No 42
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	
+	//PS4211
+
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	//  Module No 43	2015.01.29 추가
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	// S4301
+	// S4302
+	// S4303
+	// S4304
+	// S4305
+	// S4306
+	// S4307
+
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	//  Module No 50
+	///////////////////////////////////////////////////////////////////////////////////////////////
+
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	//  Module No 51
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	//  Module No 52
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	//  Module No 53
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	//  Module No 54
+	///////////////////////////////////////////////////////////////////////////////////////////////
+
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	//  Module No 55
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	
+	///////////////////////////////////////////////////////////////////////////////////////////////
 
 	int		i_LoDoorSafetyChk[7];
 
@@ -882,17 +1205,23 @@ struct tagPATH_INFO
 {
 	CString strBasic;			// 기본 셋팅 정보 저장 폴더+파일명 설정 변수
 	CString strPathDvc;			// 디바이스별 티칭 정보 저장 파일 생성 폴더 설정 변수
+	CString strSocket;			// 소켓별...
 	CString strPathAlarm;		// 출력 알람 정보 존재 폴더 설정 변수
 	CString strPathOp;			// 오퍼레이터 정보 저장 폴더 설정 변수
+	CString strPathTray;		// Tray별 정보 저장 파일 생성 폴더 설정 변수
 	
 	CString strPathFile;		// 파일 생성 폴더 설정 변수
 	CString strPathBack;		// BACKUP 파일 생성 폴더 설정 변수
 
 	//kwlee 2017.0511
-	CString strpathLabel;
-	CString strpathModel;
+	CString strPath_Label;
+	CString strPath_Model;
 
 	CString strPathRecipe;
+	CString strPathFtpGms;		// ftp path 경로.....
+
+	CString strPathRecovery;	// recoverydata........
+
 	CString strFileBasic;		// 기본 셋팅 정보 저장 파일명 설정 변수
 	CString strFileWait;		// 대기 시간 정보 저장 파일명 설정 변수
 	CString strFileMotor;
@@ -911,7 +1240,9 @@ struct tagPATH_INFO
 	CString strMotorAxisMap;
 	CString strMotorPartMap;
 	CString strWaitTimeMap;
-	CString strBarcode;
+
+	
+
 };
 extern  tagPATH_INFO st_path_info;
 // *************************************************************************
@@ -919,14 +1250,23 @@ extern  tagPATH_INFO st_path_info;
 struct tagWORK_INFO
 {
 	int		nPgmInfo;
-	int     nStatusEqp;
-	DWORD	dwTrayCycle;
-	DWORD   dwLotCycle;
-	int		nCycleCount;
+	int		nSimulationMode;
+	int		nMessageInfo;
+	int		nStatusEqp;
+	int		nRearSafetyChk;
 	int		nTowerStatus[5];
-	int     nSimulationMode;
+
 	int		nRemoveInfo[10];		// alarm skip 정보.....
 	int		nRemoveYesNo[10];		// alarm skip 유무.....
+
+	int		nLfTsiteBin[2][12];
+	int		nRiTsiteBin[2][12];
+
+	int		nBcrX;					// barcode x 좌표.....
+	int     nBcrY;					// barcode y 좌표.....
+	int		nBdReadyChk;			//
+
+
 };
 extern  tagWORK_INFO  st_work_info;
 
@@ -935,6 +1275,7 @@ extern  tagWORK_INFO  st_work_info;
 // *************************************************************************
 struct tagOTHER_INFO
 {
+	CString strOpMsg;			// 리스트 화면 출력 동작 에러 메시지 저장 변수
 	CString strNormalMsg;		// 리스트 화면 출력 동작 에러 메시지 저장 변수
 	CString strAbnormalMsg;		// 리스트 화면 출력 동작 에러 메시지 저장 변수
 	CString strSndMsg;			// 리스트 화면 테스터 SEND 메시지 저장 변수
@@ -944,9 +1285,13 @@ struct tagOTHER_INFO
 
 	CString strFallacyMsg;		// 오류 메시지 대화 상자 타이틀 저장 변수
 	CString strConfirmMsg;		// 확인 메시지 대화 상자 타이틀 저장 변수
-	
+	CString strTypingMsg;		// 키보드 대화 상자 타이틀 저장 변수
+
 	CString strKeypadMsg;		// 키패드 대화 상자 타이틀 저장 변수
 	CString strPadVal;			// 키패드 대화 상자에 출력할 데이터 저장 변수
+
+	CString strPadHighLimit;
+	CString strPadLowLimit;
 
 	CString strPassLevel;		// 암호 레벨 저장 변수
 	CString strPassword;		// 암호 저장 변수
@@ -962,8 +1307,6 @@ struct tagOTHER_INFO
 	int nBuzYesNo;				// jtkim 20150410
 	int nConfirmMsg;
 	int nConfirmType;
-
-	//int nSocket[3];				// Socket Comment 20150804...
 	////////////////////////////////2K10/02/09/ViboX////////////////////////////////////////
 	int		nPrevStep[100];			// 이전 step (변경 되었는지 보기 위함)
 	CString	strHistoryStep[100];		// step_history 약 50개에 해당하는 step을 저장
@@ -1002,7 +1345,6 @@ enum THREAD_SYNC_VARIBLE_SITE_INFO  //위치별 트레이 존재 유무를 위치별로 정의해 
 };
 
 
-
 struct tagSYNC_INFO
 {
 	int			nInitializeError;
@@ -1014,13 +1356,23 @@ struct tagSYNC_INFO
 	//데이터 처리방법은 보내는 사이트가 DATA_SET, 받는 사이트는 DATA_CLEAR 구조로 데이터를 처리한다 
 	//////////////////////////////////////////////////////////////////////////////////////////////////////
 	
-	int nTray_Exist_Data[THREAD_MAX_SITE];		//실제 사용은 0 ~ 10까지만 사용할 예정
-	int nPlate_Tray_Supply_Req[THREAD_MAX_SITE];		//트레이 사이트간 ld/uld index shift를 제외한 사이트간 이송을 요청하는 변수 
-
 	
 };
 extern tagSYNC_INFO	st_sync_info;
 
+
+struct tagVARIABLE_INFO
+{
+	
+
+};
+extern tagVARIABLE_INFO	st_var;
+
+
+
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// 2015.0102 
+#define MAX_GMS_CHANNEL					8
 
 struct tagCLIENT_INFO
 {
@@ -1067,33 +1419,20 @@ struct tagRS232_INFO
 extern tagRS232_INFO st_rs232_info;
 
 
-
-#define RCVR_CLEAR						0
-#define RCVR_PICK_UP_COMMAND			1
-#define RCVR_PICK_UP_COMPLETE			2
-#define RCVR_MOVE_COMMAND				3
-#define RCVR_MOVE_COMPLETE				4
-
-#define MOVE_FORWARD					0
-#define MOVE_BACKWARD					1
-
-#define LOW_SPEED						0
-#define HIGH_SPEED						1
-
-struct	tagRECOVERY_INFO
-{
-
-	int		nMcRecoveryUsed;
-	int		nMcDataRecovery;
-};
-extern tagRECOVERY_INFO st_recovery_info;
-
-
 enum PICKER_PICKPLACE_INFO
 {
 	 PICKER_PICK_MODE	= 0,
 	 PICKER_PLACE_MODE	   ,
 };
+
+#define	BD_READY_CHK_TIME	20		// board ready 명령후 완료체크 시간
+
+enum BOARD_INFO
+{
+	BD_NONE							= 0,
+	
+};
+
 
 
 enum LOT_INFO
@@ -1102,26 +1441,24 @@ enum LOT_INFO
 	LOT_NEXT						,
 	LOT_CURR_BACKUP					, //2015.0302 james LOT_CURR을 lot end 시 클리어전에 백업 데이터를 받는다 
 };
-
 // lot 정보.....
 struct tagLOT_INFO
 {
+
 	CString strLotNo;				// lot no......
 	CString strPartNo;				// part no......
 	CString strProcess;				// process id.....
 	CString strProPerty;			// property end....
 	CString strBypass;				// bypass.....
-	int nLotStatus;
+
+	
+	int     nLotStatus; //0:clear, 1:set
+	int		nLotEnd[THREAD_MAX_SITE]; //해당 사이트 lot end 플레그 
+
+
+	COleDateTime	tStart;			// jtkim 20150408
 };
 extern tagLOT_INFO st_lot_info[3]; //2015.0302 james [2] -> [3] 
-
-struct tagANIMATE_INFO
-{
-	double	dMaxPos[30];		// animate 최대 pulse.....
-	int		nDistance[30];
-	bool	bTrayFlag[9];		// Conveyor Assy 위의 Tray 표시 Flag 0=LdCvyFr 1=LdCvyRe 2=LdRailFr 3=LdRailRe 4=EmptyStk 5=UnldRail 6=UnldElv 7=UnldCvy 8=MvCvy;
-};
-extern tagANIMATE_INFO st_animate_info;
 
 struct tagCOUNT_INFO
 {
@@ -1130,10 +1467,11 @@ struct tagCOUNT_INFO
 	long nPassCount[2][2];			// 양품수량.....
 	long nPrimeCount[2][2];			// nPrimeCount........
 	long nRejectCount[2][2];
-
+	
 	int nUph;
-	int nUphCnt;
 	int nDailyUph;
+	// jtkim 20160106
+	int nUphCnt;
 	double dDailyPer;
 	double dHourPer;
 
@@ -1141,9 +1479,57 @@ struct tagCOUNT_INFO
 extern struct tagCOUNT_INFO st_count_info;
 
 
+struct tagPART_INFO
+{
+	CString strPartNo[30];
+	CString strType[30];
+	CString strDate[30];
+
+	int nDataCnt;
+};
+extern struct tagPART_INFO st_part_info;
+
+struct tagTYPE_INFO
+{
+	CString strType[30];
+	CString strDate[30];
+
+	int nDataCnt;
+};
+extern struct tagTYPE_INFO st_type_info;
+
+struct tagLOT_DISPLAY_INFO
+{
+	CString strLotNo;
+	CString strPartNo;
+	CString strLotState;
+	CString strLotType;
+	CString strMainState;
+	CString strProCid;
+	CString strStep;
+	CString strComplot;
+	CString strLine;
+	
+	int nQty;
+	int nScrapCnt;
+};
+extern struct tagLOT_DISPLAY_INFO st_lot_display_info;
+
+struct tagLOT_HISTORY_INFO
+{
+	CString strLotNo;
+	CString strPartNo;
+	int		nTotalCnt;
+	int		nPassCnt;
+};
+extern struct tagLOT_HISTORY_INFO st_lot_history_info;
+
+
+
 enum WAIT_TIME
 {
 	WAIT_STOPPER_UP_DN						= 0,
+	
 	MAX_WAIT_TIME							,
 };
 
@@ -1164,6 +1550,24 @@ struct tagWAIT_INFO
 };
 extern  tagWAIT_INFO  st_wait_info;
 
+
+struct tagSCRAP_CODE
+{
+	int		m_nScrapCode[10000][2]; //scrap code data.....
+	int		m_nScrapBin;			// scrap code bin......
+};
+extern tagSCRAP_CODE st_code_info[2];
+
+
+
+
+enum RECOVERY_CYL
+{
+	RECO_LD_CVY_BUFF_STOPPER					= 0,
+
+	RECO_MAX_COUNT								,
+};
+
 enum EQP_MCMD
 {
 	EQP_OFF_LINE					= 1,
@@ -1176,6 +1580,7 @@ enum MES_MCMD
 	MES_ON_LINE_LOCAL				= 4,
 	MES_ON_LINE_REMOTE				= 5,
 };
+
 
 enum LINK_STATUS
 {
@@ -1193,6 +1598,12 @@ enum PROC_STATE
 	PROC_MAINT						,
 };
 
+enum  THREAD_PART
+{
+	PART_MGZ_ELV					= 0,
+
+	
+};
 
 
 enum EQ_WITH_MODE_STATE
@@ -1221,6 +1632,9 @@ enum MOTOR_NUM
 	M_BARCODE_X						= 0,
 	M_MAX_MOTOR_NUM					, //29
 };
+
+
+
 
 enum COMM_PORT
 {

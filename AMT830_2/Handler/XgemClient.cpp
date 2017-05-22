@@ -8,7 +8,7 @@ CXgemClient clsXgem;
 
 CXgemClient::CXgemClient(void)
 {
-	m_nXgemReq	= 0;
+	m_nXgemReq	= BIN_NOTUESD;
 	m_strHeader = _T("HD");
 	m_nHeader	= 6;
 }
@@ -563,9 +563,18 @@ void CXgemClient::OnXgemRecipe(int nMode, CString strPath, CString strModel)
 
 		:: WritePrivateProfileString(_T("Recipe"), _T("Name"), LPCTSTR(st_basic_info.strModelName), strRecipePath);
 
+		
+
 		:: WritePrivateProfileString(_T("Mode"), _T("Mode"), LPCTSTR(_T("1")), strRecipePath);
 
+		:: WritePrivateProfileString(_T("Mode"), _T("Align Buffer"), LPCTSTR(_T("0")), strRecipePath);
+
 		:: WritePrivateProfileString(_T("Mode"), _T("BYPASS MODE"), LPCTSTR(_T("1")), strRecipePath);
+
+		strTemp.Format(_T("%d"), st_basic_info.nModeDevice);
+		:: WritePrivateProfileString(_T("Mode"), _T("Mode"), LPCTSTR(strTemp), strRecipePath);
+
+		
 	}
 	else
 	{

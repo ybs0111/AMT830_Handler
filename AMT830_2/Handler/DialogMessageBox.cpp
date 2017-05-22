@@ -50,6 +50,12 @@ BOOL CDialogMessageBox::OnInitDialog()
 	OnInitGroup();
 	OnInitButton();
 
+	// jtkim 20150410
+	if (st_other_info.nBuzYesNo == YES)
+	{
+		FAS_IO.set_out_bit(st_io_info.o_Buzz2OnOff, IO_ON);
+	}
+	
 	return TRUE;  // return TRUE unless you set the focus to a control
 	// 예외: OCX 속성 페이지는 FALSE를 반환해야 합니다.
 }
@@ -92,6 +98,11 @@ void CDialogMessageBox::OnMessageDisplay(CString strMsg)
 		strMsg = _T("-No Message");
 	}
 	
+	if (st_other_info.nBuzYesNo == YES)
+	{
+		FAS_IO.set_out_bit(st_io_info.o_Buzz2OnOff, IO_ON);
+	}
+
 	nIndex = m_listMsg.AddString(strMsg, RGB(255, 0, 0));  // 현재 입력된 정보 리스트 박스 컨트롤에 추가 
 	m_listMsg.SetCurSel(nIndex);
 }
@@ -171,6 +182,7 @@ BOOL CDialogMessageBox::Create()
 BOOL CDialogMessageBox::DestroyWindow()
 {
 	// TODO: 여기에 특수화된 코드를 추가 및/또는 기본 클래스를 호출합니다.
+	FAS_IO.set_out_bit(st_io_info.o_Buzz2OnOff, IO_OFF);
 
 	return CDialogEx::DestroyWindow();
 }

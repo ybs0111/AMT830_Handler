@@ -211,8 +211,6 @@ LRESULT CScreenMain::OnMainWorkInfoDisplay(WPARAM wParam, LPARAM lParam)
 		case MAIN_COUNT_DISPLAY:
 			OnMainCountDisplay();
 			break;
-
-		
 	}
 
 	return 0;
@@ -567,18 +565,6 @@ void CScreenMain::OnMainTimeDisplay()
 		strTime.Format(_T("%d / %0.2f"), st_count_info.nUph , dTemp);
 		m_pGridTimeInfo.SetItemText(4, 1, strTime);
 
-		if (st_work_info.nCycleCount > 0)
-		{
-			dTemp = (double)st_work_info.dwLotCycle / (double)st_work_info.nCycleCount;
-
-			strTime.Format(_T("%d / %0.2f"), st_work_info.dwTrayCycle , dTemp);
-			m_pGridTimeInfo.SetItemText(5, 1, strTime);
-		}
-		else
-		{
-			strTime.Format(_T("%d / %0.2f"), st_work_info.dwTrayCycle , 0.0);
-			m_pGridTimeInfo.SetItemText(5, 1, strTime);
-		}
 	}
 
 
@@ -703,8 +689,7 @@ void CScreenMain::OnClickedBtnMainAnimate()
 	int nResponse;
 
 	dlgMsg.m_nMessageType	= 1;
-	
-	nResponse = (int)dlgMsg.DoModal();
+
 
 }
 
@@ -717,12 +702,15 @@ void CScreenMain::OnClickedBtnMainData()
  	if (st_handler_info.nRunStatus != dSTOP) return;
  
  	CDialog_Message dlgMsg;
+
+	
 }
 
 
 void CScreenMain::OnBnClickedButtonTrackOut()
 {
 	if (st_handler_info.nLotStatus != dSTOP) return;
+
 
 }
 

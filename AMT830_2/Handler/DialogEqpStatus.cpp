@@ -74,7 +74,6 @@ BOOL CDialogEqpStatus::OnInitDialog()
 	m_nCurRow		=	-1;
 	m_nDbRowCnt		=	0;
 	m_strComment	=	_T("");
-	m_bEnableFlag	=	st_basic_info.bEnableFlag;
 	m_ctrlComment.SetWindowTextW(m_strComment);
 	m_brushDisable.CreateSolidBrush(RED_C);
 	m_brushEnable.CreateSolidBrush(GREEN_C);
@@ -1203,7 +1202,6 @@ void CDialogEqpStatus::OnTimer(UINT_PTR nIDEvent)
 		}
 		break;
 	}
-	st_basic_info.bEnableFlag = m_bEnableFlag;
 
 	CDialogEx::OnTimer(nIDEvent);
 }

@@ -21,21 +21,17 @@ class CWorkRecipe : public CDialog
 	DECLARE_DYNAMIC(CWorkRecipe)
 
 public:
+	
+
 	CButtonST			m_btnApply;
 	CButtonST			m_btnReLoad;
 //	CButtonST			m_btnBufSenUse;
 
-	CXPGroupBox			m_groupTrayInfo;
-	CXPGroupBox			m_groupRotator;
-	CXPGroupBox			m_group_Tray_Size_Setting;
-	CGradientStatic		m_msg_Tray_Size_x;
-	CGradientStatic		m_msg_Tray_Size_y;
-	CDigit				m_dgt_Tray_Size_x;
-	CDigit				m_dgt_Tray_Size_y;
 
-	int                 m_nTraySize_X[2];
-	int                 m_nTraySize_Y[2];
 
+	
+
+	
 	void				OnInitGroupBox();
 	void				OnInitLabel();
 	void				OnInitButton();
@@ -68,7 +64,4 @@ public:
 	virtual void PostNcDestroy();
 	afx_msg void OnDestroy();
 	afx_msg void OnTimer(UINT_PTR nIDEvent);
-
-	afx_msg void OnStnClickedDgtTrayX();
-	afx_msg void OnStnClickedDgtTrayY();
 };

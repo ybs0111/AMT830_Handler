@@ -357,57 +357,54 @@ void CClientGms::OnDataReceive(CString strMsg)
 	CString	strBuff[10];
 	CString strLog = _T("");
 	
-// 	strMsg.TrimLeft(STX);
-// 	strMsg.TrimRight(ETX);
-// 
-// 	if (strMsg.GetLength() > 5)
-// 	{
-// 		strData	=	strMsg.Mid(0, 3);
-// 
-// 		if (strData	==	_T("EOS"))
-// 		{
-// 			for (i=0; i<6; i++)
-// 			{
-// 				AfxExtractSubString(strBuff[i], strMsg, i, _T(','));
-// 			}
-// 
-// 			nCh			=	_wtoi(strBuff[2]);
-// 
-// 			strTemp		=	OnDateFormat(strBuff[5]);
-// 			
-// 			st_gms_info.strEqpID[nCh-1]		=	strBuff[1];
-// 			st_gms_info.strValVolt[nCh-1]	=	strBuff[3];
-// 			st_gms_info.strValRes[nCh-1]	=	strBuff[4];
-// 			st_gms_info.strDateTime[nCh-1]	=	strTemp;
-// 
-// 			st_handler_info.cWndFtp->SendMessage(WM_WORK_DISPLAY, nCh-1);
-// 		}
-// 	}
-// 	else
-// 	{
-// 		if (strMsg == _T("EOSOK"))
-// 		{
-// 			m_nTimFlag	=	TRUE;
-// 			m_nAsdFlag	=	FALSE;
-// 		}
-// 		else if (strMsg == _T("ASDOK"))
-// 		{
-// 			m_nAsdFlag	=	TRUE;
-// 		}
-// 		else if (strMsg == _T("PNG  "))
-// 		{
-// 			m_nPngFlag	=	TRUE;
-// 		}
-// 		else
-// 		{
-// 
-// 		}
-// 	}
-// 
-// 	strData.Format(_T("[TTS_VNR_NETWORK] %s Receive"), strMsg);
-// 	//clsFunc.OnStringToChar(strMsg, st_other_info.cNormalMsg);
-// 	clsMem.OnNormalMessageWrite(strData);
-// 	st_handler_info.cWndList->SendMessage(WM_LIST_DATA, 0, NORMAL_MSG);  // 동작 실패 출력
+	strMsg.TrimLeft(STX);
+	strMsg.TrimRight(ETX);
+
+	if (strMsg.GetLength() > 5)
+	{
+		strData	=	strMsg.Mid(0, 3);
+
+		if (strData	==	_T("EOS"))
+		{
+			for (i=0; i<6; i++)
+			{
+				AfxExtractSubString(strBuff[i], strMsg, i, _T(','));
+			}
+
+			nCh			=	_wtoi(strBuff[2]);
+
+			strTemp		=	OnDateFormat(strBuff[5]);
+			
+	
+
+			st_handler_info.cWndFtp->SendMessage(WM_WORK_DISPLAY, nCh-1);
+		}
+	}
+	else
+	{
+		if (strMsg == _T("EOSOK"))
+		{
+			m_nTimFlag	=	TRUE;
+			m_nAsdFlag	=	FALSE;
+		}
+		else if (strMsg == _T("ASDOK"))
+		{
+			m_nAsdFlag	=	TRUE;
+		}
+		else if (strMsg == _T("PNG  "))
+		{
+			m_nPngFlag	=	TRUE;
+		}
+		else
+		{
+
+		}
+	}
+
+	strData.Format(_T("[TTS_VNR_NETWORK] %s Receive"), strMsg);
+	//clsFunc.OnStringToChar(strMsg, st_other_info.cNormalMsg);
+	clsMem.OnNormalMessageWrite(strData);
+	st_handler_info.cWndList->SendMessage(WM_LIST_DATA, 0, NORMAL_MSG);  // 동작 실패 출력
 }
 
 void CClientGms::OnDataAnalysis(CString strMsg)

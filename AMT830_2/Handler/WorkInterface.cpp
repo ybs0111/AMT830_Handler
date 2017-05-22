@@ -710,6 +710,7 @@ void CWorkInterface::OnInitButton()
 	m_btnBcodeOff.SetFont(clsFunc.m_pFont[2]);
 	m_btnBcodeOff.SetTooltipText(_T("Trigger Off"));
 
+	
 }			
 
 void CWorkInterface::OnInterface_Display()
@@ -999,6 +1000,7 @@ void CWorkInterface::OnDataInit()
 		pos = st_serial_info.nSerialStop[i];
 		m_nStop[i][1] = ConverterToPos(COM_STOP, pos);
 	}
+
 
 	OnDataBackup();
 }

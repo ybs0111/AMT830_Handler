@@ -134,7 +134,10 @@ LRESULT CDialog_Title::OnStatusDataUpdate(WPARAM wParam,LPARAM lParam)
 	{
 		OnTitleFormNameChange((int)lParam); // 현재 출력된 뷰 화면 이름 정보 출력 함수
 
-		m_msgOtherInfo.SetWindowText(strTemp);
+// 		strTemp.Format(_T("ABORT : %d / %d RETEST : %d"), st_recipe_info.nAbortTime,
+// 														  st_lot_info[LOT_CURR].nAbortTime,
+// 														  st_recipe_info.nTestRetest_Count);
+	//	m_msgOtherInfo.SetWindowText(strTemp);
 	}
 	else if (wParam == MACHINE_STATUS)	// 장비 상태 정보 변경인 경우 
 	{
@@ -154,12 +157,14 @@ LRESULT CDialog_Title::OnStatusDataUpdate(WPARAM wParam,LPARAM lParam)
 	}
 	else if (wParam == XGEM_MODE)
 	{
-
-		//OnTitleMesDisplay((int)lParam);
+		OnTitleMesDisplay((int)lParam);
 	}
 	else if (wParam == COMMUNICATION_MODE)
 	{
-		m_msgOtherInfo.SetWindowText(strTemp);
+// 		strTemp.Format(_T("ABORT : %d / %d RETEST : %d"), st_recipe_info.nAbortTime,
+// 														  st_lot_info[LOT_CURR].nAbortTime,
+// 														  st_recipe_info.nTestRetest_Count);
+		//m_msgOtherInfo.SetWindowText(strTemp);
 	}
 
 	return 0;
@@ -172,7 +177,19 @@ void CDialog_Title::OnTitleFormNameChange(int nViewID)
 	switch(nViewID)
 	{
 		case IDW_SCREEN_MAIN:
-			strFormName += _T(" Screen: Main (Not Used)");
+			strFormName = _T("\n");
+			if (st_handler_info.nFtpVer == 0)
+			{
+				strFormName += _T(" Screen: Main (Not Used)");
+			}
+			else if (st_handler_info.nFtpVer == 1)
+			{
+				strFormName += _T(" Screen: Main (LOCAL)");
+			}
+			else
+			{
+				strFormName += _T(" Screen: Main (FTP)");
+			}
 			break;
 
 		case IDW_SCREEN_LOCK:
@@ -215,10 +232,6 @@ void CDialog_Title::OnTitleFormNameChange(int nViewID)
 			strFormName += _T(" Screen: FTP");
 			break;
 
-		case IDW_SCREEN_SET_COK:
-			strFormName += _T("\n");
-			strFormName += _T(" Screen: COK");
-			break;
 
 		case IDW_SCREEN_SET_PART_NO:
 			strFormName += _T("\n");
@@ -504,8 +517,4 @@ void CDialog_Title::OnStnClickedMsgMesAbortRetest()
 	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
 	if (st_handler_info.nRunStatus != dSTOP) return;
 
-	CString strTemp;
-
-
-	m_msgOtherInfo.SetWindowText(strTemp);
 }

@@ -293,21 +293,56 @@ int CScreenInitial::OnInitExcution()
 			{
 				return RET_ERROR;
 			}
-			
+			//2014.01.21 주석처리
+// 			if (FAS_IO.get_in_bit(st_io_info.i_FrontSelectSwChk, IO_ON) == IO_OFF ||
+// 				FAS_IO.get_in_bit(st_io_info.i_RearSelectSwChk1, IO_ON)	== IO_OFF ||
+// 				FAS_IO.get_in_bit(st_io_info.i_RearSelectSwChk2, IO_ON)	== IO_OFF)
+// 			{
+// 
+// 				if (FAS_IO.get_in_bit(st_io_info.i_FrontSelectSwChk, IO_ON) == IO_OFF)
+// 				{
+// 					strTemp.Format(_T("8%d%04d"), IO_OFF, st_io_info.i_FrontSelectSwChk);
+// 					CTL_Lib.Alarm_Error_Occurrence(6000, dWARNING, strTemp);
+// 				}
+// 				else
+// 				{
+// 					strTemp.Format(_T("8%d%04d"), IO_OFF, st_io_info.i_RearSelectSwChk1);
+// 					CTL_Lib.Alarm_Error_Occurrence(6000, dWARNING, strTemp);
+// 				}
+// 
+// 				return RET_ERROR;
+
+
 			break;
 
 		case 50:
-
+// 			if (FAS_IO.get_in_bit(st_io_info.i_FrontSelectSwChk, IO_ON) == IO_ON &&
+// 				FAS_IO.get_in_bit(st_io_info.i_RearSelectSwChk1, IO_ON)	== IO_ON &&
+// 				FAS_IO.get_in_bit(st_io_info.i_RearSelectSwChk2, IO_ON)	== IO_ON)
+// 			{
+// 				m_nInitStep = 100;
+// 			}
+// 			else
+// 			{
+// 				m_nInitStep = 0;
+// 			}
 			break;
 
 		case 100:
 			if (st_lot_info[LOT_CURR].nLotStatus == YES)
 			{
+				// jtkim 20150614
+/*
+				st_other_info.nConfirmMsg	= -1;
+			
+				st_handler_info.cWndInitial->PostMessage(WM_WORK_COMMAND, INIT_RECOVERY_COMMAND, 0);
+
+				m_nInitStep = 200;
+*/
 				OnRecoveryInit();
 
-				
-				st_recovery_info.nMcRecoveryUsed = NO;
-				st_recovery_info.nMcDataRecovery = NO;
+				st_lot_info[LOT_CURR].nLotStatus = NO;
+
 
 				m_nInitStep = 300;
 			}
@@ -323,8 +358,7 @@ int CScreenInitial::OnInitExcution()
 			if (st_other_info.nConfirmMsg == NO)
 			{
 				OnRecoveryInit();
-				st_recovery_info.nMcRecoveryUsed = NO;
-				st_recovery_info.nMcDataRecovery = NO;
+		
 
 				m_nInitStep = 300;
 			}
@@ -333,8 +367,7 @@ int CScreenInitial::OnInitExcution()
 				// recovery data read......
 				clsFunc.OnRecoveryReadWrite(0, 1);
 
-				st_recovery_info.nMcRecoveryUsed = NO;
-				st_recovery_info.nMcDataRecovery = YES;
+
 
 				m_nInitStep = 300;
 			}
@@ -439,54 +472,54 @@ int CScreenInitial::OnInitExcution()
 					else
 					{
 						/// 추가.......
-						if (st_recovery_info.nMcDataRecovery == NO)
-						{
-							for (i = 0; i < MAXMOTOR; i++)
-							{
-								COMI.mn_homechk_flag[i] = NO;
-							}
-							m_nProcessStep += 8;
-
-							if (st_handler_info.cWndList != NULL)  // 리스트 바 화면 존재
-							{
-								clsMem.OnNormalMessageWrite(_T("Motor Board Initialized Success..."));
-								st_handler_info.cWndList->SendMessage(WM_LIST_DATA, 0, NORMAL_MSG);
-							}
-
-							OnInitChangeStatus(2);	// I/O Board 초기화 완료
-
-							m_nInitStep = 600;
-						}
-						else
-						{
-							nCount = 0;
-							for (i=0; i<M_MAX_MOTOR_NUM; i++)
-							{
-								dCurrPos	= COMI.Get_MotCurrentPos(i);
-								
-
-								if (dData > st_motor_info[i].d_allow)
-								{
-									COMI.mn_homechk_flag[i] = NO;
-								}
-								else
-								{
-									COMI.mn_homechk_flag[i] = YES;
-								}
-							}
-
-							m_nProcessStep += 8;
-
-							if (st_handler_info.cWndList != NULL)  // 리스트 바 화면 존재
-							{
-								clsMem.OnNormalMessageWrite(_T("Motor Board Initialized Success..."));
-								st_handler_info.cWndList->SendMessage(WM_LIST_DATA, 0, NORMAL_MSG);
-							}
-
-							OnInitChangeStatus(2);	// I/O Board 초기화 완료
-
-							m_nInitStep = 600;
-						}
+// 						if (st_recovery_info.nMcDataRecovery == NO)
+// 						{
+// 							for (i = 0; i < MAXMOTOR; i++)
+// 							{
+// 								COMI.mn_homechk_flag[i] = NO;
+// 							}
+// 							m_nProcessStep += 8;
+// 
+// 							if (st_handler_info.cWndList != NULL)  // 리스트 바 화면 존재
+// 							{
+// 								clsMem.OnNormalMessageWrite(_T("Motor Board Initialized Success..."));
+// 								st_handler_info.cWndList->SendMessage(WM_LIST_DATA, 0, NORMAL_MSG);
+// 							}
+// 
+// 							OnInitChangeStatus(2);	// I/O Board 초기화 완료
+// 
+// 							m_nInitStep = 600;
+// 						}
+// 						else
+// 						{
+// 							nCount = 0;
+// 							for (i=0; i<M_MAX_MOTOR_NUM; i++)
+// 							{
+// 								dCurrPos	= COMI.Get_MotCurrentPos(i);
+// 								
+// 
+// 								if (dData > st_motor_info[i].d_allow)
+// 								{
+// 									COMI.mn_homechk_flag[i] = NO;
+// 								}
+// 								else
+// 								{
+// 									COMI.mn_homechk_flag[i] = YES;
+// 								}
+// 							}
+// 
+// 							m_nProcessStep += 8;
+// 
+// 							if (st_handler_info.cWndList != NULL)  // 리스트 바 화면 존재
+// 							{
+// 								clsMem.OnNormalMessageWrite(_T("Motor Board Initialized Success..."));
+// 								st_handler_info.cWndList->SendMessage(WM_LIST_DATA, 0, NORMAL_MSG);
+// 							}
+// 
+// 							OnInitChangeStatus(2);	// I/O Board 초기화 완료
+// 
+// 							m_nInitStep = 600;
+// 						}
 					}
 				}
 			}
@@ -636,11 +669,7 @@ int CScreenInitial::OnInitExcution()
 				Sleep(0);
 			}
 
-			// jtkim 20150330 recovery동작
-			if (st_recovery_info.nMcDataRecovery == NO)
-			{
-				st_handler_info.nRunStatus = dINIT;
-			}
+			
 			clsFunc.OnDoorClose();
 			
 			if (st_handler_info.cWndTitle != NULL)	
@@ -653,10 +682,7 @@ int CScreenInitial::OnInitExcution()
 		case 900:
 			AllStop[1] = 0;
 
-			if (st_recovery_info.nMcDataRecovery == YES)
-			{
-				
-			}
+			
 			m_nInitStep = 1000;
 			break;
 

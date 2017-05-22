@@ -609,8 +609,13 @@ void CScreenMotor::OnInitTree()
 			m_treeMotorList.EnsureVisible(item[1]);
 		}
 	}
-
-	m_treeMotorList.EnsureVisible(firstitem);
+	//m_treeMotorList.EnsureVisible(firstitem);
+	//kwlee 2017.0522
+	if (clsExcel.m_nPartCnt > 0)
+	{
+		m_treeMotorList.EnsureVisible(firstitem);	
+	}
+	
 }
 
 BOOL CScreenMotor::DestroyWindow()
@@ -668,8 +673,6 @@ void CScreenMotor::OnClickedBtnEmergency()
 		m_bEmergency = true;
 	}
 }
-
-
 
 void CScreenMotor::OnSelchangedTreeMotorList(NMHDR *pNMHDR, LRESULT *pResult)
 {
@@ -880,16 +883,6 @@ LRESULT CScreenMotor::OnUserLButtonDown(WPARAM wParam, LPARAM lParam)
 				{
 					st_handler_info.nMenuLock = TRUE;
 				}
-
-				/*COMI.Set_MotSpeed(MOT_SPD_CM_CTL, nMotor + 1 , 0, st_motor_info[nMotor].d_spd_jog[0], st_motor_info[nMotor].d_accel[0], st_motor_info[nMotor].d_decel[0]) ;	
-				if (cmmSxVMoveStart(nMotor +1, PLUS) != cmERR_NONE)
-				{ 
-					cmmErrShowLast(GetSafeHwnd());
-				}
-				else
-				{
-					st_handler_info.nMenuLock = TRUE;
-				}*/
 			}
 			break;
 	}
@@ -995,7 +988,6 @@ LRESULT CScreenMotor::OnUserLButtonUp(WPARAM wParam, LPARAM lParam)
 				{
 					st_handler_info.nMenuLock = FALSE;
 				}
-
 				OnButtonControl(TRUE);	
 			}
 			else
@@ -1236,7 +1228,6 @@ void CScreenMotor::OnMotorPositionCheck()
 	}
 
 	CString strTmp;
-
 	strTmp.Format(_T("%.3f"), COMI.Get_MotCurrentPos(clsExcel.m_nPartAxis[m_nMotorPartNum][m_nMotorPartAxisNum]));
 	m_pGridMotStatus.SetItemText(7, 2, strTmp);
 
@@ -1822,9 +1813,7 @@ void CScreenMotor::OnMotorCellClick(NMHDR *pNotifyStruct, LRESULT* pResult)
 			{
 				dlgMsg.m_nMessageType	= 0;
 				dlgMsg.m_strMessage		= _T("First Init Motion board try please.");
-
 				dlgMsg.DoModal();
-
 				return;
 			}
 

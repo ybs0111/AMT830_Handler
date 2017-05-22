@@ -2899,28 +2899,42 @@ void CFastechPublic_IO::Initialize_Map()
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	// Module No 00
 	///////////////////////////////////////////////////////////////////////////////////////////////
-			// S0000
-			// S0001
-			// S0002
-			// S0003
-			// S0004
+	st_io_info.o_StartLamp			= 0;			// S0000
+	st_io_info.o_StopLamp			= 1;			// S0001
+	st_io_info.o_AlarmLamp			= 2;			// S0002
+	st_io_info.o_BuzzLamp			= 3;			// S0003
+	st_io_info.o_DoorLock			= 4;			// S0004
 	//S0005									
 	//S0006									
 	//S0007
-
-			//PS0002
-			//PS0003
-
+	st_io_info.i_StartChk			= 8;			//PS0000
+	st_io_info.i_StopChk			= 9;			//PS0001
+	st_io_info.i_AlarmChk			= 10;			//PS0002
+	st_io_info.i_BuzzChk			= 11;			//PS0003
+	st_io_info.i_AutoModeChk		= 12;			//PS0004
+	st_io_info.i_ManualModeChk		= 13;			//PS0005
+	st_io_info.i_FrontSelectSwChk	= 14;			//PS0006
+	st_io_info.i_RearSelectSwChk1	= 15;			//PS0007
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	// Module No 01
 	//////////////////////////////////////////////////////////////////////////////////////////////
-			// S0100
-
+	st_io_info.o_MainAir				= 100;		// S0100
+	st_io_info.o_TwGreenLamp			= 101;		// S0101
+	st_io_info.o_TwYellowLamp			= 102;		// S0102
+	st_io_info.o_TwRedLamp				= 103;		// S0103
+	st_io_info.o_Buzz1OnOff				= 104;		// S0104
+	st_io_info.o_Buzz2OnOff				= 105;		// S0105
+	st_io_info.o_Buzz3OnOff				= 106;		// S0106
 	// S0107
-		//PS0100	
-		//PS0101	
-	
+	st_io_info.i_MainMcChk				= 108;		//PS0100	
+	st_io_info.i_MainAirChk				= 109;		//PS0101	
+	st_io_info.i_LfTsiteDockSafetyChk	= 110;		//PS0102
+	st_io_info.i_RiTsiteDockSafetyChk	= 111;		//PS0103
+	st_io_info.i_Emo1SwChk				= 112;		//PS0104	
+	st_io_info.i_Emo2SwChk				= 113;		//PS0105	
+	st_io_info.i_Emo3SwChk				= 114;		//PS0106	
+	st_io_info.i_Emo4SwChk				= 115;		//PS0107	
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	// Module No 02

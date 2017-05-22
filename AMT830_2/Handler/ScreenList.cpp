@@ -97,7 +97,7 @@ void CScreenList::OnInitGridData()
 {
 	//2015.02.10
 	CString strTmp;
-	CString strHead[49]={_T(""),}; 
+	CString strHead[49] = {_T(""),};
 	int i, j;
 
 	m_pGridData.DeleteAllItems();
@@ -172,7 +172,7 @@ void CScreenList::OnInitGridData()
 		m_pGridData.SetItemFont(i + 1, 2, &clsFunc.OnLogFont(20));
 		m_pGridData.SetItemText(i + 1, 2, _T("0"));
 	}
-	//2015.02.10
+	
 }
 
 void CScreenList::OnInitGroupBox()
