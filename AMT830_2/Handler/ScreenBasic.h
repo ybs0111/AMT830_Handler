@@ -30,9 +30,20 @@ public:
 	int					m_nModeFrontSmema[2];
 	int					m_nModeRearSmema[2];
 	int					m_nModeRfid[2];
-	
 
-	//
+	//kwlee 2017.0523
+	int                 m_nModeCapRemoveUse[2];
+	int                 m_nModeSorterPickerUse[2];
+	int                 m_nModeModuleDirCheck[2];
+	int                 m_nModeHeatSinkDirCheck[2];
+
+	int                 m_nPrinterVisionPapper[2];
+	int                 m_nPrintBinPapper[2];
+	int                 m_nLabelErrCnt[2];
+	//////
+	//kwlee 2017.0524
+	int                 m_nRepickCnt[2];
+	int                 m_nDeviceCnt[2];
 
 	CString				m_strTempDevice;				// 선택된 디바이스 종류 임시 저장 변수
 	CString				m_strLoadFile;					// 로딩할 파일에 대한 [폴더]+[파일명] 저장 변수
@@ -53,6 +64,13 @@ public:
 	CGridCtrl			m_pGridModel;
 	CGridCtrl			m_pGridHifix;
 	
+	CXPGroupBox			m_group_Label_error_Cnt;
+	CXPGroupBox			m_group_Label_Vision_Papper;
+	CXPGroupBox			m_group_Label_Bin_Papper;
+
+	CDigit				m_dgt_Label_Error_Cnt;
+	CDigit				m_dgt_Label_Vision_Paper;
+	CDigit				m_dgt_Label_bin_Print;
 
 	void				OnInitGroupBox();
 	void				OnInitLabel();
@@ -108,6 +126,16 @@ public:
 	afx_msg void OnTimer(UINT_PTR nIDEvent);
 	afx_msg void OnStnClickedDgtLotsetClip();
 	afx_msg void OnStnClickedDgtPickerGapModuleLoad();
+	
+	afx_msg void OnStnClickedDgtLabelErrorCnt();
+	afx_msg void OnStnClickedDgtLabelVisionPaper();
+	afx_msg void OnStnClickedDgtLabelBinPrint();
+	CXPGroupBox m_group_Device_Cnt;
+	CDigit m_dgt_Device_Cnt;
+	CXPGroupBox m_group_Repick_Cnt;
+	CDigit m_dgt_Repick_Cnt;
+	afx_msg void OnStnClickedDgtDeviceCnt();
+	afx_msg void OnStnClickedDgtRepickCnt();
 };
 
 

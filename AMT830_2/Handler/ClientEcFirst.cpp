@@ -281,8 +281,8 @@ void CClientEcFirst::OnDataAnalysis(CString strMsg)
 	CString strRpy;
 	CString strEqpModel;
 
-	int i;
-	int nPos;
+//	int i;
+//	int nPos;
 	int nCount = 0;
 
 	strFunc = OnDataItemAnalysis(0, 0, strMsg, _T("FUNCTION_RPY"));
@@ -630,7 +630,7 @@ void CClientEcFirst::OnEcOnlineEnd(tagLOT_DISPLAY_INFO lot_display)
 	CString strData;
 	CString strMsg;
 
-	int i;
+//	int i;
 
 	strData = _T("FUNCTION=ONLINE_END");
 	strData += _T(" ");

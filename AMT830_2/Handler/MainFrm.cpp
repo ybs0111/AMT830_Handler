@@ -1387,7 +1387,6 @@ void CMainFrame::OnTimer(UINT_PTR nIDEvent)
 
 		st_handler_info.tRef	= cur;
 		
-
 		if (st_handler_info.nMaintMode == YES)		// 메인트 모드이면 메인트 타임만 업데이트 된다.
 		{
 			// jtkim 20150307
@@ -1413,8 +1412,6 @@ void CMainFrame::OnTimer(UINT_PTR nIDEvent)
 						st_handler_info.tRun = st_handler_info.tRun + diff;
 						// jtkim 20150529
 						st_handler_info.tRunUph = st_handler_info.tRunUph + diff;
-
-						
 					}
 					else
 					{
@@ -1432,8 +1429,7 @@ void CMainFrame::OnTimer(UINT_PTR nIDEvent)
 							}
 							else
 							{
-								st_handler_info.tStop = st_handler_info.tStop + diff;
-								
+								st_handler_info.tStop = st_handler_info.tStop + diff;	
 							}
 						}
 						else
@@ -1446,7 +1442,6 @@ void CMainFrame::OnTimer(UINT_PTR nIDEvent)
 							}
 							st_handler_info.tDStop = st_handler_info.tDStop + diff;
 						}
-
 					}
 					break;
 

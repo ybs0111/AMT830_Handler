@@ -13,7 +13,7 @@ UINT OnClientRfidThread(LPVOID lParam);
 
 CClientRfid::CClientRfid(void)
 {
-	int nRfid;
+//	int nRfid;
 
 // 	nRfid				= RF_CARRIER_ID;
 // 	m_nRfidPos[nRfid]	= 0;
@@ -103,10 +103,10 @@ CClientRfid::~CClientRfid(void)
 
 void CClientRfid::OnCommunication()
 {
-	switch (m_nCommStep)
-	{
-		
-	}
+// 	switch (m_nCommStep)
+// 	{
+// 		
+// 	}
 }
 
 UINT OnClientRfidThread(LPVOID lParam)

@@ -15,6 +15,9 @@ extern UINT OnThreadHandlerCheck(LPVOID  lParam);		// m_thread[1]
 extern UINT	OnThreadReadIO(LPVOID lParam);				// m_thread[0]
 extern UINT	OnThreadTowerLamp(LPVOID lParam);			// m_thread[2]
 extern UINT OnThreadAlarmDisplay(LPVOID lParam);		// m_thread[3]
+//kwlee 2017.0524
+extern UINT OnThreadFrontLoadClip(LPVOID lParam);		// m_thread[3]
+
 
 extern int AllStop[2];  // 쓰레드 강제 멈춤 플래그
 

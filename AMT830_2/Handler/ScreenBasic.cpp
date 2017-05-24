@@ -46,6 +46,16 @@ void CScreenBasic::DoDataExchange(CDataExchange* pDX)
 	DDX_Control(pDX, IDC_GROUP_DEVICE_MODE,		m_groupDeviceMode);
 	DDX_Control(pDX, IDC_CUSTOM_DEVICE_MODE,	m_pGridDevice);
 	DDX_Control(pDX, IDC_CUSTOM_MODEL_LIST,		m_pGridModel);
+	DDX_Control(pDX, IDC_GROUP_LABEL_ERROR_CNT, m_group_Label_error_Cnt);
+	DDX_Control(pDX, IDC_GROUP_LABEL_VISION_PAPER, m_group_Label_Vision_Papper);
+	DDX_Control(pDX, IDC_GROUP_LABEL_BIN_PRINT, m_group_Label_Bin_Papper);
+	DDX_Control(pDX, IDC_DGT_LABEL_ERROR_CNT, m_dgt_Label_Error_Cnt);
+	DDX_Control(pDX, IDC_DGT_LABEL_VISION_PAPER, m_dgt_Label_Vision_Paper);
+	DDX_Control(pDX, IDC_DGT_LABEL_BIN_PRINT, m_dgt_Label_bin_Print);
+	DDX_Control(pDX, IDC_GROUP_DEVICE_CNT, m_group_Device_Cnt);
+	DDX_Control(pDX, IDC_DGT_DEVICE_CNT, m_dgt_Device_Cnt);
+	DDX_Control(pDX, IDC_GROUP_REPICK_CNT, m_group_Repick_Cnt);
+	DDX_Control(pDX, IDC_DGT_REPICK_CNT, m_dgt_Repick_Cnt);
 }
 
 BEGIN_MESSAGE_MAP(CScreenBasic, CFormView)
@@ -60,6 +70,11 @@ BEGIN_MESSAGE_MAP(CScreenBasic, CFormView)
 	ON_WM_DESTROY()
 	ON_WM_CTLCOLOR()
 	ON_WM_TIMER()
+	ON_STN_CLICKED(IDC_DGT_LABEL_ERROR_CNT, &CScreenBasic::OnStnClickedDgtLabelErrorCnt)
+	ON_STN_CLICKED(IDC_DGT_LABEL_VISION_PAPER, &CScreenBasic::OnStnClickedDgtLabelVisionPaper)
+	ON_STN_CLICKED(IDC_DGT_LABEL_BIN_PRINT, &CScreenBasic::OnStnClickedDgtLabelBinPrint)
+	ON_STN_CLICKED(IDC_DGT_DEVICE_CNT, &CScreenBasic::OnStnClickedDgtDeviceCnt)
+	ON_STN_CLICKED(IDC_DGT_REPICK_CNT, &CScreenBasic::OnStnClickedDgtRepickCnt)
 END_MESSAGE_MAP()
 
 
@@ -92,10 +107,8 @@ void CScreenBasic::OnInitialUpdate()
 	OnInitLabel();
 	OnInitDigit();
 	OnInitButton();
-
 	OnInitGridDeviceMode();
 	OnInitGridModelList();
-	
 	UpdateData(FALSE);
 
 	st_handler_info.cWndBasic = this;
@@ -128,6 +141,26 @@ void CScreenBasic::OnInitGroupBox()
 	m_groupDeviceMode.SetFontBold(TRUE);
 	m_groupDeviceMode.SetBackgroundColor(WINDOW_UP);
 
+	//kwlee 2017.0523
+	m_group_Label_Vision_Papper.SetFont(clsFunc.OnLogFont(16));
+	m_group_Label_Vision_Papper.SetCatptionTextColor(BLUE_C);
+	m_group_Label_Vision_Papper.SetBorderColor(ORANGE_C);
+	m_group_Label_Vision_Papper.SetFontBold(TRUE);
+	m_group_Label_Vision_Papper.SetBackgroundColor(WINDOW_UP);
+
+	m_group_Label_error_Cnt.SetFont(clsFunc.OnLogFont(16));
+	m_group_Label_error_Cnt.SetCatptionTextColor(BLUE_C);
+	m_group_Label_error_Cnt.SetBorderColor(ORANGE_C);
+	m_group_Label_error_Cnt.SetFontBold(TRUE);
+	m_group_Label_error_Cnt.SetBackgroundColor(WINDOW_UP);
+
+	m_group_Label_Bin_Papper.SetFont(clsFunc.OnLogFont(16));
+	m_group_Label_Bin_Papper.SetCatptionTextColor(BLUE_C);
+	m_group_Label_Bin_Papper.SetBorderColor(ORANGE_C);
+	m_group_Label_Bin_Papper.SetFontBold(TRUE);
+	m_group_Label_Bin_Papper.SetBackgroundColor(WINDOW_UP);
+
+
 	
 }
 
@@ -140,7 +173,22 @@ void CScreenBasic::OnInitLabel()
 
 void CScreenBasic::OnInitDigit()
 {
-	
+	//kwlee 2017.0523
+	m_dgt_Label_Error_Cnt.SetStyle(CDigit::DS_INT, 3, CDigit::DC_BGREEN, CDigit::DC_BDISABLE);
+	m_dgt_Label_Error_Cnt.SetVal(m_nLabelErrCnt[1]);
+
+	m_dgt_Label_Vision_Paper.SetStyle(CDigit::DS_INT, 3, CDigit::DC_BGREEN, CDigit::DC_BDISABLE);
+	m_dgt_Label_Vision_Paper.SetVal(m_nPrinterVisionPapper[1]);
+
+	m_dgt_Label_bin_Print.SetStyle(CDigit::DS_INT, 3, CDigit::DC_BGREEN, CDigit::DC_BDISABLE);
+	m_dgt_Label_bin_Print.SetVal(m_nPrintBinPapper[1]);
+
+	//kwlee 2017.0524
+	m_dgt_Device_Cnt.SetStyle(CDigit::DS_INT, 3, CDigit::DC_BGREEN, CDigit::DC_BDISABLE);
+	m_dgt_Device_Cnt.SetVal(m_nDeviceCnt[1]);
+
+	m_dgt_Repick_Cnt.SetStyle(CDigit::DS_INT, 3, CDigit::DC_BGREEN, CDigit::DC_BDISABLE);
+	m_dgt_Repick_Cnt.SetVal(m_nRepickCnt[1]);
 }
 
 
@@ -333,7 +381,134 @@ void CScreenBasic::OnInitGridDeviceMode()
 		m_pGridDevice.SetItemBkColour(8, 1, GREEN_C, BLACK_C);
 	}
 	/////////////////////////////////////////////////////////////////
-	
+	//kwlee 2017.0523
+	m_pGridDevice.MergeCells(9, 0, 9, 1);
+	m_pGridDevice.SetItemBkColour(9, 0, RGB(219, 229, 241), BLACK_L);
+	m_pGridDevice.SetItemFont(9, 0, &clsFunc.OnLogFont(16));
+	m_pGridDevice.SetItemText(9, 0, _T("Cap Remove Mode "));
+
+	m_pGridDevice.SetItemBkColour(10, 0, GREEN_D, BLACK_C);
+	m_pGridDevice.SetItemFont(10, 0, &clsFunc.OnLogFont(16));
+	m_pGridDevice.SetItemText(10, 0, _T("1"));
+
+	m_pGridDevice.SetItemBkColour(10, 1, GREEN_D, BLACK_C);
+	m_pGridDevice.SetItemFont(10, 1, &clsFunc.OnLogFont(16));
+	m_pGridDevice.SetItemText(10, 1, _T("Cap Remove Skip"));
+
+	m_pGridDevice.SetItemBkColour(11, 0, GREEN_D, BLACK_C);
+	m_pGridDevice.SetItemFont(11, 0, &clsFunc.OnLogFont(16));
+	m_pGridDevice.SetItemText(11, 0, _T("2"));
+
+	m_pGridDevice.SetItemBkColour(11, 1, GREEN_D, BLACK_C);
+	m_pGridDevice.SetItemFont(11, 1, &clsFunc.OnLogFont(16));
+	m_pGridDevice.SetItemText(11, 1, _T("Cap Remove Use"));
+
+	if (m_nModeCapRemoveUse[1] == NO)
+	{
+		m_pGridDevice.SetItemBkColour(10, 0, GREEN_C, BLACK_C);
+		m_pGridDevice.SetItemBkColour(10, 1, GREEN_C, BLACK_C);
+	}
+	else
+	{
+		m_pGridDevice.SetItemBkColour(11, 0, GREEN_C, BLACK_C);
+		m_pGridDevice.SetItemBkColour(11, 1, GREEN_C, BLACK_C);
+	}
+
+	m_pGridDevice.MergeCells(12, 0, 12, 1);
+	m_pGridDevice.SetItemBkColour(12, 0, RGB(219, 229, 241), BLACK_L);
+	m_pGridDevice.SetItemFont(12, 0, &clsFunc.OnLogFont(16));
+	m_pGridDevice.SetItemText(12, 0, _T("Sorter Picker Mode"));
+
+	m_pGridDevice.SetItemBkColour(13, 0, GREEN_D, BLACK_C);
+	m_pGridDevice.SetItemFont(13, 0, &clsFunc.OnLogFont(16));
+	m_pGridDevice.SetItemText(13, 0, _T("1"));
+
+	m_pGridDevice.SetItemBkColour(13, 1, GREEN_D, BLACK_C);
+	m_pGridDevice.SetItemFont(13, 1, &clsFunc.OnLogFont(16));
+	m_pGridDevice.SetItemText(13, 1, _T("Sorter Picker Skip"));
+
+	m_pGridDevice.SetItemBkColour(14, 0, GREEN_D, BLACK_C);
+	m_pGridDevice.SetItemFont(14, 0, &clsFunc.OnLogFont(16));
+	m_pGridDevice.SetItemText(14, 0, _T("2"));
+
+	m_pGridDevice.SetItemBkColour(14, 1, GREEN_D, BLACK_C);
+	m_pGridDevice.SetItemFont(14, 1, &clsFunc.OnLogFont(16));
+	m_pGridDevice.SetItemText(14, 1, _T("Sorter Picker Use"));
+
+	if (m_nModeSorterPickerUse[1] == NO)
+	{
+		m_pGridDevice.SetItemBkColour(13, 0, GREEN_C, BLACK_C);
+		m_pGridDevice.SetItemBkColour(13, 1, GREEN_C, BLACK_C);
+	}
+	else
+	{
+		m_pGridDevice.SetItemBkColour(14, 0, GREEN_C, BLACK_C);
+		m_pGridDevice.SetItemBkColour(14, 1, GREEN_C, BLACK_C);
+	}
+
+	m_pGridDevice.MergeCells(15, 0, 15, 1);
+	m_pGridDevice.SetItemBkColour(15, 0, RGB(219, 229, 241), BLACK_L);
+	m_pGridDevice.SetItemFont(15, 0, &clsFunc.OnLogFont(16));
+	m_pGridDevice.SetItemText(15, 0, _T("Modeule Dir Check Mode"));
+
+	m_pGridDevice.SetItemBkColour(16, 0, GREEN_D, BLACK_C);
+	m_pGridDevice.SetItemFont(16, 0, &clsFunc.OnLogFont(16));
+	m_pGridDevice.SetItemText(16, 0, _T("1"));
+
+	m_pGridDevice.SetItemBkColour(16, 1, GREEN_D, BLACK_C);
+	m_pGridDevice.SetItemFont(16, 1, &clsFunc.OnLogFont(16));
+	m_pGridDevice.SetItemText(16, 1, _T("Modeule Dir Chk Skip"));
+
+	m_pGridDevice.SetItemBkColour(17, 0, GREEN_D, BLACK_C);
+	m_pGridDevice.SetItemFont(17, 0, &clsFunc.OnLogFont(16));
+	m_pGridDevice.SetItemText(17, 0, _T("2"));
+
+	m_pGridDevice.SetItemBkColour(17, 1, GREEN_D, BLACK_C);
+	m_pGridDevice.SetItemFont(17, 1, &clsFunc.OnLogFont(16));
+	m_pGridDevice.SetItemText(17, 1, _T("Modeule Dir Chk Use"));
+
+	if (m_nModeModuleDirCheck[1] == NO)
+	{
+		m_pGridDevice.SetItemBkColour(16, 0, GREEN_C, BLACK_C);
+		m_pGridDevice.SetItemBkColour(16, 1, GREEN_C, BLACK_C);
+	}
+	else
+	{
+		m_pGridDevice.SetItemBkColour(17, 0, GREEN_C, BLACK_C);
+		m_pGridDevice.SetItemBkColour(17, 1, GREEN_C, BLACK_C);
+	}
+
+	m_pGridDevice.MergeCells(18, 0, 18, 1);
+	m_pGridDevice.SetItemBkColour(18, 0, RGB(219, 229, 241), BLACK_L);
+	m_pGridDevice.SetItemFont(18, 0, &clsFunc.OnLogFont(16));
+	m_pGridDevice.SetItemText(18, 0, _T("HeatSink Dir Chk Mode"));
+
+	m_pGridDevice.SetItemBkColour(19, 0, GREEN_D, BLACK_C);
+	m_pGridDevice.SetItemFont(19, 0, &clsFunc.OnLogFont(16));
+	m_pGridDevice.SetItemText(19, 0, _T("1"));
+
+	m_pGridDevice.SetItemBkColour(19, 1, GREEN_D, BLACK_C);
+	m_pGridDevice.SetItemFont(19, 1, &clsFunc.OnLogFont(16));
+	m_pGridDevice.SetItemText(19, 1, _T("HeatSink Dir Chk Skip"));
+
+	m_pGridDevice.SetItemBkColour(20, 0, GREEN_D, BLACK_C);
+	m_pGridDevice.SetItemFont(20, 0, &clsFunc.OnLogFont(16));
+	m_pGridDevice.SetItemText(20, 0, _T("2"));
+
+	m_pGridDevice.SetItemBkColour(20, 1, GREEN_D, BLACK_C);
+	m_pGridDevice.SetItemFont(20, 1, &clsFunc.OnLogFont(16));
+	m_pGridDevice.SetItemText(20, 1, _T("HeatSink Dir Chk Use"));
+
+	if (m_nModeHeatSinkDirCheck[1] == NO)
+	{
+		m_pGridDevice.SetItemBkColour(19, 0, GREEN_C, BLACK_C);
+		m_pGridDevice.SetItemBkColour(19, 1, GREEN_C, BLACK_C);
+	}
+	else
+	{
+		m_pGridDevice.SetItemBkColour(20, 0, GREEN_C, BLACK_C);
+		m_pGridDevice.SetItemBkColour(20, 1, GREEN_C, BLACK_C);
+	}
 
 	m_pGridDevice.Invalidate(FALSE);
 }
@@ -483,7 +658,9 @@ void CScreenBasic::OnDeviceCellClick(NMHDR *pNotifyStruct, LRESULT* pResult)
 		m_pGridDevice.SetItemBkColour(8, 0, GREEN_C, BLACK_C);
 		m_pGridDevice.SetItemBkColour(8, 1, GREEN_C, BLACK_C);
 	}
-	else if (nRow == 10 && m_nModeRfid[1] != NO)
+	
+	//kwlee 2017.0523
+	else if (nRow == 10 && m_nModeCapRemoveUse[1] != NO)
 	{
 		if (st_lot_info[LOT_CURR].nLotStatus >= LOT_START || st_lot_info[LOT_NEXT].nLotStatus >= LOT_START)
 		{
@@ -496,7 +673,7 @@ void CScreenBasic::OnDeviceCellClick(NMHDR *pNotifyStruct, LRESULT* pResult)
 			return;
 		}
 
-		m_nModeRfid[1] = NO;
+		m_nModeCapRemoveUse[1] = NO;
 
 		m_pGridDevice.SetItemBkColour(10, 0, GREEN_C, BLACK_C);
 		m_pGridDevice.SetItemBkColour(10, 1, GREEN_C, BLACK_C);
@@ -505,7 +682,7 @@ void CScreenBasic::OnDeviceCellClick(NMHDR *pNotifyStruct, LRESULT* pResult)
 		m_pGridDevice.SetItemBkColour(11, 1, GREEN_D, BLACK_C);
 
 	}
-	else if (nRow == 11 && m_nModeRfid[1] != YES)
+	else if (nRow == 11 && m_nModeCapRemoveUse[1] != YES)
 	{
 		if (st_lot_info[LOT_CURR].nLotStatus >= LOT_START || st_lot_info[LOT_NEXT].nLotStatus >= LOT_START)
 		{
@@ -518,7 +695,7 @@ void CScreenBasic::OnDeviceCellClick(NMHDR *pNotifyStruct, LRESULT* pResult)
 			return;
 		}
 
-		m_nModeRfid[1] = YES;
+		m_nModeCapRemoveUse[1] = YES;
 
 		m_pGridDevice.SetItemBkColour(10, 0, GREEN_D, BLACK_C);
 		m_pGridDevice.SetItemBkColour(10, 1, GREEN_D, BLACK_C);
@@ -526,7 +703,134 @@ void CScreenBasic::OnDeviceCellClick(NMHDR *pNotifyStruct, LRESULT* pResult)
 		m_pGridDevice.SetItemBkColour(11, 0, GREEN_C, BLACK_C);
 		m_pGridDevice.SetItemBkColour(11, 1, GREEN_C, BLACK_C);
 	}
+	//////////////
+	else if (nRow == 13 && m_nModeSorterPickerUse[1] != NO)
+	{
+		if (st_lot_info[LOT_CURR].nLotStatus >= LOT_START || st_lot_info[LOT_NEXT].nLotStatus >= LOT_START)
+		{
+			if (st_handler_info.cWndList != NULL)
+			{
+				clsMem.OnNormalMessageWrite(_T("Data Change Fail. Lot Start Status...."));
+				st_handler_info.cWndList->SendMessage(WM_LIST_DATA, 0, NORMAL_MSG);
+			}
 
+			return;
+		}
+
+		m_nModeSorterPickerUse[1] = NO;
+
+		m_pGridDevice.SetItemBkColour(13, 0, GREEN_C, BLACK_C);
+		m_pGridDevice.SetItemBkColour(13, 1, GREEN_C, BLACK_C);
+
+		m_pGridDevice.SetItemBkColour(14, 0, GREEN_D, BLACK_C);
+		m_pGridDevice.SetItemBkColour(14, 1, GREEN_D, BLACK_C);
+
+	}
+	else if (nRow == 14 && m_nModeSorterPickerUse[1] != YES)
+	{
+		if (st_lot_info[LOT_CURR].nLotStatus >= LOT_START || st_lot_info[LOT_NEXT].nLotStatus >= LOT_START)
+		{
+			if (st_handler_info.cWndList != NULL)
+			{
+				clsMem.OnNormalMessageWrite(_T("Data Change Fail. Lot Start Status...."));
+				st_handler_info.cWndList->SendMessage(WM_LIST_DATA, 0, NORMAL_MSG);
+			}
+
+			return;
+		}
+
+		m_nModeSorterPickerUse[1] = YES;
+
+		m_pGridDevice.SetItemBkColour(13, 0, GREEN_D, BLACK_C);
+		m_pGridDevice.SetItemBkColour(13, 1, GREEN_D, BLACK_C);
+
+		m_pGridDevice.SetItemBkColour(14, 0, GREEN_C, BLACK_C);
+		m_pGridDevice.SetItemBkColour(14, 1, GREEN_C, BLACK_C);
+	}
+	//////////////
+	else if (nRow == 16 && m_nModeModuleDirCheck[1] != NO)
+	{
+		if (st_lot_info[LOT_CURR].nLotStatus >= LOT_START || st_lot_info[LOT_NEXT].nLotStatus >= LOT_START)
+		{
+			if (st_handler_info.cWndList != NULL)
+			{
+				clsMem.OnNormalMessageWrite(_T("Data Change Fail. Lot Start Status...."));
+				st_handler_info.cWndList->SendMessage(WM_LIST_DATA, 0, NORMAL_MSG);
+			}
+			return;
+		}
+
+		m_nModeModuleDirCheck[1] = NO;
+
+		m_pGridDevice.SetItemBkColour(16, 0, GREEN_C, BLACK_C);
+		m_pGridDevice.SetItemBkColour(16, 1, GREEN_C, BLACK_C);
+
+		m_pGridDevice.SetItemBkColour(17, 0, GREEN_D, BLACK_C);
+		m_pGridDevice.SetItemBkColour(17, 1, GREEN_D, BLACK_C);
+
+		
+	}
+	else if (nRow == 17 && m_nModeModuleDirCheck[1] != YES)
+	{
+		if (st_lot_info[LOT_CURR].nLotStatus >= LOT_START || st_lot_info[LOT_NEXT].nLotStatus >= LOT_START)
+		{
+			if (st_handler_info.cWndList != NULL)
+			{
+				clsMem.OnNormalMessageWrite(_T("Data Change Fail. Lot Start Status...."));
+				st_handler_info.cWndList->SendMessage(WM_LIST_DATA, 0, NORMAL_MSG);
+			}
+			return;
+		}
+
+		m_nModeModuleDirCheck[1] = YES;
+
+		m_pGridDevice.SetItemBkColour(16, 0, GREEN_D, BLACK_C);
+		m_pGridDevice.SetItemBkColour(16, 1, GREEN_D, BLACK_C);
+
+		m_pGridDevice.SetItemBkColour(17, 0, GREEN_C, BLACK_C);
+		m_pGridDevice.SetItemBkColour(17, 1, GREEN_C, BLACK_C);
+	}
+	//////////////
+	else if (nRow == 19 && m_nModeHeatSinkDirCheck[1] != NO)
+	{
+		if (st_lot_info[LOT_CURR].nLotStatus >= LOT_START || st_lot_info[LOT_NEXT].nLotStatus >= LOT_START)
+		{
+			if (st_handler_info.cWndList != NULL)
+			{
+				clsMem.OnNormalMessageWrite(_T("Data Change Fail. Lot Start Status...."));
+				st_handler_info.cWndList->SendMessage(WM_LIST_DATA, 0, NORMAL_MSG);
+			}
+			return;
+		}
+
+		m_nModeHeatSinkDirCheck[1] = NO;
+
+		m_pGridDevice.SetItemBkColour(19, 0, GREEN_C, BLACK_C);
+		m_pGridDevice.SetItemBkColour(19, 1, GREEN_C, BLACK_C);
+
+		m_pGridDevice.SetItemBkColour(20, 0, GREEN_D, BLACK_C);
+		m_pGridDevice.SetItemBkColour(20, 1, GREEN_D, BLACK_C);
+	}
+	else if (nRow == 20 && m_nModeHeatSinkDirCheck[1] != YES)
+	{
+		if (st_lot_info[LOT_CURR].nLotStatus >= LOT_START || st_lot_info[LOT_NEXT].nLotStatus >= LOT_START)
+		{
+			if (st_handler_info.cWndList != NULL)
+			{
+				clsMem.OnNormalMessageWrite(_T("Data Change Fail. Lot Start Status...."));
+				st_handler_info.cWndList->SendMessage(WM_LIST_DATA, 0, NORMAL_MSG);
+			}
+			return;
+		}
+
+		m_nModeHeatSinkDirCheck[1] = YES;
+
+		m_pGridDevice.SetItemBkColour(19, 0, GREEN_D, BLACK_C);
+		m_pGridDevice.SetItemBkColour(19, 1, GREEN_D, BLACK_C);
+
+		m_pGridDevice.SetItemBkColour(20, 0, GREEN_C, BLACK_C);
+		m_pGridDevice.SetItemBkColour(20, 1, GREEN_C, BLACK_C);
+	}
 	m_pGridDevice.Invalidate();
 }
 
@@ -780,7 +1084,61 @@ void CScreenBasic::OnDataHistoryLog()
 		clsFunc.OnLogFileAdd(0, strMsg);
 	}
 
-	
+	//kwlee 2017.0523
+	if (m_nModeCapRemoveUse[0]		!= m_nModeCapRemoveUse[1])
+	{
+		strMsg.Format(_T("[BASIC] CapRemove Use Mode Change %d -> %d"), m_nModeCapRemoveUse[0], m_nModeCapRemoveUse[1]);
+		clsFunc.OnLogFileAdd(0, strMsg);
+	}
+
+	if (m_nModeSorterPickerUse[0]		!= m_nModeSorterPickerUse[1])
+	{
+		strMsg.Format(_T("[BASIC] SorterPicker Mode Change %d -> %d"), m_nModeSorterPickerUse[0], m_nModeSorterPickerUse[1]);
+		clsFunc.OnLogFileAdd(0, strMsg);
+	}
+
+	if (m_nModeModuleDirCheck[0]		!= m_nModeModuleDirCheck[1])
+	{
+		strMsg.Format(_T("[BASIC] Module Direction Check Mode Change %d -> %d"), m_nModeModuleDirCheck[0], m_nModeModuleDirCheck[1]);
+		clsFunc.OnLogFileAdd(0, strMsg);
+	}
+
+	if (m_nModeHeatSinkDirCheck[0]		!= m_nModeHeatSinkDirCheck[1])
+	{
+		strMsg.Format(_T("[BASIC] Heatsink Direction Check Mode Change %d -> %d"), m_nModeHeatSinkDirCheck[0], m_nModeHeatSinkDirCheck[1]);
+		clsFunc.OnLogFileAdd(0, strMsg);
+	}
+
+	if (m_nPrintBinPapper[0]		!= m_nPrintBinPapper[1])
+	{
+		strMsg.Format(_T("[BASIC] Printer Bin Papper Out Change %d -> %d"), m_nPrintBinPapper[0], m_nPrintBinPapper[1]);
+		clsFunc.OnLogFileAdd(0, strMsg);
+	}
+
+	if (m_nPrinterVisionPapper[0]		!= m_nPrinterVisionPapper[1])
+	{
+		strMsg.Format(_T("[BASIC] Printer Vision Papper Change %d -> %d"), m_nPrinterVisionPapper[0], m_nPrinterVisionPapper[1]);
+		clsFunc.OnLogFileAdd(0, strMsg);
+	}
+
+	if (m_nLabelErrCnt[0]		!= m_nLabelErrCnt[1])
+	{
+		strMsg.Format(_T("[BASIC] LabelError Cnt Change %d -> %d"), m_nLabelErrCnt[0], m_nLabelErrCnt[1]);
+		clsFunc.OnLogFileAdd(0, strMsg);
+	}
+
+	//kwlee 2017.0524
+	if (m_nDeviceCnt[0]		!= m_nDeviceCnt[1])
+	{
+		strMsg.Format(_T("[BASIC] DeviceCnt Change %d -> %d"), m_nDeviceCnt[0], m_nDeviceCnt[1]);
+		clsFunc.OnLogFileAdd(0, strMsg);
+	}
+
+	if (m_nRepickCnt[0]		!= m_nRepickCnt[1])
+	{
+		strMsg.Format(_T("[BASIC] Repick Cnt Change %d -> %d"), m_nRepickCnt[0], m_nRepickCnt[1]);
+		clsFunc.OnLogFileAdd(0, strMsg);
+	}
 }
 
 void CScreenBasic::OnDataRecovery()
@@ -794,8 +1152,20 @@ void CScreenBasic::OnDataRecovery()
 	m_nModeFrontSmema[1]	= m_nModeFrontSmema[0];
 	m_nModeRearSmema[1]		= m_nModeRearSmema[0];
 	m_nModeRfid[1]			= m_nModeRfid[0];
-	
 	m_strModelName[1]		= m_strModelName[0];
+	
+	//kwlee 2017.0523
+	m_nModeCapRemoveUse[1]		=	m_nModeCapRemoveUse[0];        
+	m_nModeSorterPickerUse[1]	=	m_nModeSorterPickerUse[0];        
+	m_nModeModuleDirCheck[1]	=	m_nModeModuleDirCheck[0];        
+	m_nModeHeatSinkDirCheck[1]  =	m_nModeHeatSinkDirCheck[0];        
+	m_nPrinterVisionPapper[1]	=	m_nPrinterVisionPapper[0];        
+	m_nPrintBinPapper[1]		=	m_nPrintBinPapper[0];        
+	m_nLabelErrCnt[1]			=	m_nLabelErrCnt[0]; 
+	//kwlee 2017.0524
+	m_nDeviceCnt[1]             =  m_nDeviceCnt[0];
+	m_nRepickCnt[1]             =  m_nRepickCnt[0];
+
 
 }
 
@@ -813,8 +1183,18 @@ int	CScreenBasic::OnDataComparison()
 	if (m_nModeRearSmema[0]		!= m_nModeRearSmema[1])			return RET_ERROR;
 	if (m_nModeRfid[0]			!= m_nModeRfid[1])				return RET_ERROR;
 	if (m_strModelName[0]		!= m_strModelName[1])			return RET_ERROR;
+	//kwlee 2017.0523
+	if (m_nModeCapRemoveUse[0]		=	m_nModeCapRemoveUse[1])			return RET_ERROR;        
+	if (m_nModeSorterPickerUse[0]	=	m_nModeSorterPickerUse[1])		return RET_ERROR;        
+	if (m_nModeModuleDirCheck[0]	=	m_nModeModuleDirCheck[1])		return RET_ERROR;        
+	if (m_nModeHeatSinkDirCheck[0]  =	m_nModeHeatSinkDirCheck[1])		return RET_ERROR;        
+	if (m_nPrinterVisionPapper[0]	=	m_nPrinterVisionPapper[1])		return RET_ERROR;        
+	if (m_nPrintBinPapper[0]		=	m_nPrintBinPapper[1])			return RET_ERROR;        
+	if (m_nLabelErrCnt[0]			=	m_nLabelErrCnt[1])				return RET_ERROR;  
 
-	
+	//kwlee 2017.0524
+	if (m_nDeviceCnt[0]				=	m_nDeviceCnt[1])			return RET_ERROR;        
+	if (m_nRepickCnt[0]				=	m_nRepickCnt[1])				return RET_ERROR;  
 	return RET_GOOD;
 }
 
@@ -827,9 +1207,20 @@ void CScreenBasic::OnDataApply()
 	st_basic_info.nModeWork			= m_nModeWork[1];
 	st_basic_info.strDeviceName		= m_strDeviceName[1];	// [Title Bar 상태 표시] < 장비에서 설정한 DEVICE 표시	>
 	st_basic_info.strModelName		= m_strModelName[1];
-	
 
+	//kwlee 2017.0523
+	st_basic_info.nModeCapRemoveUse		= m_nModeCapRemoveUse[1];
+	st_basic_info.nModeSorterPickerUse	= m_nModeSorterPickerUse[1];
+	st_basic_info.nModeModuleDirCheck	= m_nModeModuleDirCheck[1];
+	st_basic_info.nModeHeatSinkDirCheck = m_nModeHeatSinkDirCheck[1];
+	st_basic_info.nPrinterVisionPapper  = m_nPrinterVisionPapper[1];
+	st_basic_info.nPrintBinPapper		= m_nPrintBinPapper[1];  
+	st_basic_info.nLabelErrCnt          = m_nLabelErrCnt[1];
 
+	//kwlee 2017.0524
+	st_basic_info.nDeviceCnt		= m_nDeviceCnt[1];  
+	st_basic_info.nRepickCnt          = m_nRepickCnt[1];
+									
 }
 
 void CScreenBasic::OnDataBackup()
@@ -844,7 +1235,18 @@ void CScreenBasic::OnDataBackup()
 	m_nModeRfid[0]			= m_nModeRfid[1];
 	m_strModelName[0]		= m_strModelName[1];
 
+	//kwlee 2017.0523
+	m_nModeCapRemoveUse[0]		=	m_nModeCapRemoveUse[1];     
+	m_nModeSorterPickerUse[0]	=	m_nModeSorterPickerUse[1];     
+	m_nModeModuleDirCheck[0]	=	m_nModeModuleDirCheck[1];     
+	m_nModeHeatSinkDirCheck[0]  =	m_nModeHeatSinkDirCheck[1];     
+	m_nPrinterVisionPapper[0]	=	m_nPrinterVisionPapper[1];     
+	m_nPrintBinPapper[0]		=	m_nPrintBinPapper[1];     
+	m_nLabelErrCnt[0]			=	m_nLabelErrCnt[1];  
 	
+	//kwlee 2017.0524
+	m_nDeviceCnt[0]				=	m_nDeviceCnt[1];     
+	m_nRepickCnt[0]				=	m_nRepickCnt[1];  
 
 }
 
@@ -853,12 +1255,23 @@ void CScreenBasic::OnDataInit()
 {
 	m_nModeDevice[1]					= st_basic_info.nModeDevice;
 	m_strDeviceName[1]					= st_basic_info.strDeviceName;
-
 	m_nModeInterface[1]					= st_basic_info.nModeInterface;
 //	m_nModeSecsGem[1]					= st_basic_info.nModeSecsGem;
 	m_nModeWork[1]						= st_basic_info.nModeWork;
 	m_strModelName[1]					= st_basic_info.strModelName;
 
+	//kwlee 2017.0523
+	m_nModeCapRemoveUse[1]		=	st_basic_info.nModeCapRemoveUse;     
+	m_nModeSorterPickerUse[1]	=	st_basic_info.nModeSorterPickerUse;     
+	m_nModeModuleDirCheck[1]	=	st_basic_info.nModeModuleDirCheck;     
+	m_nModeHeatSinkDirCheck[1]  =	st_basic_info.nModeHeatSinkDirCheck;     
+	m_nPrinterVisionPapper[1]	=	st_basic_info.nPrinterVisionPapper;     
+	m_nPrintBinPapper[1]		=	st_basic_info.nPrintBinPapper;     
+	m_nLabelErrCnt[1]			=	st_basic_info.nLabelErrCnt; 
+
+	//kwlee 2017.0524
+	m_nDeviceCnt[1]				=	st_basic_info.nDeviceCnt;     
+	m_nRepickCnt[1]				=	st_basic_info.nRepickCnt; 
 	OnDataBackup();
 }
 
@@ -1301,5 +1714,57 @@ void CScreenBasic::OnTimer(UINT_PTR nIDEvent)
 {
 	CFormView::OnTimer(nIDEvent);
 }
+//kwlee 2017.0523
+void CScreenBasic::OnStnClickedDgtLabelErrorCnt()
+{
+	int nKey = m_nLabelErrCnt[1];
+
+	KeyPadI(1, 100, &nKey);
+
+	m_nLabelErrCnt[1] = nKey;
+	m_dgt_Label_Error_Cnt.SetVal(nKey);
+}
 
 
+void CScreenBasic::OnStnClickedDgtLabelVisionPaper()
+{
+	int nKey = m_nPrinterVisionPapper[1];
+
+	KeyPadI(1, 100, &nKey);
+
+	m_nPrinterVisionPapper[1] = nKey;
+	m_dgt_Label_Vision_Paper.SetVal(nKey);
+}
+
+
+void CScreenBasic::OnStnClickedDgtLabelBinPrint()
+{
+	int nKey = m_nPrintBinPapper[1];
+
+	KeyPadI(1, 100, &nKey);
+
+	m_nPrintBinPapper[1] = nKey;
+	m_dgt_Label_bin_Print.SetVal(nKey);
+}
+
+//kwlee 2017.0524
+void CScreenBasic::OnStnClickedDgtDeviceCnt()
+{
+	int nKey = m_nDeviceCnt[1];
+
+	KeyPadI(1, 100, &nKey);
+
+	m_nDeviceCnt[1] = nKey;
+	m_dgt_Device_Cnt.SetVal(nKey);
+}
+
+
+void CScreenBasic::OnStnClickedDgtRepickCnt()
+{
+	int nKey = m_nRepickCnt[1];
+
+	KeyPadI(1, 100, &nKey);
+
+	m_nRepickCnt[1] = nKey;
+	m_dgt_Repick_Cnt.SetVal(nKey);
+}

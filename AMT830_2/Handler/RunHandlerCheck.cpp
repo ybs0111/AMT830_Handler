@@ -30,8 +30,8 @@ CRunHandlerCheck::~CRunHandlerCheck(void)
 
 void CRunHandlerCheck::OnStartCheck()
 {
-	int nRet;
-	int nNum;
+	int nRet = 0;
+//	int nNum;
 
 	CString mstr_temp; //2015.0407 james 
 
@@ -159,9 +159,6 @@ void CRunHandlerCheck::OnStartCheck()
 				{
 					
 				}
-
-				
-				
 				m_nLeftMpStep = 0;
 				m_nStartStep = 240;
 			}
@@ -795,7 +792,6 @@ void CRunHandlerCheck::OnAutoCheck()
 		case 600:
 			// jtkim 20130625
 			clsFunc.OnDoorClose();
-
 			st_handler_info.nMachineMode = MACHINE_AUTO;
 			m_nAutoStep = 0;
 			break;

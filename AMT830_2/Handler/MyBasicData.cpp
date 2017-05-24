@@ -1014,7 +1014,7 @@ void CMyBasicData::OnBasic_Data_Load(int nMode)
 	CString str_pos;
 	TCHAR chr_data[50], chr_buf[20];
 	TCHAR chData[50];
-	int mn_chk, i, j, k;
+	int mn_chk, i, j;
 	double md_chk;
 
 	memset(&chr_data, 0, sizeof(chr_data));
@@ -1336,6 +1336,69 @@ void CMyBasicData::OnBasic_Data_Load(int nMode)
 		}
 		else  st_count_info.dDailyPer = md_chk;
 	}
+	//kwlee 2017.0523
+	GetPrivateProfileString(_T("BASIC_SCREEN"), _T("nModeCapRemoveUse"), _T(""), chr_data, sizeof(chr_data), st_path_info.strFileBasic);
+	str_temp.Format(_T("%s"), chr_data);
+	mn_chk = _wtoi(str_temp);
+	if (mn_chk < 0)
+	{
+		st_basic_info.nModeCapRemoveUse = 0;
+	}
+	else  st_basic_info.nModeCapRemoveUse = mn_chk;
+
+	GetPrivateProfileString(_T("BASIC_SCREEN"), _T("nModeSorterPickerUse"), _T(""), chr_data, sizeof(chr_data), st_path_info.strFileBasic);
+	str_temp.Format(_T("%s"), chr_data);
+	mn_chk = _wtoi(str_temp);
+	if (mn_chk < 0)
+	{
+		st_basic_info.nModeSorterPickerUse = 0;
+	}
+	else  st_basic_info.nModeSorterPickerUse = mn_chk;
+
+	GetPrivateProfileString(_T("BASIC_SCREEN"), _T("nModeModuleDirCheck"), _T(""), chr_data, sizeof(chr_data), st_path_info.strFileBasic);
+	str_temp.Format(_T("%s"), chr_data);
+	mn_chk = _wtoi(str_temp);
+	if (mn_chk < 0)
+	{
+		st_basic_info.nModeModuleDirCheck = 0;
+	}
+	else  st_basic_info.nModeModuleDirCheck = mn_chk;
+
+	GetPrivateProfileString(_T("BASIC_SCREEN"), _T("nModeHeatSinkDirCheck"), _T(""), chr_data, sizeof(chr_data), st_path_info.strFileBasic);
+	str_temp.Format(_T("%s"), chr_data);
+	mn_chk = _wtoi(str_temp);
+	if (mn_chk < 0)
+	{
+		st_basic_info.nModeHeatSinkDirCheck = 0;
+	}
+	else  st_basic_info.nModeHeatSinkDirCheck = mn_chk;
+
+	GetPrivateProfileString(_T("BASIC_SCREEN"), _T("nPrinterVisionPapper"), _T(""), chr_data, sizeof(chr_data), st_path_info.strFileBasic);
+	str_temp.Format(_T("%s"), chr_data);
+	mn_chk = _wtoi(str_temp);
+	if (mn_chk < 0)
+	{
+		st_basic_info.nPrinterVisionPapper = 0;
+	}
+	else  st_basic_info.nPrinterVisionPapper = mn_chk;
+
+	GetPrivateProfileString(_T("BASIC_SCREEN"), _T("nPrintBinPapper"), _T(""), chr_data, sizeof(chr_data), st_path_info.strFileBasic);
+	str_temp.Format(_T("%s"), chr_data);
+	mn_chk = _wtoi(str_temp);
+	if (mn_chk < 0)
+	{
+		st_basic_info.nPrintBinPapper = 0;
+	}
+	else  st_basic_info.nPrintBinPapper = mn_chk;
+
+	GetPrivateProfileString(_T("BASIC_SCREEN"), _T("nLabelErrCnt"), _T(""), chr_data, sizeof(chr_data), st_path_info.strFileBasic);
+	str_temp.Format(_T("%s"), chr_data);
+	mn_chk = _wtoi(str_temp);
+	if (mn_chk < 0)
+	{
+		st_basic_info.nLabelErrCnt = 0;
+	}
+	else  st_basic_info.nLabelErrCnt = mn_chk;
 	
 	
 }
@@ -1479,6 +1542,27 @@ void CMyBasicData::OnBasic_Data_Save()
 	str_tmp.Format(_T("%.2f"), st_count_info.dDailyPer);
 	:: WritePrivateProfileString(_T("BASIC_SCREEN"), _T("dDailyPer"), str_tmp, st_path_info.strFileBasic);
 
+	//kwlee 2017.0523
+	mstr_temp.Format(_T("%d"), st_basic_info.nModeCapRemoveUse);
+	:: WritePrivateProfileString(_T("BASIC_SCREEN"), _T("nModeCapRemoveUse"), LPCTSTR(mstr_temp), st_path_info.strFileBasic);
+
+	mstr_temp.Format(_T("%d"), st_basic_info.nModeSorterPickerUse);
+	:: WritePrivateProfileString(_T("BASIC_SCREEN"), _T("nModeSorterPickerUse"), LPCTSTR(mstr_temp), st_path_info.strFileBasic);
+
+	mstr_temp.Format(_T("%d"), st_basic_info.nModeModuleDirCheck);
+	:: WritePrivateProfileString(_T("BASIC_SCREEN"), _T("nModeModuleDirCheck"), LPCTSTR(mstr_temp), st_path_info.strFileBasic);
+
+	mstr_temp.Format(_T("%d"), st_basic_info.nModeHeatSinkDirCheck);
+	:: WritePrivateProfileString(_T("BASIC_SCREEN"), _T("nModeHeatSinkDirCheck"), LPCTSTR(mstr_temp), st_path_info.strFileBasic);
+
+	mstr_temp.Format(_T("%d"), st_basic_info.nPrinterVisionPapper);
+	:: WritePrivateProfileString(_T("BASIC_SCREEN"), _T("nPrinterVisionPapper"), LPCTSTR(mstr_temp), st_path_info.strFileBasic);
+
+	mstr_temp.Format(_T("%d"), st_basic_info.nPrintBinPapper);
+	:: WritePrivateProfileString(_T("BASIC_SCREEN"), _T("nPrintBinPapper"), LPCTSTR(mstr_temp), st_path_info.strFileBasic);
+
+	mstr_temp.Format(_T("%d"), st_basic_info.nLabelErrCnt);
+	:: WritePrivateProfileString(_T("BASIC_SCREEN"), _T("nLabelErrCnt"), LPCTSTR(mstr_temp), st_path_info.strFileBasic);
 }
 
 CString CMyBasicData::OnGet_File_Name()
@@ -1965,32 +2049,104 @@ CString CMyBasicData::GetWaitTimeName(int n_mode)
 
 void CMyBasicData::OnRecipe_Data_Load()
 {
-	CString strTemp;  // 로딩 정보 임시 저장 변수
+	CString strTemp,str_temp;  // 로딩 정보 임시 저장 변수
 	CString strHead;
 	CString strLoadFile;
-
+	double md_chk;
 	char chData[200];
-
-	int nChk;
+	TCHAR chr_data[50];
+	int mn_chk =0;
 	
 	// 읽을 경로 
 	strLoadFile = st_path_info.strBasic + st_basic_info.strDeviceName;  
+	//kwlee 2017.0523
+	:: GetPrivateProfileString(_T("RECIPE"), _T("nTrayY"), _T(""), (LPWSTR)chData, 30, strLoadFile);
+	strTemp.Format(_T("%s"), chData);
+	st_recipe_info.nTrayY = _wtoi(strTemp);
+
+	:: GetPrivateProfileString(_T("RECIPE"), _T("nTrayX"), _T(""), (LPWSTR)chData, 30, strLoadFile);
+	strTemp.Format(_T("%s"), chData);
+	st_recipe_info.nTrayX = _wtoi(strTemp);
+
+	GetPrivateProfileString(_T("RECIPE"), _T("dPickGapModuleLoad"), _T(""), chr_data, sizeof(chr_data), strLoadFile);
+	str_temp.Format(_T("%s"), chr_data);
+	md_chk = _wtof(str_temp);
+	if (mn_chk < 0)
+	{
+		st_recipe_info.dPickGapModuleLoad = 0.0f;
+	}
+	else  st_recipe_info.dPickGapModuleLoad = md_chk;
+
+	GetPrivateProfileString(_T("RECIPE"), _T("dPickGapHeatSinkLeft"), _T(""), chr_data, sizeof(chr_data), strLoadFile);
+	str_temp.Format(_T("%s"), chr_data);
+	md_chk = _wtof(str_temp);
+	if (mn_chk < 0)
+	{
+		st_recipe_info.dPickGapHeatSinkLeft = 0.0f;
+	}
+	else  st_recipe_info.dPickGapHeatSinkLeft = md_chk;
+
+	GetPrivateProfileString(_T("RECIPE"), _T("dPickGapHeatSinkRight"), _T(""), chr_data, sizeof(chr_data), strLoadFile);
+	str_temp.Format(_T("%s"), chr_data);
+	md_chk = _wtof(str_temp);
+	if (mn_chk < 0)
+	{
+		st_recipe_info.dPickGapHeatSinkRight = 0.0f;
+	}
+	else  st_recipe_info.dPickGapHeatSinkRight = md_chk;
 
 }
 
 
 void CMyBasicData::OnRecipe_Data_Load(CString strDeviceName)
 {
-	CString strTemp;  // 로딩 정보 임시 저장 변수
-	CString strLoadFile;
+	CString strTemp,str_temp;  // 로딩 정보 임시 저장 변수
 	CString strHead;
-
+	CString strLoadFile;
+	double md_chk;
 	char chData[200];
+	TCHAR chr_data[50];
+	int mn_chk;
 
-	int i, j, nChk;
+
 	
 	// 읽을 경로  
 	strLoadFile = st_path_info.strBasic + strDeviceName; 
+	//kwlee 2017.0523
+	:: GetPrivateProfileString(_T("RECIPE"), _T("nTrayY"), _T(""), (LPWSTR)chData, 30, strLoadFile);
+	strTemp.Format(_T("%s"), chData);
+	st_recipe_info.nTrayY = _wtoi(strTemp);
+
+	:: GetPrivateProfileString(_T("RECIPE"), _T("nTrayX"), _T(""), (LPWSTR)chData, 30, strLoadFile);
+	strTemp.Format(_T("%s"), chData);
+	st_recipe_info.nTrayX = _wtoi(strTemp);
+
+	GetPrivateProfileString(_T("RECIPE"), _T("dPickGapModuleLoad"), _T(""), chr_data, sizeof(chr_data), st_path_info.strFileBasic);
+	str_temp.Format(_T("%s"), chr_data);
+	md_chk = _wtof(str_temp);
+	if (mn_chk < 0)
+	{
+		st_recipe_info.dPickGapModuleLoad = 0.0f;
+	}
+	else  st_recipe_info.dPickGapModuleLoad = md_chk;
+
+	GetPrivateProfileString(_T("RECIPE"), _T("dPickGapHeatSinkLeft"), _T(""), chr_data, sizeof(chr_data), st_path_info.strFileBasic);
+	str_temp.Format(_T("%s"), chr_data);
+	md_chk = _wtof(str_temp);
+	if (mn_chk < 0)
+	{
+		st_recipe_info.dPickGapHeatSinkLeft = 0.0f;
+	}
+	else  st_recipe_info.dPickGapHeatSinkLeft = md_chk;
+
+	GetPrivateProfileString(_T("RECIPE"), _T("dPickGapHeatSinkRight"), _T(""), chr_data, sizeof(chr_data), st_path_info.strFileBasic);
+	str_temp.Format(_T("%s"), chr_data);
+	md_chk = _wtof(str_temp);
+	if (mn_chk < 0)
+	{
+		st_recipe_info.dPickGapHeatSinkRight = 0.0f;
+	}
+	else  st_recipe_info.dPickGapHeatSinkRight = md_chk;
 
 }
 
@@ -2007,6 +2163,21 @@ void CMyBasicData::OnRecipe_Data_Save()
 
 	strSaveFile = st_path_info.strBasic + st_basic_info.strDeviceName;  // 티칭 데이터 저장 파일 설정
 
+	//kwlee 2017.0523
+	strTemp.Format(_T("%d"), st_recipe_info.nTrayY);
+	:: WritePrivateProfileString(_T("RECIPE"), _T("nTrayY"), LPCTSTR(strTemp), strSaveFile);
+
+	strTemp.Format(_T("%d"), st_recipe_info.nTrayX);
+	:: WritePrivateProfileString(_T("RECIPE"), _T("nTrayX"), LPCTSTR(strTemp), strSaveFile);
+
+	strTemp.Format(_T("%.2f"), st_recipe_info.dPickGapModuleLoad);
+	:: WritePrivateProfileString(_T("RECIPE"), _T("dPickGapModuleLoad"), strTemp, strSaveFile);
+
+	strTemp.Format(_T("%.2f"), st_recipe_info.dPickGapHeatSinkLeft);
+	:: WritePrivateProfileString(_T("RECIPE"), _T("dPickGapHeatSinkLeft"), strTemp, strSaveFile);
+
+	strTemp.Format(_T("%.2f"), st_recipe_info.dPickGapHeatSinkRight);
+	:: WritePrivateProfileString(_T("RECIPE"), _T("dPickGapHeatSinkRight"), strTemp, strSaveFile);
 }
 
 void CMyBasicData::OnRecipe_Data_Save_As(CString strDeviceName)
@@ -2021,6 +2192,21 @@ void CMyBasicData::OnRecipe_Data_Save_As(CString strDeviceName)
 
 	strSaveFile = st_path_info.strBasic + strDeviceName;  // 티칭 데이터 저장 파일 설정
 
+	//kwlee 2017.0523
+	strTemp.Format(_T("%d"), st_recipe_info.nTrayY);
+	:: WritePrivateProfileString(_T("RECIPE"), _T("nTrayY"), LPCTSTR(strTemp), strSaveFile);
+
+	strTemp.Format(_T("%d"), st_recipe_info.nTrayX);
+	:: WritePrivateProfileString(_T("RECIPE"), _T("nTrayX"), LPCTSTR(strTemp), strSaveFile);
+
+	strTemp.Format(_T("%.2f"), st_recipe_info.dPickGapModuleLoad);
+	:: WritePrivateProfileString(_T("RECIPE"), _T("dPickGapModuleLoad"), strTemp, strSaveFile);
+
+	strTemp.Format(_T("%.2f"), st_recipe_info.dPickGapHeatSinkLeft);
+	:: WritePrivateProfileString(_T("RECIPE"), _T("dPickGapHeatSinkLeft"), strTemp, strSaveFile);
+
+	strTemp.Format(_T("%.2f"), st_recipe_info.dPickGapHeatSinkRight);
+	:: WritePrivateProfileString(_T("RECIPE"), _T("dPickGapHeatSinkRight"), strTemp, strSaveFile);
 }
 
 void CMyBasicData::OnRecoveryDataLoad()
@@ -2042,9 +2228,7 @@ void CMyBasicData::OnAnimateDataLoad()
 	CString str_temp, stemp;	// 저장할 정보 임시 저장 변수 
 	CString str_pos;
 	TCHAR chr_data[50], chr_buf[20];
-	int nVal;
-	int i;
-	double dVal;
+
 
 	memset(&chr_data, 0, sizeof(chr_data));
 	memset(&chr_buf, 0, sizeof(chr_buf));

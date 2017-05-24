@@ -25,20 +25,39 @@ public:
 
 	CButtonST			m_btnApply;
 	CButtonST			m_btnReLoad;
-//	CButtonST			m_btnBufSenUse;
+	//kwlee 22017.0523
+	CXPGroupBox			m_group_Picker_Gap;
+	CXPGroupBox			m_group_Tray_Size_Setting;
 
-
-
+	CGradientStatic		m_msg_Tray_Size_x;
+	CGradientStatic		m_msg_Tray_Size_y;
 	
-
+	CGradientStatic		m_msg_Picker_gap_Module_Load;
+	CGradientStatic		m_msg_Picker_gap_HeatSink_Left;
+	CGradientStatic		m_msg_Picker_gap_HeatSink_Right;
 	
+	CDigit				m_dgt_Picker_gap_Module_load;
+	CDigit				m_dgt_Picker_gap_HeatSink_Left;
+	CDigit				m_dgt_Picker_gap_HeatSink_Right;
+
+	CDigit				m_dgt_Tray_Size_x;
+	CDigit				m_dgt_Tray_Size_y;
+
+	double				m_dPicker_Gap_Module_Load[2];
+	double				m_dPicker_Gap_HeatSink_Left[2];
+	double				m_dPicker_Gap_HeatSink_Right[2];
+	
+	int					m_nTraySize_X[2];
+	int					m_nTraySize_Y[2];
+
+	int					OnDataComparison();
 	void				OnInitGroupBox();
 	void				OnInitLabel();
 	void				OnInitButton();
 	void				OnInitDigit();
 	void				OnDataHistoryLog();
 	void				OnDataRecovery();
-	int					OnDataComparison();
+	
 	void				OnDataApply();
 	void				OnDataBackup();
 	void				OnDataInit();
@@ -64,4 +83,10 @@ public:
 	virtual void PostNcDestroy();
 	afx_msg void OnDestroy();
 	afx_msg void OnTimer(UINT_PTR nIDEvent);
+	afx_msg void OnStnClickedDgtPickerGapModuleLoad();
+	afx_msg void OnStnClickedDgtPickerGapHeatsinkLeft();
+	afx_msg void OnStnClickedDgtPickerGapHeatsinkRight();
+	
+	afx_msg void OnStnClickedDgtTrayX();
+	afx_msg void OnStnClickedDgtTrayY();
 };
