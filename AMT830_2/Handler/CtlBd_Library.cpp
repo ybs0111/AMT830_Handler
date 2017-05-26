@@ -71,9 +71,10 @@ int CCtlBd_Library::Alarm_Error_Occurrence(int nJamPos, int nRunStatus, CString 
 	//
 	//각 쓰레드에 각각있던 알람 처리방법은 이 함수를 모두 사용한다 
    //
-//	CTL_Lib.mn_jampos = n_jampos; //jam이 발생한 위치를 저장한다 
-//	CTL_Lib.mn_run_status = n_run_status; //장비의 가동상태를 변경한다 
-//	COMI.mn_run_status = n_run_status;
+// 	CTL_Lib.mn_jampos = n_jampos; //jam이 발생한 위치를 저장한다 
+	CTL_Lib.mn_run_status = nRunStatus; //장비의 가동상태를 변경한다 
+	COMI.mn_run_status = nRunStatus;
+	st_handler_info.nRunStatus = nRunStatus;
 	CString sAlarmMsg;
 
 	st_alarm_info.strCode				= strCode; 

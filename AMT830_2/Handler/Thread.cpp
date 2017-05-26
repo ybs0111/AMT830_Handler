@@ -34,6 +34,9 @@
 #include "RunHandlerCheck.h"	// KEY BOX S/W 제어 클래스
 
 // 시퀀스 과련 클래스 해더파일 추가할 것 . 
+//kwlee 2017.0524
+#include "Run_Front_HeatSnk_Rbt.h"
+#include "Run_Front_HeatSnk_Stacker.h"
 //
 //------------------------------------------------------------------//
 
@@ -154,5 +157,42 @@ UINT OnThreadAlarmDisplay(LPVOID lParam)
 	}
 
 	m_thrHandle[3] = NULL;
+	return TRUE;
+}
+
+//kwlee 2017.0524
+UINT OnThreadFrontHeatSinkStacker(LPVOID lParam)
+{
+	CSingleLock sing(&mutex);
+
+	while(!AllStop[0])
+	{
+		sing.Lock();
+
+		clsRunHsFrontStacker.ThreadRun();
+
+		Sleep(0);
+		sing.Unlock();
+	}
+
+	m_thrHandle[4] = NULL;
+	return TRUE;
+}
+
+UINT OnThreadFrontHeatSinkRbt(LPVOID lParam)
+{
+	CSingleLock sing(&mutex);
+
+	while(!AllStop[0])
+	{
+		sing.Lock();
+
+		
+		clsRunHsFrontRbt.ThreadRun();
+		Sleep(0);
+		sing.Unlock();
+	}
+
+	m_thrHandle[5] = NULL;
 	return TRUE;
 }

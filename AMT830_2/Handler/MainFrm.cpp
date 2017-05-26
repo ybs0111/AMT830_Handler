@@ -1360,6 +1360,7 @@ void CMainFrame::OnThreadCreate()
 	{
 		AfxMessageBox(_T("Cannot begin the thread [thrAlarmDisplay]"));
 	}	
+	
 }
 
 

@@ -110,6 +110,8 @@
     <ClCompile Include="XPGroupBox.cpp" />
     <ClCompile Include="xShadeButton.cpp" />
     <ClCompile Include="ACriticalSection.cpp" />
+    <ClCompile Include="Run_Front_HeatSnk_Stacker.cpp" />
+    <ClCompile Include="Run_Front_HeatSnk_Rbt.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="32bit\FAS_HSSI.h" />
@@ -236,6 +238,8 @@
     <ClInclude Include="ACriticalSection.h" />
     <ClInclude Include="Ctrl\KeyBoard.h" />
     <ClInclude Include="Interface.h" />
+    <ClInclude Include="Run_Front_HeatSnk_Stacker.h" />
+    <ClInclude Include="Run_Front_HeatSnk_Rbt.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Handler.rc" />

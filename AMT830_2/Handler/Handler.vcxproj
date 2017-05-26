@@ -639,6 +639,8 @@
     <ClInclude Include="RunHandlerCheck.h" />
     <ClInclude Include="RunReadIO.h" />
     <ClInclude Include="RunTowerLamp.h" />
+    <ClInclude Include="Run_Front_HeatSnk_Rbt.h" />
+    <ClInclude Include="Run_Front_HeatSnk_Stacker.h" />
     <ClInclude Include="ScreenAlarm.h" />
     <ClInclude Include="ScreenBasic.h" />
     <ClInclude Include="ScreenInitial.h" />
@@ -753,6 +755,8 @@
     <ClCompile Include="RunHandlerCheck.cpp" />
     <ClCompile Include="RunReadIO.cpp" />
     <ClCompile Include="RunTowerLamp.cpp" />
+    <ClCompile Include="Run_Front_HeatSnk_Rbt.cpp" />
+    <ClCompile Include="Run_Front_HeatSnk_Stacker.cpp" />
     <ClCompile Include="ScreenAlarm.cpp" />
     <ClCompile Include="ScreenBasic.cpp" />
     <ClCompile Include="ScreenInitial.cpp" />

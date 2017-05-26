@@ -554,115 +554,122 @@ int CScreenInitial::OnInitExcution()
 			clsFunc.OnInitVariable();
 			
 			AllStop[1] = 1;
-			// Loading Tray Conveyor Thread
+			//Hs Front Stacker
+
+			while(WaitForSingleObject(m_thrHandle[4], 5000) != WAIT_OBJECT_0)
+			{
+				if (m_thrHandle[4] == NULL) break;
+				Sleep(0);
+			}
+			//Hs Front Rbt
 			while(WaitForSingleObject(m_thrHandle[5], 5000) != WAIT_OBJECT_0)
 			{
 				if (m_thrHandle[5] == NULL) break;
 				Sleep(0);
 			}
-			// Loading Tray Plate Thread
+			
 			while(WaitForSingleObject(m_thrHandle[6], 5000) != WAIT_OBJECT_0)
 			{
 				if (m_thrHandle[6] == NULL) break;
 				Sleep(0);
 			}
-			// Empty Stacker Thread
+			
 			while(WaitForSingleObject(m_thrHandle[7], 5000) != WAIT_OBJECT_0)
 			{
 				if (m_thrHandle[7] == NULL) break;
 				Sleep(0);
 			}
-			// Unloading Tray Plate Thread
+			
 			while(WaitForSingleObject(m_thrHandle[8], 5000) != WAIT_OBJECT_0)
 			{
 				if (m_thrHandle[8] == NULL) break;
 				Sleep(0);
 			}
-			// Unloading Tray Stacker Thread
+			
 			while(WaitForSingleObject(m_thrHandle[9], 5000) != WAIT_OBJECT_0)
 			{
 				if (m_thrHandle[9] == NULL) break;
 				Sleep(0);
 			}
-			// Unloading Tray Conveyor Thread
+			
 			while(WaitForSingleObject(m_thrHandle[10], 5000) != WAIT_OBJECT_0)
 			{
 				if (m_thrHandle[10] == NULL) break;
 				Sleep(0);
 			}
-			// Loading Tray Shifter Thread
+			
 			while(WaitForSingleObject(m_thrHandle[11], 5000) != WAIT_OBJECT_0)
 			{
 				if (m_thrHandle[11] == NULL) break;
 				Sleep(0);
 			}
-			// Unloading Tray Shifter Thread
+			
 			while(WaitForSingleObject(m_thrHandle[12], 5000) != WAIT_OBJECT_0)
 			{
 				if (m_thrHandle[12] == NULL) break;
 				Sleep(0);
 			}
-			// Barcode Robot Thread
+			
 			while(WaitForSingleObject(m_thrHandle[13], 5000) != WAIT_OBJECT_0)
 			{
 				if (m_thrHandle[13] == NULL) break;
 				Sleep(0);
 			}
-			// Loading Robot Thread
+			
 			while(WaitForSingleObject(m_thrHandle[14], 5000) != WAIT_OBJECT_0)
 			{
 				if (m_thrHandle[14] == NULL) break;
 				Sleep(0);
 			}
-			// Unloading Robot Thread
+			
 			while(WaitForSingleObject(m_thrHandle[15], 5000) != WAIT_OBJECT_0)
 			{
 				if (m_thrHandle[15] == NULL) break;
 				Sleep(0);
 			}
-			// Loading Rotator Buffer Thread
+			
 			while(WaitForSingleObject(m_thrHandle[16], 5000) != WAIT_OBJECT_0)
 			{
 				if (m_thrHandle[16] == NULL) break;
 				Sleep(0);
 			}
-			// Unloading Rotator Buffer Thread
+			
 			while(WaitForSingleObject(m_thrHandle[17], 5000) != WAIT_OBJECT_0)
 			{
 				if (m_thrHandle[17] == NULL) break;
 				Sleep(0);
 			}
-			// Retest Tray Thread
+			
 			while(WaitForSingleObject(m_thrHandle[18], 5000) != WAIT_OBJECT_0)
 			{
 				if (m_thrHandle[18] == NULL) break;
 				Sleep(0);
 			}
-			// Reject Tray Thread
+			
 			while(WaitForSingleObject(m_thrHandle[19], 5000) != WAIT_OBJECT_0)
 			{
 				if (m_thrHandle[19] == NULL) break;
 				Sleep(0);
 			}
-			// COK Robot Thread
+			
 			while(WaitForSingleObject(m_thrHandle[20], 5000) != WAIT_OBJECT_0)
 			{
 				if (m_thrHandle[20] == NULL) break;
 				Sleep(0);
 			}
-			// TestSite Robot Thread
+		
 			while(WaitForSingleObject(m_thrHandle[21], 5000) != WAIT_OBJECT_0)
 			{
 				if (m_thrHandle[21] == NULL) break;
 				Sleep(0);
 			}
-			// Left MP Thread
+			
 			while(WaitForSingleObject(m_thrHandle[22], 5000) != WAIT_OBJECT_0)
 			{
 				if (m_thrHandle[22] == NULL) break;
 				Sleep(0);
 			}
-			// Right MP Thread
+			
 			while(WaitForSingleObject(m_thrHandle[23], 5000) != WAIT_OBJECT_0)
 			{
 				if (m_thrHandle[23] == NULL) break;
@@ -681,7 +688,16 @@ int CScreenInitial::OnInitExcution()
 
 		case 900:
 			AllStop[1] = 0;
-
+			m_thread[4] = AfxBeginThread(OnThreadFrontHeatSinkStacker, this);  
+			if (m_thread[4] != NULL)	
+			{
+				m_thrHandle[4] = m_thread[5]->m_hThread;
+			}
+			m_thread[5] = AfxBeginThread(OnThreadFrontHeatSinkRbt, this); 
+			if (m_thread[5] != NULL)	
+			{
+				m_thrHandle[5] = m_thread[6]->m_hThread;
+			}
 			
 			m_nInitStep = 1000;
 			break;

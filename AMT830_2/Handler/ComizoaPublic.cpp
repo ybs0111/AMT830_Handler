@@ -4137,9 +4137,13 @@ int CComizoaPublic::HomeCheck_Mot(int n_Axis, int n_HomeMode, int n_TimeOut)
 					nFuncRet = BD_ERROR;
 
 					//010004 E A "Motor Alarm Error(01 motor)."
-					strMsg.Format(_T("%02d0004"), n_Axis);
-					//wsprintfA(mc_alarmcode, "%S", strMsg);
-					clsFunc.OnStringToChar(strMsg, mc_alarmcode);
+// 					strMsg.Format(_T("%02d0004"), n_Axis);
+// 					//wsprintfA(mc_alarmcode, "%S", strMsg);
+// 					clsFunc.OnStringToChar(strMsg, mc_alarmcode);
+
+					//kwlee 2017.0525
+					m_strCode.Format(_T("%02d0004"), n_Axis);
+					clsFunc.OnStringToChar(m_strCode, mc_alarmcode);
 //					sprintf(mc_alarmcode, "%02d0004", n_Axis);
 					if(mn_errormsg_debug_mode)
 					{
@@ -4184,10 +4188,16 @@ int CComizoaPublic::HomeCheck_Mot(int n_Axis, int n_HomeMode, int n_TimeOut)
 					nFuncRet = BD_ERROR;
 
 					//010005 E A "Motor Power Off Error(01 motor)."
-					strMsg.Format(_T("%02d0005"), n_Axis);
-					//wsprintfA(mc_alarmcode, "%S", strMsg);
-					clsFunc.OnStringToChar(strMsg, mc_alarmcode);
+// 					strMsg.Format(_T("%02d0005"), n_Axis);
+// 					//wsprintfA(mc_alarmcode, "%S", strMsg);
+// 					clsFunc.OnStringToChar(strMsg, mc_alarmcode);
 //					sprintf(mc_alarmcode, "%02d0005", n_Axis);
+
+					//kwlee 2017.0525
+					m_strCode.Format(_T("%02d0005"), n_Axis);
+					//wsprintfA(mc_alarmcode, "%S", strMsg);
+					clsFunc.OnStringToChar(m_strCode, mc_alarmcode);
+
 					if(mn_errormsg_debug_mode)
 					{
 						strMsg.Format(_T("[axis=%d] org Set_MotAlarmClear return error"), n_Axis);
@@ -4222,10 +4232,14 @@ int CComizoaPublic::HomeCheck_Mot(int n_Axis, int n_HomeMode, int n_TimeOut)
 					nFuncRet = BD_ERROR;
 
 					//010003 E A "Motor Home Check Error(01 motor)."
-					strMsg.Format(_T("%02d0003"), n_Axis);
-					//wsprintfA(mc_alarmcode, "%S", strMsg);
-					clsFunc.OnStringToChar(strMsg, mc_alarmcode);
+// 					strMsg.Format(_T("%02d0003"), n_Axis);
+// 					//wsprintfA(mc_alarmcode, "%S", strMsg);
+// 					clsFunc.OnStringToChar(strMsg, mc_alarmcode);
 //					sprintf(mc_alarmcode, "%02d0003", n_Axis);
+					//kwlee 2017.0525
+					m_strCode.Format(_T("%02d0003"), n_Axis);
+					//wsprintfA(mc_alarmcode, "%S", strMsg);
+					clsFunc.OnStringToChar(m_strCode, mc_alarmcode);
 					if(mn_errormsg_debug_mode)
 					{
 						strMsg.Format(_T("[axis=%d] org Set_MotAlarmClear return error"), n_Axis);
@@ -4287,10 +4301,15 @@ int CComizoaPublic::HomeCheck_Mot(int n_Axis, int n_HomeMode, int n_TimeOut)
 					nFuncRet = BD_ERROR;
 
 					//010003 E A "Motor Home Check Error(01 motor)."
-					strMsg.Format(_T("%02d0003"), n_Axis);
-					//wsprintfA(mc_alarmcode, "%S", strMsg);'
-					clsFunc.OnStringToChar(strMsg, mc_alarmcode);
+// 					strMsg.Format(_T("%02d0003"), n_Axis);
+// 					//wsprintfA(mc_alarmcode, "%S", strMsg);'
+// 					clsFunc.OnStringToChar(strMsg, mc_alarmcode);
 //					sprintf(mc_alarmcode, "%02d0003", n_Axis);
+
+					//kwlee 2017.0525
+					m_strCode.Format(_T("%02d0003"), n_Axis);
+					//wsprintfA(mc_alarmcode, "%S", strMsg);'
+					clsFunc.OnStringToChar(m_strCode, mc_alarmcode);
 					if(mn_errormsg_debug_mode)
 					{
 						strMsg.Format(_T("[axis=%d %d %d %d] org cmmHomeGetSuccess return error"), n_Axis, nRet_1, nRet_2, nRet_3);
@@ -4315,10 +4334,15 @@ int CComizoaPublic::HomeCheck_Mot(int n_Axis, int n_HomeMode, int n_TimeOut)
 				nFuncRet = BD_ERROR;
 
 				//010003 E A "Motor Home Check Error(01 motor)."
-				strMsg.Format(_T("%02d0003"), n_Axis);
-				//wsprintfA(mc_alarmcode, "%S", strMsg);
-				clsFunc.OnStringToChar(strMsg, mc_alarmcode);
+// 				strMsg.Format(_T("%02d0003"), n_Axis);
+// 				//wsprintfA(mc_alarmcode, "%S", strMsg);
+// 				clsFunc.OnStringToChar(strMsg, mc_alarmcode);
 //					sprintf(mc_alarmcode, "%02d0003", n_Axis);
+
+				//kwlee 2017.0525
+				m_strCode.Format(_T("%02d0003"), n_Axis);
+				//wsprintfA(mc_alarmcode, "%S", strMsg);
+				clsFunc.OnStringToChar(m_strCode, mc_alarmcode);
 				if(mn_errormsg_debug_mode)
 				{
 					strMsg.Format(_T("[axis=%d %d %d %d] org cmmHomeGetSuccess return error"), n_Axis, nRet_1, nRet_2, nRet_3);
@@ -4355,10 +4379,14 @@ int CComizoaPublic::HomeCheck_Mot(int n_Axis, int n_HomeMode, int n_TimeOut)
 					nFuncRet = BD_ERROR;
 
 					//010003 E A "Motor Home Check Error(01 motor)."
-					strMsg.Format(_T("%02d0003"), n_Axis);
-					//wsprintfA(mc_alarmcode, "%S", strMsg);
-					clsFunc.OnStringToChar(strMsg, mc_alarmcode);
+// 					strMsg.Format(_T("%02d0003"), n_Axis);
+// 					//wsprintfA(mc_alarmcode, "%S", strMsg);
+// 					clsFunc.OnStringToChar(strMsg, mc_alarmcode);
 //					sprintf(mc_alarmcode, "%02d0003", n_Axis);
+					//kwlee 2017.0525
+					m_strCode.Format(_T("%02d0003"), n_Axis);
+					//wsprintfA(mc_alarmcode, "%S", strMsg);
+					clsFunc.OnStringToChar(m_strCode, mc_alarmcode);
 					if(mn_errormsg_debug_mode)
 					{
 						strMsg.Format(_T("[axis=%d ] org MOT_SENS_HOME return error"), n_Axis);

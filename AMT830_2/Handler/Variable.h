@@ -215,7 +215,6 @@ typedef unsigned int					UINT32;			// 0 .. 4,294,967,295
 #define READY				2
 #define PROCEED				3
 
-
 #define IO_ON				1
 #define IO_OFF				0
 #define IO_ERROR			2
@@ -253,7 +252,6 @@ typedef unsigned int					UINT32;			// 0 .. 4,294,967,295
 
 #define PICKER				0
 #define FINGER				1
-
 
 #define TIMECOUNT			5
 #define ELEVATOR_STRATUMS	6
@@ -516,7 +514,20 @@ typedef unsigned int					UINT32;			// 0 .. 4,294,967,295
 
 #define MAXMOTOR						29
 
+//kwlee 2017.0525
+#define MAX_PICKER                       2 
+#define MAX_STACKER_POS					 2
+#define MAX_BUFFER_SITE                  4
 
+
+#define READY_STACKER_UPDN          0
+#define READY_RAIL_FWDBWD           1
+#define READY_TRAYCLAMP_ONOFF       2
+#define READY_PUSHER_ONOFF          3
+
+#define WORK_STACKER_UPDN           4
+#define WORK_RAIL_FWDBWD            5
+#define WORK_TRAY_CLAMP_ONOFF       6
 
 struct tagHANDLER_INFO
 {
@@ -884,9 +895,91 @@ struct tagIO_INFO
 	int		i_EmoChk[4];
 	
 	//kwlee 2017.0524
+	//Ready_output
+	int	o_hs_Front_Ready_stacker_guide_clamp_onoff;
+	int o_hs_Front_Ready_stacker_guide_unclamp_onoff;
+
+	int o_hs_Front_Ready_stacker_Left_rail_fwd_onoff;
+	int o_hs_Front_Ready_stacker_Left_rail_bwd_onoff;
+	int o_hs_Front_Ready_stacker_Right_rail_fwd_onoff;
+	int o_hs_Front_Ready_stacker_Right_rail_bwd_onoff;
+
+	int o_hs_Front_stacker_tray_pusher_bwd_onoff;
+	int o_hs_Front_stacker_tray_pusher_fwd_onoff;
+
+	int o_hs_Front_Ready_stacker_updn;
 
 
-	int		i_LoDoorSafetyChk[7];
+	//Ready_input
+	int i_hs_Front_Ready_stacker_guide_clamp_on_chk;
+	int i_hs_Front_Ready_stacker_guide_unclamp_off_chk;
+
+	int i_hs_Front_Ready_stacker_Left_rail_fwd_chk;
+	int i_hs_Front_Ready_stacker_Left_rail_bwd_chk;
+	int i_hs_Front_Ready_stacker_Right_rail_fwd_chk;
+	int i_hs_Front_Ready_stacker_Right_rail_bwd_chk;
+
+	int i_hs_Front_stacker_tray_pusher_bwd_chk;
+	int i_hs_Front_stacker_tray_pusher_fwd_chk;
+
+	int i_hs_Front_Ready_stacker_up_chk;
+	int i_hs_Front_Ready_stacker_dn_chk;
+
+	int i_hs_Front_Ready_stacker_tray_chk; //앞쪽 Tray Check Sensor
+	int i_hs_Front_Ready_stacker_updn_pos_chk; //Stacker UpDn Cylinder 위에 Tray 유무 Check
+
+	///Work_output
+	int	o_hs_Front_Work_stacker_guide_clamp_onoff;
+	int o_hs_Front_Work_stacker_guide_unclamp_onoff;
+
+	int o_hs_Front_Work_stacker_Right_rail_fwd_onoff;
+	int o_hs_Front_Work_stacker_Right_rail_bwd_onoff;
+	int o_hs_Front_Work_stacker_Left_rail_fwd_onoff;
+	int o_hs_Front_Work_stacker_Left_rail_bwd_onoff;
+
+	int o_hs_Front_Work_stacker_updn;
+	
+
+	///Work_input
+	int i_hs_Front_Work_stacker_guide_clamp_on_chk;
+	int i_hs_Front_Work_stacker_guide_unclamp_off_chk;
+
+	int i_hs_Front_Work_stacker_Right_rail_fwd_chk;
+	int i_hs_Front_Work_stacker_Right_rail_bwd_chk;
+	int i_hs_Front_Work_stacker_Left_rail_fwd_chk;
+	int i_hs_Front_Work_stacker_Left_rail_bwd_chk;
+
+	int i_hs_Front_Work_stacker_up_chk;
+	int i_hs_Front_Work_stacker_dn_chk;
+	
+	int i_hs_Front_Work_stacker_tray_chk; //뒤쪽 Tray Check Sensor
+	int i_hs_Front_Work_stacker_updn_pos_chk;
+
+	/////////////
+	//Robot outPut
+	int o_hs_Front_rbt_picker_Left_updn;
+	int o_hs_Front_rbt_picker_Left_gripper_onoff;
+
+	int o_hs_Front_rbt_picker_Right_updn;
+	int o_hs_Front_rbt_picker_Right_gripper_onoff;
+	
+	int o_hs_Front_rbt_picker_gripper_onoff[2];
+	int o_hs_Front_rbt_picker_updn[2];
+
+	//Robot Input
+	int i_hs_Front_rbt_picker_Left_up_chk;
+	int i_hs_Front_rbt_picker_Left_dn_chk;
+	int i_hs_Front_rbt_picker_Left_gripper_dvc_chk; 
+
+	int i_hs_Front_rbt_picker_Right_up_chk;
+	int i_hs_Front_rbt_picker_Right_dn_chk;
+	int i_hs_Front_rbt_picker_Right_gripper_dvc_chk;
+
+	int i_hs_Front_rbt_picker_up_chk[2];
+	int i_hs_Front_rbt_picker_dn_chk[2];
+	int i_hs_Front_rbt_picker_gripper_dvc_chk[2];
+
+	int	i_LoDoorSafetyChk[7];
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	int		oMotPwr[MAXMOTOR];
@@ -966,14 +1059,6 @@ struct tagWORK_INFO
 };
 extern  tagWORK_INFO  st_work_info;
 
-//kwlee 2017.0524
-struct tagFRONT_CLIP_INFO
-{
-	
-
-
-};
-extern  tagFRONT_CLIP_INFO  st_FontClip_info;
 
 // *************************************************************************
 // 기타 정보 저장 구조체 선언                                                    
@@ -1043,9 +1128,9 @@ enum TEST_SITE_HIGH_LOW_INFO  //test site high / low 정보
 
 enum THREAD_SYNC_VARIBLE_SITE_INFO  //위치별 트레이 존재 유무를 위치별로 정의해 놓음  
 {
-	// tray site
-	THD_PLATE_CV_LDTRAY_INPUT_SITE		=  0, //ld smema 통신처리 , //2015.0303 james 사용하지 안음 
 
+	THD_HS_FRONT_STACKER          =  0,
+	THD_HS_FRONT_RBT ,
 	THREAD_MAX_SITE							,
 };
 
@@ -1056,11 +1141,10 @@ struct tagSYNC_INFO
 	int			nLotEnd[50];					// lot end flag 상태.....
 
 	int			nInitializeSuccess;
-	//2015.0104
-	//////////////////////////////////////////////////////////////////////////////////////////////////////
-	//데이터 처리방법은 보내는 사이트가 DATA_SET, 받는 사이트는 DATA_CLEAR 구조로 데이터를 처리한다 
-	//////////////////////////////////////////////////////////////////////////////////////////////////////
+	int         nInit_Flag[50];
 	
+	int         nWorkRobot_Req[MAX_BUFFER_SITE][MAX_STACKER_POS]; //Robot이 Stacker에 요청.
+	int         nWorkBuff_Req[MAX_BUFFER_SITE];
 	
 };
 extern tagSYNC_INFO	st_sync_info;
@@ -1072,9 +1156,6 @@ struct tagVARIABLE_INFO
 
 };
 extern tagVARIABLE_INFO	st_var;
-
-
-
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// 2015.0102 
 #define MAX_GMS_CHANNEL					8
@@ -1149,7 +1230,6 @@ enum LOT_INFO
 // lot 정보.....
 struct tagLOT_INFO
 {
-
 	CString strLotNo;				// lot no......
 	CString strPartNo;				// part no......
 	CString strProcess;				// process id.....
@@ -1233,8 +1313,11 @@ extern struct tagLOT_HISTORY_INFO st_lot_history_info;
 
 enum WAIT_TIME
 {
-	WAIT_STOPPER_UP_DN						= 0,
-	
+	WAIT_PICKER_UP_DN						= 0,
+	WAIT_PICKER_ON_OFF						,
+	WAIT_STACKER_UP_DN                      ,
+	WAIT_STACKER_CYL_ON_OFF                 ,
+
 	MAX_WAIT_TIME							,
 };
 
@@ -1334,12 +1417,11 @@ enum EQ_WORK_MODE_STATE
 
 enum MOTOR_NUM
 {
-	M_BARCODE_X						= 0,
+	M_HS_F_STACKER_READY						= 0,
+	M_HS_F_RBT_Y				,
+	M_HS_F_RBT_Z				,
 	M_MAX_MOTOR_NUM					, //29
 };
-
-
-
 
 enum COMM_PORT
 {

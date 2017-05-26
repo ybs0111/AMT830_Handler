@@ -182,6 +182,7 @@ public:
 
 	// 20140306 jtkim
 	int		m_nMotInfo[BD_MAX_MOTOR];
+	CString m_strCode; //kwlee 2017.0525
  
 // Operations
 public:

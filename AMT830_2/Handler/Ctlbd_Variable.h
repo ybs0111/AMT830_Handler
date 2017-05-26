@@ -27,7 +27,7 @@ enum MOTOR_MOVE_METHOD_INFO  //robot site 정보
 
 #define CTL_LOCK			   -1 //요청에 따라 동작을 시작했슴.
 #define CTL_CLEAR				0 //아무것도 하지않은 초기상태 
-#define CTL_REQ				1 //해당 동작을 요청한 상태 
+#define CTL_REQ					1 //해당 동작을 요청한 상태 
 #define CTL_READY				2 //해당 동작의 요청에 따라 동작을 완료하여 준비된 상태 - 응대한 상태
 #define CTL_FREE				3 //요청한 측에서 동작을 모두 완료한 상태로 간섭등을 벗어났을때 상태측이 동작할 수 있도록 자류롭게 데이터를 놓아준다.
 #define CTL_CHANGE				4 //목표물을 교체를 요청할때 사용한다(Remove Buffer 교체를 요청할때 사용한다)
