@@ -919,9 +919,9 @@ struct tagIO_INFO
 	int i_hs_Front_Ready_stacker_Right_rail_fwd_chk;
 	int i_hs_Front_Ready_stacker_Right_rail_bwd_chk;
 
-	int i_hs_Front_stacker_tray_pusher_bwd_chk;
 	int i_hs_Front_stacker_tray_pusher_fwd_chk;
-
+	int i_hs_Front_stacker_tray_pusher_bwd_chk;
+	
 	int i_hs_Front_Ready_stacker_up_chk;
 	int i_hs_Front_Ready_stacker_dn_chk;
 
@@ -957,23 +957,23 @@ struct tagIO_INFO
 
 	/////////////
 	//Robot outPut
-	int o_hs_Front_rbt_picker_Left_updn;
-	int o_hs_Front_rbt_picker_Left_gripper_onoff;
+	int o_hs_Front_rbt_picker_Fwd_updn;
+	int o_hs_Front_rbt_picker_Fwd_gripper_onoff;
 
-	int o_hs_Front_rbt_picker_Right_updn;
-	int o_hs_Front_rbt_picker_Right_gripper_onoff;
+	int o_hs_Front_rbt_picker_Bwd_updn;
+	int o_hs_Front_rbt_picker_Bwd_gripper_onoff;
 	
 	int o_hs_Front_rbt_picker_gripper_onoff[2];
 	int o_hs_Front_rbt_picker_updn[2];
 
 	//Robot Input
-	int i_hs_Front_rbt_picker_Left_up_chk;
-	int i_hs_Front_rbt_picker_Left_dn_chk;
-	int i_hs_Front_rbt_picker_Left_gripper_dvc_chk; 
+	int i_hs_Front_rbt_picker_Fwd_up_chk;
+	int i_hs_Front_rbt_picker_Fwd_dn_chk;
+	int i_hs_Front_rbt_picker_Fwd_gripper_dvc_chk; 
 
-	int i_hs_Front_rbt_picker_Right_up_chk;
-	int i_hs_Front_rbt_picker_Right_dn_chk;
-	int i_hs_Front_rbt_picker_Right_gripper_dvc_chk;
+	int i_hs_Front_rbt_picker_Bwd_up_chk;
+	int i_hs_Front_rbt_picker_Bwd_dn_chk;
+	int i_hs_Front_rbt_picker_Bwd_gripper_dvc_chk;
 
 	int i_hs_Front_rbt_picker_up_chk[2];
 	int i_hs_Front_rbt_picker_dn_chk[2];
@@ -1417,7 +1417,7 @@ enum EQ_WORK_MODE_STATE
 
 enum MOTOR_NUM
 {
-	M_HS_F_STACKER_READY						= 0,
+	M_HS_F_STACKER_READY		= 0,
 	M_HS_F_RBT_Y				,
 	M_HS_F_RBT_Z				,
 	M_MAX_MOTOR_NUM					, //29
@@ -1459,3 +1459,6 @@ enum CUSTOM_IO_FUNCTION_PICKER
 #define SLOT_ENABLE					1
 
 #endif
+	
+
+	

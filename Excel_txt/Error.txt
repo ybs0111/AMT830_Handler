@@ -1,0 +1,212 @@
+
+///////////////////////////////////////////////////////
+//  00 : H/T Sink Stacker
+///////////////////////////////////////////////////////
+000001 0 03 "Heat Sink Front Ready stacker Motor Home Check Error."
+000002 0 03 "Heat Sink Front Ready stacker Motor Alarm Error."
+000003 0 03 "Heat Sink Front Ready stacker Motor Parameter Setting Error."
+000004 0 03 "Heat Sink Front Ready stacker Motor Move Setting Error."
+000005 0 03 "Heat Sink Front Ready stacker Motor Power Off Error."
+000006 1 03 "Heat Sink Front Ready stacker Motor Move Error."
+000007 0 03 "Heat Sink Front Ready stacker Motor Do Not Home Check."
+000008 0 03 "Heat Sink Front Ready stacker Motor is Non Safety Pos."
+000009 0 03 "Heat Sink Front Ready stacker Motor Destination is Non Safety Pos."
+000010 0 03 "Heat Sink Front Ready stacker Motor 위치 이동 에러."
+
+///////////////////////////////////////////////////////
+//  01 : H/T Sink Front Robot Y
+///////////////////////////////////////////////////////
+010001 0 14 "HeatSink FRONT RBT Y Motor Home Check Error."
+010002 0 14 "HeatSink FRONT RBT Y Motor Alarm Error."
+010003 0 14 "HeatSink FRONT RBT Y Motor Parameter Setting Error."
+010004 0 14 "HeatSink FRONT RBT Y Motor Move Setting Error."
+010005 0 14 "HeatSink FRONT RBT Y Motor Power Off Error."
+010006 1 14 "HeatSink FRONT RBT Y Motor Move Error."
+010007 0 14 "HeatSink FRONT RBT Y Motor Do Not Home Check."
+010008 0 14 "HeatSink FRONT RBT Y Motor is Non Safety Pos."
+010009 0 14 "HeatSink FRONT RBT Y Motor Destination is Non Safety Pos."
+
+
+///////////////////////////////////////////////////////
+//  02 : H/T Sink F Robot Z
+///////////////////////////////////////////////////////
+020001 0 15 "HeatSink FRONT RBT Z Motor Home Check Error."
+020002 0 15 "HeatSink FRONT RBT Z Motor Alarm Error."
+020003 0 15 "HeatSink FRONT RBT Z Motor Parameter Setting Error."
+020004 0 15 "HeatSink FRONT RBT Z Motor Move Setting Error."
+020005 0 15 "HeatSink FRONT RBT Z Motor Power Off Error."
+020006 1 15 "HeatSink FRONT RBT Z Motor Move Error."
+020007 0 15 "HeatSink FRONT RBT Z Motor Do Not Home Check."
+020008 0 15 "HeatSink FRONT RBT Z Motor is Non Safety Pos."
+020009 0 15 "HeatSink FRONT RBT Z Motor Destination is Non Safety Pos."
+
+///////////////////////////////////////////////////////
+//  00 : H/T Sink Front Ready Stacker
+///////////////////////////////////////////////////////
+800009 1 0 "Front Heat Sink Ready stacker guide clamp On Off Check Error."
+800010 1 0 "Front Heat Sink Ready stacker guide Unclamp Off Off Check Error."
+800011 1 0 "Front Heat Sink Ready Stacker Left Rail forward Off Check Error."
+800012 1 0 "Front Heat Sink Ready Stacker Left Rail backward Off Check Error"
+800013 1 0 "Front Heat Sink Ready Stacker Right Rail forward Off Check Error"
+800014 1 0 "Front Heat Sink Ready Stacker Right Rail backward Off Check Error."
+
+
+///////////////////////////////////////////////////////
+//  01 : H/T Sink Front Ready Stacker
+///////////////////////////////////////////////////////
+800110 1 0 "Front Heat Sink Ready stacker Tray pusher forward Off Check Error."
+800111 1 0 "Front Heat Sink Ready stacker Tray pusher backward Off Check Error"
+800112 1 0 "Front Heat Sink Ready stacker Up Off Check Error"
+800113 1 0 "Front Heat Sink Ready stacker Down Off Check Error."
+800114 1 0 "Front Heat Sink Ready Stacker Tray Sensor Off Check Error"
+800115 1 0 "Front Heat Sink Ready Stacker Tray Up/Dn Pos Sensor Off Check Error."
+
+///////////////////////////////////////////////////////
+//  02 : H/T Sink Front Work Stacker
+///////////////////////////////////////////////////////
+800200 1 0 "Front Heat Sink Work stacker guide clamp On Off Check Error."
+800201 1 0 "Front Heat Sink Work stacker guide Unclamp Off Off Check Error."
+800202 1 0 "Front Heat Sink Work Stacker Left Rail forward Off Check Error."
+800203 1 0 "Front Heat Sink Work Stacker Left Rail backward Off Check Error"
+800204 1 0 "Front Heat Sink Work Stacker Right Rail forward Off Check Error"
+800205 1 0 "Front Heat Sink Work Stacker Right Rail backward Off Check Error."
+800206 1 0 "Front Heat Sink Work stacker Up Off Check Error."
+800207 1 0 "Front Heat Sink Work stacker Down Off Check Error."
+800208 1 0 "Front Heat Sink Work stacker Tray Sensor Off Check Error."
+800209 1 0 "Front Heat Sink Work stacker Tray Up/Dn Pos  Off Check Error."
+
+
+///////////////////////////////////////////////////////
+//  03 : Front Heat Sink Picker
+///////////////////////////////////////////////////////
+800308 1 0 "Front Heat Sink Picker Fwd Up Off Check Error."
+800309 1 0 "Front Heat Sink Picker Fwd Down Off Check Error."
+800310 1 0 "Front Heat Sink Picker Fwd Gripper Device Off Check Error."
+800311 1 0 "Front Heat Sink Picker Bwd Up Off Check Error."
+800312 1 0 "Front Heat Sink Picker Bwd Down Off Check Error."
+800313 1 0 "Front Heat Sink Picker Bwd Gripper Device Off Check Error."
+
+
+///////////////////////////////////////////////////////
+//  00 : H/T Sink Front Ready Stacker
+///////////////////////////////////////////////////////
+810009 1 0 "Front Heat Sink Ready stacker guide clamp On On Check Error."
+810010 1 0 "Front Heat Sink Ready stacker guide Unclamp Off On Check Error."
+810011 1 0 "Front Heat Sink Ready Stacker Left Rail forward On Check Error."
+810012 1 0 "Front Heat Sink Ready Stacker Left Rail backward On Check Error"
+810013 1 0 "Front Heat Sink Ready Stacker Right Rail forward On Check Error"
+810014 1 0 "Front Heat Sink Ready Stacker Right Rail backward On Check Error."
+
+
+///////////////////////////////////////////////////////
+//  01 : H/T Sink Front Ready Stacker
+///////////////////////////////////////////////////////
+810110 1 0 "Front Heat Sink Ready stacker Tray pusher forward On Check Error."
+810111 1 0 "Front Heat Sink Ready stacker Tray pusher backward On Check Error"
+810112 1 0 "Front Heat Sink Ready stacker Up On Check Error"
+810113 1 0 "Front Heat Sink Ready stacker Down On Check Error."
+810114 1 0 "Front Heat Sink Ready Stacker Tray Sensor On Check Error"
+810115 1 0 "Front Heat Sink Ready Stacker Tray Up/Dn Pos Sensor On Check Error."
+
+///////////////////////////////////////////////////////
+//  02 : H/T Sink Front Work Stacker
+///////////////////////////////////////////////////////
+810200 1 0 "Front Heat Sink Work stacker guide clamp On On Check Error."
+810201 1 0 "Front Heat Sink Work stacker guide Unclamp Off On Check Error."
+810202 1 0 "Front Heat Sink Work Stacker Left Rail forward On Check Error."
+810203 1 0 "Front Heat Sink Work Stacker Left Rail backward On Check Error"
+810204 1 0 "Front Heat Sink Work Stacker Right Rail forward On Check Error"
+810205 1 0 "Front Heat Sink Work Stacker Right Rail backward On Check Error."
+810206 1 0 "Front Heat Sink Work stacker Up On Check Error."
+810207 1 0 "Front Heat Sink Work stacker Down On Check Error."
+810208 1 0 "Front Heat Sink Work stacker Tray Sensor On Check Error."
+810209 1 0 "Front Heat Sink Work stacker Tray Up/Dn Pos  On Check Error."
+
+///////////////////////////////////////////////////////
+//  03 : Front Heat Sink Picker
+///////////////////////////////////////////////////////
+810308 1 0 "Front Heat Sink Picker Fwd Up On Check Error."
+810309 1 0 "Front Heat Sink Picker Fwd Down On Check Error."
+810310 1 0 "Front Heat Sink Picker Fwd Gripper Device On Check Error."
+810311 1 0 "Front Heat Sink Picker Bwd Up On Check Error."
+810312 1 0 "Front Heat Sink Picker Bwd Down On Check Error."
+810313 1 0 "Front Heat Sink Picker Bwd Gripper Device On Check Error.
+
+///////////////////////////////////////////////////////
+//  90 : HANDLER
+///////////////////////////////////////////////////////
+900000 0 90 "Motor Not Init. Error."
+900001 0 90 "I/O Board Not Init. Error."
+900002 0 90 "Handler Not Init. Error."
+900003 0 90 "Handler Init About Error."
+900100 0 90 "Door#1 Open Error.[PS3500]."
+900101 0 90 "Door#2 Open Error.[PS3501]."
+900102 0 90 "Door#3 Open Error.[PS3502]."
+900103 0 90 "Door#4 Open Error.[PS3503]."
+900104 0 90 "Door#5 Open Error.[PS3504]."
+900105 0 90 "Door#6 Open Error.[PS3505]."
+900106 0 90 "Door#7 Open Error.[PS3506]."
+900107 0 90 "Door#8 Open Error.[PS3507]."
+900108 0 90 "Door#9 Open Error.[PS3508]."
+900109 0 90 "Door#10 Open Error.[PS3509]."
+900110 0 90 "Door#11 Open Error.[PS3510]."
+900111 0 90 "Door#12 Open Error.[PS3511]."
+900112 0 90 "Door#13 Open Error.[PS3512]."
+900113 0 90 "Door#14 Open Error.[PS3513]."
+900120 0 90 "Safety Door1 Open Error."
+900121 0 90 "Safety Door2 Open Error."
+900122 0 90 "Safety Door3 Open Error."
+900200 0 90 "Air Supply Check Error.[PS1106]."
+900201 0 90 "EMO Error.[PS3604]."
+900202 0 90 "EMO Error.[PS3605]."
+900203 0 90 "EMO Error.[PS3606]."
+900204 0 90 "EMO Error.[PS3607]."
+900500 0 90 "Good Buffer Information is Missing."
+900501 0 90 "Reject Buffer Information is Missing."
+900502 0 90 "Barcode information Error."
+900503 0 90 "Reject Tray Full Error."
+900504 0 90 "Reject Buffer Full Error."
+900600 0 90 "Loading Partial Count Error."
+900700 0 90 "Module Direction Check Error."
+900800 0 90 "Module Direction device num is defferent."
+900900 0 90 "Area 센서 감지 에러."
+900901 0 90 "LD Clip tube Cover up down Error."
+900902 0 90 "ULD Clip tube Cover up down Error."
+
+///////////////////////////////////////////////////////
+//  99 : ETC
+///////////////////////////////////////////////////////
+990000 0 99 "LOT END."
+990001 0 99 "Module Robot Picker #1, #2 All Skip Error."  
+990002 0 99 "Heat Sink Forward Robot Picker #1, #2 All Skip Error."
+990003 0 99 "Heat Sink Backward Robot Picker #1, #2 All Skip Error."
+990004 0 99 "Work Buffer #1, #2, #3, #4 All Skip Error."
+990100 0 99 "트레이를 공급해 주세요."
+990102 0 99 "Right Heat Sink 트레이를 공급해 주세요."
+991000 0 99 "Lot이 Start가 되지 않았습니다."
+991001 0 99 "작업할 Lot 개수를 입력하지 않았습니다."
+991002 0 99 "BCR 비젼이 ready 상태가 아닙니다."
+991003 0 99 "Heat Sink 비젼이 ready 상태가 아닙니다."
+991005 0 99 "Unload 트레이를 공급해 주세요."
+992000 0 99 "BCR Job Change Model이 없습니다."
+992001 0 99 "Heat Sink Job Change Model이 없습니다."
+992002 0 99 "BCR Job선택을 하지 못했습니다."
+992003 0 99 "BCR가 센서에 검출되지 않습니다."
+992004 0 99 "BCR이 아직 남아 있습니다."
+993000 0 99 "FeedBack 값이 0입니다. 각 stacker move를 + 또는 - 리밋으로 이동해 주세요."
+994000 0 99 "Lot 수량이 맞지 다시 시작합니다. 자재 및 모듈을 빼고 시작하면 초기화를 진행합니다."
+994001 0 99 "자재및 모듈을 투입해 주세요. Lot 수량이 맞지 않습니다."
+994002 0 99 "Front Heat Sink Blank(빈)자재를 제거해 주세요."
+994003 0 99 "Front Heat Sink 자재를 투입해 주세요."
+994004 0 99 "Back Heat Sink Blank(빈)자재를 제거해 주세요."
+994005 0 99 "Back Heat Sink 자재를 투입해 주세요."
+994006 0 99 "ULD Module Blank Tray를 제거해 주세요."
+994007 0 99 "ULD Module Blank(빈) Tray를 투입해 주세요."
+994008 0 99 "자재및 모듈을 투입해 주세요."
+994009 0 99 "LD Module Blank Tray를 제거해 주세요."
+994010 0 99 "LD Module Blank(빈) Tray를 투입해 주세요."
+995000 0 99 "Clamp에서 Clip 제거 Bin 통의 Clip을 제거해 주세요."
+995001 0 99 "Clip 제거 Bin 통의 Clip을 제거해 주세요."
+998000 0 99 "AMT830 Heat Sink Handler is OK."
+999000 0 99 "LOT CANCEL."
+999999 1 99 "AMT830 Heat Sink Handler Alarm Message."

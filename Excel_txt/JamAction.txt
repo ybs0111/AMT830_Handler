@@ -1,0 +1,1059 @@
+///////////////////////////////////////////////////////
+//  00 : H/T Sink Front Ready Stacker1
+///////////////////////////////////////////////////////
+[000001]
+COUNT = 5
+1 = Heat Sink Front Ready stacker 모터 홈 체크 에러 입니다.
+2 = 모터 파워 및 홈체크 속도를 확인해 주세요.
+3 = 홈체크 센서 및 방해물이 있는지 확인해 주세요.
+4 = 모터 상태가 정상인지 확인해 주세요.
+5 = 모터 드라이버가 정상인지 확인해 주세요.
+
+[000002]
+COUNT = 4
+1 = Heat Sink Front Ready stacker 모터 알람 에러 입니다.
+2 = 모터에 부하가 걸리는 곳이 있는지 확인해 주세요.
+3 = 모터 상태가 정상인지 확인해 주세요.
+4 = 모터 드라이브가 정상인지 확인해 주세요.
+
+[000003]
+COUNT = 2
+1 = Heat Sink Front Ready stacker 모터 파라메터 설정이 잘못되었습니다.
+2 = 모터 스피드 화면에서 파라메터를 확인해 주세요.
+
+[000004]
+COUNT = 2
+1 = Heat Sink Front Ready stacker 모터 동작 설정이 잘못되었습니다.
+2 = 테스트 사이트 부 모터 화면에서 위치 값이 정상인지 확인해 주세요.
+
+[000005]
+COUNT = 3
+1 = Heat Sink Front Ready stacker 모터 전원 OFF 에러 입니다.
+2 = 모터 상태가 정상인지 확인해 주세요.
+3 = 모터 드라이버가 정상인지 확인해 주세요.
+
+[000006]
+COUNT = 3
+1 = Heat Sink Front Ready stacker 모터 동작 에러 입니다.
+2 = 모터 상태가 정상인지 확인해 주세요.
+3 = 모터 드라이버가 정상인지 확인해 주세요.
+
+[000007]
+COUNT = 4
+1 = Heat Sink Front Ready stacker 모터가 홈 체크를 하지 못 했습니다.
+2 = 홈 체크 센서 및 방해물이 있는지 확인해 주세요.
+3 = 모터 상태가 정상인지 확인해 주세요.
+4 = 모터 드라이버가 정상인지 확인해 주세요.
+
+[000008]
+COUNT = 3
+1 = Heat Sink Front Ready stacker 모터가 안전하지 못 합니다.
+2 = 모터 상태가 정상인지 확인해 보세요.
+3 = 모터 드라이버가 정상인지 확인해 보세요.
+
+[000009]
+COUNT = 4
+1 = Heat Sink Front Ready stacker 모터가 이동하려는 위치가 안전하지 않습니다
+2 = 모터에 방해물이 있는지 확인해 주세요.
+3 = 모터 상태가 정상인지 확인해 주세요.
+4 = 모터 드라이버가 정상인지 확인해 주세요.
+
+[000010]
+COUNT = 4
+1 = Heat Sink Front Ready stacker 모터 위치 이동 에러.
+2 = 모터에 방해물이 있는지 확인해 주세요.
+3 = 모터 상태가 정상인지 확인해 주세요.
+4 = 모터 드라이버가 정상인지 확인해 주세요.
+
+
+///////////////////////////////////////////////////////
+//  01 : H/T Sink F Robot Y
+///////////////////////////////////////////////////////
+[010001]
+COUNT = 5
+1 = HeatSink FRONT RBT Y 모터 홈 체크 에러 입니다.
+2 = 모터 파워 및 홈체크 속도를 확인해 주세요.
+3 = 홈체크 센서 및 방해물이 있는지 확인해 주세요.
+4 = 모터 상태가 정상인지 확인해 주세요.
+5 = 모터 드라이버가 정상인지 확인해 주세요.
+
+[010002]
+COUNT = 4
+1 = HeatSink FRONT RBT Y 모터 알람 에러 입니다.
+2 = 모터에 부하가 걸리는 곳이 있는지 확인해 주세요.
+3 = 모터 상태가 정상인지 확인해 주세요.
+4 = 모터 드라이브가 정상인지 확인해 주세요.
+
+[010003]
+COUNT = 2
+1 = HeatSink FRONT RBT Y 모터 파라메터 설정이 잘못되었습니다.
+2 = 모터 스피드 화면에서 파라메터를 확인해 주세요.
+
+[010004]
+COUNT = 2
+1 = HeatSink FRONT RBT Y 모터 동작 설정이 잘못되었습니다.
+2 = 테스트 사이이트 부 모터 화면에서 위치 값이 정상인지 확인해 주세요.
+
+[010005]
+COUNT = 3
+1 = HeatSink FRONT RBT Y 모터 전원 OFF 에러 입니다.
+2 = 모터 상태가 정상인지 확인해 주세요.
+3 = 모터 드라이버가 정상인지 확인해 주세요.
+
+[010006]
+COUNT = 3
+1 = HeatSink FRONT RBT Y 모터 동작 에러 입니다.
+2 = 모터 상태가 정상인지 확인해 주세요.
+3 = 모터 드라이버가 정상인지 확인해 주세요.
+
+[010007]
+COUNT = 4
+1 = HeatSink FRONT RBT Y 모터가 홈 체크를 하지 못 했습니다.
+2 = 홈 체크 센서 및 방해물이 있는지 확인해 주세요.
+3 = 모터 상태가 정상인지 확인해 주세요.
+4 = 모터 드라이버가 정상인지 확인해 주세요.
+
+[010008]
+COUNT = 3
+1 = HeatSink FRONT RBT Y 모터가 안전하지 못 합니다.
+2 = 모터 상태가 정상인지 확인해 보세요.
+3 = 모터 드라이버가 정상인지 확인해 보세요.
+
+[010009]
+COUNT = 4
+1 = HeatSink FRONT RBT Y 모터가 이동하려는 위치가 안전하지 않습니다
+2 = 모터에 방해물이 있는지 확인해 주세요.
+3 = 모터 상태가 정상인지 확인해 주세요.
+4 = 모터 드라이버가 정상인지 확인해 주세요.
+
+
+
+
+///////////////////////////////////////////////////////
+//  02 : H/T Sink F Robot Z
+///////////////////////////////////////////////////////
+[020001]
+COUNT = 5
+1 = HeatSink FRONT RBT Z 모터 홈 체크 에러 입니다.
+2 = 모터 파워 및 홈체크 속도를 확인해 주세요.
+3 = 홈체크 센서 및 방해물이 있는지 확인해 주세요.
+4 = 모터 상태가 정상인지 확인해 주세요.
+5 = 모터 드라이버가 정상인지 확인해 주세요.
+
+[020002]
+COUNT = 4
+1 = HeatSink FRONT RBT Z 모터 알람 에러 입니다.
+2 = 모터에 부하가 걸리는 곳이 있는지 확인해 주세요.
+3 = 모터 상태가 정상인지 확인해 주세요.
+4 = 모터 드라이브가 정상인지 확인해 주세요.
+
+[020003]
+COUNT = 2
+1 = HeatSink FRONT RBT Z 모터 파라메터 설정이 잘못되었습니다.
+2 = 모터 스피드 화면에서 파라메터를 확인해 주세요.
+
+[020004]
+COUNT = 2
+1 = HeatSink FRONT RBT Z 모터 동작 설정이 잘못되었습니다.
+2 = 테스트 사이이트 부 모터 화면에서 위치 값이 정상인지 확인해 주세요.
+
+[020005]
+COUNT = 3
+1 = HeatSink FRONT RBT Z 모터 전원 OFF 에러 입니다.
+2 = 모터 상태가 정상인지 확인해 주세요.
+3 = 모터 드라이버가 정상인지 확인해 주세요.
+
+[020006]
+COUNT = 3
+1 = HeatSink FRONT RBT Z 모터 동작 에러 입니다.
+2 = 모터 상태가 정상인지 확인해 주세요.
+3 = 모터 드라이버가 정상인지 확인해 주세요.
+
+[020007]
+COUNT = 4
+1 = HeatSink FRONT RBT Z 모터가 홈 체크를 하지 못 했습니다.
+2 = 홈 체크 센서 및 방해물이 있는지 확인해 주세요.
+3 = 모터 상태가 정상인지 확인해 주세요.
+4 = 모터 드라이버가 정상인지 확인해 주세요.
+
+[020008]
+COUNT = 3
+1 = HeatSink FRONT RBT Z 모터가 안전하지 못 합니다.
+2 = 모터 상태가 정상인지 확인해 보세요.
+3 = 모터 드라이버가 정상인지 확인해 보세요.
+
+[020009]
+COUNT = 4
+1 = HeatSink FRONT RBT Z 모터가 이동하려는 위치가 안전하지 않습니다
+2 = 모터에 방해물이 있는지 확인해 주세요.
+3 = 모터 상태가 정상인지 확인해 주세요.
+4 = 모터 드라이버가 정상인지 확인해 주세요.
+
+///////////////////////////////////////////////////////
+//  00 : H/T Sink Front Ready Stacker
+///////////////////////////////////////////////////////
+[800009]
+COUNT = 5
+1 = Front Heat Sink Ready stacker guide clamp On Off Check Error.
+2 = 모터에 방해물이 있는지 확인해 주세요.
+3 = 모터 상태가 정상인지 확인해 주세요.
+4 = 모터 드라이버가 정상인지 확인해 주세요.
+5 = 동작중 센서가 동작하는지 체크해 주세요.
+
+[800010]
+COUNT = 5
+1 = Front Heat Sink Ready stacker guide Unclamp Off Off Check Error.
+2 = 모터에 방해물이 있는지 확인해 주세요.
+3 = 모터 상태가 정상인지 확인해 주세요.
+4 = 모터 드라이버가 정상인지 확인해 주세요.
+5 = 동작중 센서가 동작하는지 체크해 주세요.
+
+
+
+[800011]
+COUNT = 5
+1 = Front Heat Sink Ready Stacker Left Rail forward Off Check Error.
+2 = 에어가 공급되는지 체크 해주세요.
+3 = 동작 중 방해 물질이 있는지 체크해 주세요.
+4 = 동작 중 센서가 동작하는지 체크해 주세요.
+5 = I/O Module이 문제인지 체크해 주세요.
+
+[800012]
+COUNT = 5
+1 = Front Heat Sink Ready Stacker Left Rail backward Off Check Error.
+2 = 에어가 공급되는지 체크 해주세요.
+3 = 동작 중 방해 물질이 있는지 체크해 주세요.
+4 = 동작 중 센서가 동작하는지 체크해 주세요.
+5 = I/O Module이 문제인지 체크해 주세요.
+
+
+[800013]
+COUNT = 5
+1 = Front Heat Sink Ready Stacker Right Rail forward Off Check Error.
+2 = 에어가 공급되는지 체크 해주세요.
+3 = 동작 중 방해 물질이 있는지 체크해 주세요.
+4 = 동작 중 센서가 동작하는지 체크해 주세요.
+5 = I/O Module이 문제인지 체크해 주세요.
+
+[800014]
+COUNT = 5
+1 = Front Heat Sink Ready Stacker Right Rail backward Off Check Error.
+2 = 에어가 공급되는지 체크 해주세요.
+3 = 동작 중 방해 물질이 있는지 체크해 주세요.
+4 = 동작 중 센서가 동작하는지 체크해 주세요.
+5 = I/O Module이 문제인지 체크해 주세요.
+
+///////////////////////////////////////////////////////
+//  01 : H/T Sink Front Ready Stacker
+///////////////////////////////////////////////////////
+[800110]
+COUNT = 5
+1 = Front Heat Sink Ready stacker Tray pusher forward Off Check Error.
+2 = 에어가 공급되는지 체크 해주세요.
+3 = 동작 중 방해 물질이 있는지 체크해 주세요.
+4 = 동작 중 센서가 동작하는지 체크해 주세요.
+5 = I/O Module이 문제인지 체크해 주세요.
+
+[800111]
+COUNT = 5
+1 = Front Heat Sink Ready stacker Tray pusher backward Off Check Error
+2 = 에어가 공급되는지 체크 해주세요.
+3 = 동작 중 방해 물질이 있는지 체크해 주세요.
+4 = 동작 중 센서가 동작하는지 체크해 주세요.
+5 = I/O Module이 문제인지 체크해 주세요.
+
+[800112]
+COUNT = 5
+1 = Front Heat Sink Ready stacker Up Off Check Error
+2 = 에어가 공급되는지 체크 해주세요.
+3 = 동작 중 방해 물질이 있는지 체크해 주세요.
+4 = 동작 중 센서가 동작하는지 체크해 주세요.
+5 = I/O Module이 문제인지 체크해 주세요.
+
+[800113]
+COUNT = 5
+1 = Front Heat Sink Ready stacker Down Off Check Error.
+2 = 에어가 공급되는지 체크 해주세요.
+3 = 동작 중 방해 물질이 있는지 체크해 주세요.
+4 = 동작 중 센서가 동작하는지 체크해 주세요.
+5 = I/O Module이 문제인지 체크해 주세요.
+
+[800114]
+COUNT = 5
+1 = Front Heat Sink Ready Stacker Tray Sensor Off Check Error.
+2 = 에어가 공급되는지 체크 해주세요.
+3 = 동작 중 방해 물질이 있는지 체크해 주세요.
+4 = 동작 중 센서가 동작하는지 체크해 주세요.
+5 = I/O Module이 문제인지 체크해 주세요.
+
+[800115]
+COUNT = 5
+1 = Front Heat Sink Ready Stacker Tray Up/Dn Pos Sensor Off Check Error.
+2 = 에어가 공급되는지 체크 해주세요.
+3 = 동작 중 방해 물질이 있는지 체크해 주세요.
+4 = 동작 중 센서가 동작하는지 체크해 주세요.
+5 = I/O Module이 문제인지 체크해 주세요.
+
+
+///////////////////////////////////////////////////////
+//  02 : H/T Sink Front Work Stacker
+///////////////////////////////////////////////////////
+[800200]
+COUNT = 5
+1 = Front Heat Sink Work stacker guide clamp On Off Check Error.
+2 = 모터에 방해물이 있는지 확인해 주세요.
+3 = 모터 상태가 정상인지 확인해 주세요.
+4 = 모터 드라이버가 정상인지 확인해 주세요.
+5 = 동작중 센서가 동작하는지 체크해 주세요.
+
+[800201]
+COUNT = 5
+1 = Front Heat Sink Work stacker guide Unclamp Off Off Check Error.
+2 = 모터에 방해물이 있는지 확인해 주세요.
+3 = 모터 상태가 정상인지 확인해 주세요.
+4 = 모터 드라이버가 정상인지 확인해 주세요.
+5 = 동작중 센서가 동작하는지 체크해 주세요.
+
+[800202]
+COUNT = 5
+1 = Front Heat Sink Work Stacker Left Rail forward Off Check Error.
+2 = 에어가 공급되는지 체크 해주세요.
+3 = 동작 중 방해 물질이 있는지 체크해 주세요.
+4 = 동작 중 센서가 동작하는지 체크해 주세요.
+5 = I/O Module이 문제인지 체크해 주세요.
+
+[800203]
+COUNT = 5
+1 = Front Heat Sink Work Stacker Left Rail backward Off Check Error.
+2 = 에어가 공급되는지 체크 해주세요.
+3 = 동작 중 방해 물질이 있는지 체크해 주세요.
+4 = 동작 중 센서가 동작하는지 체크해 주세요.
+5 = I/O Module이 문제인지 체크해 주세요.
+
+
+[800204]
+COUNT = 5
+1 = Front Heat Sink Work Stacker Right Rail forward Off Check Error.
+2 = 에어가 공급되는지 체크 해주세요.
+3 = 동작 중 방해 물질이 있는지 체크해 주세요.
+4 = 동작 중 센서가 동작하는지 체크해 주세요.
+5 = I/O Module이 문제인지 체크해 주세요.
+
+[800205]
+COUNT = 5
+1 = Front Heat Sink Work Stacker Right Rail backward Off Check Error.
+2 = 에어가 공급되는지 체크 해주세요.
+3 = 동작 중 방해 물질이 있는지 체크해 주세요.
+4 = 동작 중 센서가 동작하는지 체크해 주세요.
+5 = I/O Module이 문제인지 체크해 주세요.
+
+[800206]
+COUNT = 5
+1 = Front Heat Sink Work stacker Up Off Check Error
+2 = 에어가 공급되는지 체크 해주세요.
+3 = 동작 중 방해 물질이 있는지 체크해 주세요.
+4 = 동작 중 센서가 동작하는지 체크해 주세요.
+5 = I/O Module이 문제인지 체크해 주세요.
+
+[800207]
+COUNT = 5
+1 = Front Heat Sink Work stacker Down Off Check Error.
+2 = 에어가 공급되는지 체크 해주세요.
+3 = 동작 중 방해 물질이 있는지 체크해 주세요.
+4 = 동작 중 센서가 동작하는지 체크해 주세요.
+5 = I/O Module이 문제인지 체크해 주세요.
+
+[800208]
+COUNT = 5
+1 = Front Heat Sink Work Stacker Tray Sensor Off Check Error.
+2 = 에어가 공급되는지 체크 해주세요.
+3 = 동작 중 방해 물질이 있는지 체크해 주세요.
+4 = 동작 중 센서가 동작하는지 체크해 주세요.
+5 = I/O Module이 문제인지 체크해 주세요.
+
+[800209]
+COUNT = 5
+1 = Front Heat Sink Work Stacker Tray Up/Dn Pos Sensor Off Check Error.
+2 = 에어가 공급되는지 체크 해주세요.
+3 = 동작 중 방해 물질이 있는지 체크해 주세요.
+4 = 동작 중 센서가 동작하는지 체크해 주세요.
+5 = I/O Module이 문제인지 체크해 주세요.
+
+///////////////////////////////////////////////////////
+//  03 : Front Heat Sink Picker
+///////////////////////////////////////////////////////
+[800308]
+COUNT = 5
+1 = Front Heat Sink Picker Fwd Up Off Check Error.
+2 = 에어가 공급되는지 체크 해주세요.
+3 = 동작 중 방해 물질이 있는지 체크해 주세요.
+4 = 동작 중 센서가 동작하는지 체크해 주세요.
+5 = I/O Module이 문제인지 체크해 주세요.
+
+[800309]
+COUNT = 5
+1 = Front Heat Sink Picker Fwd Down Off Check Error.
+2 = 에어가 공급되는지 체크 해주세요.
+3 = 동작 중 방해 물질이 있는지 체크해 주세요.
+4 = 동작 중 센서가 동작하는지 체크해 주세요.
+5 = I/O Module이 문제인지 체크해 주세요.
+
+[800310]
+COUNT = 5
+1 = Front Heat Sink Picker Fwd Gripper Device Off Check Error.
+2 = 에어가 공급되는지 체크 해주세요.
+3 = 동작 중 방해 물질이 있는지 체크해 주세요.
+4 = 동작 중 센서가 동작하는지 체크해 주세요.
+5 = I/O Module이 문제인지 체크해 주세요.
+
+[800311]
+COUNT = 5
+1 = Front Heat Sink Picker Bwd Up Off Check Error.
+2 = 에어가 공급되는지 체크 해주세요.
+3 = 동작 중 방해 물질이 있는지 체크해 주세요.
+4 = 동작 중 센서가 동작하는지 체크해 주세요.
+5 = I/O Module이 문제인지 체크해 주세요.
+
+[800312]
+COUNT = 5
+1 = Front Heat Sink Picker Bwd Down Off Check Error.
+2 = 에어가 공급되는지 체크 해주세요.
+3 = 동작 중 방해 물질이 있는지 체크해 주세요.
+4 = 동작 중 센서가 동작하는지 체크해 주세요.
+5 = I/O Module이 문제인지 체크해 주세요.
+
+[800313]
+COUNT = 5
+1 = Front Heat Sink Picker Bwd Gripper Device Off Check Error.
+2 = 에어가 공급되는지 체크 해주세요.
+3 = 동작 중 방해 물질이 있는지 체크해 주세요.
+4 = 동작 중 센서가 동작하는지 체크해 주세요.
+5 = I/O Module이 문제인지 체크해 주세요.
+
+
+
+///////////////////////////////////////////////////////
+//  00 : H/T Sink Front Ready Stacker
+///////////////////////////////////////////////////////
+[810009]
+COUNT = 5
+1 = Front Heat Sink Ready stacker guide clamp On On Check Error.
+2 = 모터에 방해물이 있는지 확인해 주세요.
+3 = 모터 상태가 정상인지 확인해 주세요.
+4 = 모터 드라이버가 정상인지 확인해 주세요.
+5 = 동작중 센서가 동작하는지 체크해 주세요.
+
+[810010]
+COUNT = 5
+1 = Front Heat Sink Ready stacker guide Unclamp Off On Check Error.
+2 = 모터에 방해물이 있는지 확인해 주세요.
+3 = 모터 상태가 정상인지 확인해 주세요.
+4 = 모터 드라이버가 정상인지 확인해 주세요.
+5 = 동작중 센서가 동작하는지 체크해 주세요.
+
+
+
+[810011]
+COUNT = 5
+1 = Front Heat Sink Ready Stacker Left Rail forward On Check Error.
+2 = 에어가 공급되는지 체크 해주세요.
+3 = 동작 중 방해 물질이 있는지 체크해 주세요.
+4 = 동작 중 센서가 동작하는지 체크해 주세요.
+5 = I/O Module이 문제인지 체크해 주세요.
+
+[810012]
+COUNT = 5
+1 = Front Heat Sink Ready Stacker Left Rail backward On Check Error.
+2 = 에어가 공급되는지 체크 해주세요.
+3 = 동작 중 방해 물질이 있는지 체크해 주세요.
+4 = 동작 중 센서가 동작하는지 체크해 주세요.
+5 = I/O Module이 문제인지 체크해 주세요.
+
+
+[810013]
+COUNT = 5
+1 = Front Heat Sink Ready Stacker Right Rail forward On Check Error.
+2 = 에어가 공급되는지 체크 해주세요.
+3 = 동작 중 방해 물질이 있는지 체크해 주세요.
+4 = 동작 중 센서가 동작하는지 체크해 주세요.
+5 = I/O Module이 문제인지 체크해 주세요.
+
+[810014]
+COUNT = 5
+1 = Front Heat Sink Ready Stacker Right Rail backward On Check Error.
+2 = 에어가 공급되는지 체크 해주세요.
+3 = 동작 중 방해 물질이 있는지 체크해 주세요.
+4 = 동작 중 센서가 동작하는지 체크해 주세요.
+5 = I/O Module이 문제인지 체크해 주세요.
+
+///////////////////////////////////////////////////////
+//  01 : H/T Sink Front Ready Stacker
+///////////////////////////////////////////////////////
+[810110]
+COUNT = 5
+1 = Front Heat Sink Ready stacker Tray pusher forward On Check Error.
+2 = 에어가 공급되는지 체크 해주세요.
+3 = 동작 중 방해 물질이 있는지 체크해 주세요.
+4 = 동작 중 센서가 동작하는지 체크해 주세요.
+5 = I/O Module이 문제인지 체크해 주세요.
+
+[810111]
+COUNT = 5
+1 = Front Heat Sink Ready stacker Tray pusher backward On Check Error
+2 = 에어가 공급되는지 체크 해주세요.
+3 = 동작 중 방해 물질이 있는지 체크해 주세요.
+4 = 동작 중 센서가 동작하는지 체크해 주세요.
+5 = I/O Module이 문제인지 체크해 주세요.
+
+[810112]
+COUNT = 5
+1 = Front Heat Sink Ready stacker Up On Check Error
+2 = 에어가 공급되는지 체크 해주세요.
+3 = 동작 중 방해 물질이 있는지 체크해 주세요.
+4 = 동작 중 센서가 동작하는지 체크해 주세요.
+5 = I/O Module이 문제인지 체크해 주세요.
+
+[810113]
+COUNT = 5
+1 = Front Heat Sink Ready stacker Down On Check Error.
+2 = 에어가 공급되는지 체크 해주세요.
+3 = 동작 중 방해 물질이 있는지 체크해 주세요.
+4 = 동작 중 센서가 동작하는지 체크해 주세요.
+5 = I/O Module이 문제인지 체크해 주세요.
+
+[810114]
+COUNT = 5
+1 = Front Heat Sink Ready Stacker Tray Sensor On Check Error.
+2 = 에어가 공급되는지 체크 해주세요.
+3 = 동작 중 방해 물질이 있는지 체크해 주세요.
+4 = 동작 중 센서가 동작하는지 체크해 주세요.
+5 = I/O Module이 문제인지 체크해 주세요.
+
+[810115]
+COUNT = 5
+1 = Front Heat Sink Ready Stacker Tray Up/Dn Pos Sensor On Check Error.
+2 = 에어가 공급되는지 체크 해주세요.
+3 = 동작 중 방해 물질이 있는지 체크해 주세요.
+4 = 동작 중 센서가 동작하는지 체크해 주세요.
+5 = I/O Module이 문제인지 체크해 주세요.
+
+
+///////////////////////////////////////////////////////
+//  02 : H/T Sink Front Work Stacker
+///////////////////////////////////////////////////////
+[810200]
+COUNT = 5
+1 = Front Heat Sink Work stacker guide clamp On On Check Error.
+2 = 모터에 방해물이 있는지 확인해 주세요.
+3 = 모터 상태가 정상인지 확인해 주세요.
+4 = 모터 드라이버가 정상인지 확인해 주세요.
+5 = 동작중 센서가 동작하는지 체크해 주세요.
+
+[810201]
+COUNT = 5
+1 = Front Heat Sink Work stacker guide Unclamp Off On Check Error.
+2 = 모터에 방해물이 있는지 확인해 주세요.
+3 = 모터 상태가 정상인지 확인해 주세요.
+4 = 모터 드라이버가 정상인지 확인해 주세요.
+5 = 동작중 센서가 동작하는지 체크해 주세요.
+
+
+
+[810202]
+COUNT = 5
+1 = Front Heat Sink Work Stacker Left Rail forward On Check Error.
+2 = 에어가 공급되는지 체크 해주세요.
+3 = 동작 중 방해 물질이 있는지 체크해 주세요.
+4 = 동작 중 센서가 동작하는지 체크해 주세요.
+5 = I/O Module이 문제인지 체크해 주세요.
+
+[810203]
+COUNT = 5
+1 = Front Heat Sink Work Stacker Left Rail backward On Check Error.
+2 = 에어가 공급되는지 체크 해주세요.
+3 = 동작 중 방해 물질이 있는지 체크해 주세요.
+4 = 동작 중 센서가 동작하는지 체크해 주세요.
+5 = I/O Module이 문제인지 체크해 주세요.
+
+
+[810204]
+COUNT = 5
+1 = Front Heat Sink Work Stacker Right Rail forward On Check Error.
+2 = 에어가 공급되는지 체크 해주세요.
+3 = 동작 중 방해 물질이 있는지 체크해 주세요.
+4 = 동작 중 센서가 동작하는지 체크해 주세요.
+5 = I/O Module이 문제인지 체크해 주세요.
+
+[810205]
+COUNT = 5
+1 = Front Heat Sink Work Stacker Right Rail backward On Check Error.
+2 = 에어가 공급되는지 체크 해주세요.
+3 = 동작 중 방해 물질이 있는지 체크해 주세요.
+4 = 동작 중 센서가 동작하는지 체크해 주세요.
+5 = I/O Module이 문제인지 체크해 주세요.
+
+[810206]
+COUNT = 5
+1 = Front Heat Sink Work stacker Up On Check Error
+2 = 에어가 공급되는지 체크 해주세요.
+3 = 동작 중 방해 물질이 있는지 체크해 주세요.
+4 = 동작 중 센서가 동작하는지 체크해 주세요.
+5 = I/O Module이 문제인지 체크해 주세요.
+
+[810207]
+COUNT = 5
+1 = Front Heat Sink Work stacker Down On Check Error.
+2 = 에어가 공급되는지 체크 해주세요.
+3 = 동작 중 방해 물질이 있는지 체크해 주세요.
+4 = 동작 중 센서가 동작하는지 체크해 주세요.
+5 = I/O Module이 문제인지 체크해 주세요.
+
+[810208]
+COUNT = 5
+1 = Front Heat Sink Work Stacker Tray Sensor On Check Error.
+2 = 에어가 공급되는지 체크 해주세요.
+3 = 동작 중 방해 물질이 있는지 체크해 주세요.
+4 = 동작 중 센서가 동작하는지 체크해 주세요.
+5 = I/O Module이 문제인지 체크해 주세요.
+
+[810209]
+COUNT = 5
+1 = Front Heat Sink Work Stacker Tray Up/Dn Pos Sensor On Check Error.
+2 = 에어가 공급되는지 체크 해주세요.
+3 = 동작 중 방해 물질이 있는지 체크해 주세요.
+4 = 동작 중 센서가 동작하는지 체크해 주세요.
+5 = I/O Module이 문제인지 체크해 주세요.
+
+///////////////////////////////////////////////////////
+//  03 : Front Heat Sink Picker
+///////////////////////////////////////////////////////
+[810308]
+COUNT = 5
+1 = Front Heat Sink Picker Fwd Up On Check Error.
+2 = 에어가 공급되는지 체크 해주세요.
+3 = 동작 중 방해 물질이 있는지 체크해 주세요.
+4 = 동작 중 센서가 동작하는지 체크해 주세요.
+5 = I/O Module이 문제인지 체크해 주세요.
+
+[810309]
+COUNT = 5
+1 = Front Heat Sink Picker Fwd Down On Check Error.
+2 = 에어가 공급되는지 체크 해주세요.
+3 = 동작 중 방해 물질이 있는지 체크해 주세요.
+4 = 동작 중 센서가 동작하는지 체크해 주세요.
+5 = I/O Module이 문제인지 체크해 주세요.
+
+[810310]
+COUNT = 5
+1 = Front Heat Sink Picker Fwd Gripper Device On Check Error.
+2 = 에어가 공급되는지 체크 해주세요.
+3 = 동작 중 방해 물질이 있는지 체크해 주세요.
+4 = 동작 중 센서가 동작하는지 체크해 주세요.
+5 = I/O Module이 문제인지 체크해 주세요.
+
+[810311]
+COUNT = 5
+1 = Front Heat Sink Picker Bwd Up On Check Error.
+2 = 에어가 공급되는지 체크 해주세요.
+3 = 동작 중 방해 물질이 있는지 체크해 주세요.
+4 = 동작 중 센서가 동작하는지 체크해 주세요.
+5 = I/O Module이 문제인지 체크해 주세요.
+
+[810312]
+COUNT = 5
+1 = Front Heat Sink Picker Bwd Down On Check Error.
+2 = 에어가 공급되는지 체크 해주세요.
+3 = 동작 중 방해 물질이 있는지 체크해 주세요.
+4 = 동작 중 센서가 동작하는지 체크해 주세요.
+5 = I/O Module이 문제인지 체크해 주세요.
+
+[810313]
+COUNT = 5
+1 = Front Heat Sink Picker Bwd Gripper Device On Check Error.
+2 = 에어가 공급되는지 체크 해주세요.
+3 = 동작 중 방해 물질이 있는지 체크해 주세요.
+4 = 동작 중 센서가 동작하는지 체크해 주세요.
+5 = I/O Module이 문제인지 체크해 주세요.
+///////////////////////////////////////////////////////
+//  90 : HANDLER
+///////////////////////////////////////////////////////
+[900000]
+COUNT = 2
+1 = 모터 초기화 에러.
+2 = 컴퓨터에 모션보드가 인스톨 되어졌는지 체크해 주세요.
+
+[900001]
+COUNT = 2
+1 = I/O Board 초기화 에러.
+2 = 컴퓨터에 IO보드가 인스톨 되어졌는지 체크해주세요.
+
+[900002]
+COUNT = 2
+1 = 핸들러 초기화 에러.
+2 = 컴퓨터에 모션보드와 IO보드가 인스톨 되어졌는지 체크해 주세요.
+
+[900003]
+COUNT = 2
+1 = 핸들러 초기화 에러.
+2 = 프로그램 초기화 , & 모터 초기화.
+
+[900100]
+COUNT = 4
+1 = 문#1 열림 에러.
+2 = 문을 닫고 다시 시도해 주세요.
+3 = 동작중 센서가 동작하는지 체크해 주세요.
+4 = I/O Module이 동작하는지 체크해 주세요.
+
+[900101]
+COUNT = 4
+1 = 문#2 열림 에러.
+2 = 문을 닫고 다시 시도해 주세요.
+3 = 동작중 센서가 동작하는지 체크해 주세요.
+4 = I/O Module이 동작하는지 체크해 주세요.
+
+[900102]
+COUNT = 4
+1 = 문#3 열림 에러.
+2 = 문을 닫고 다시 시도해 주세요.
+3 = 동작중 센서가 동작하는지 체크해 주세요.
+4 = I/O Module이 동작하는지 체크해 주세요.
+
+[900103]
+COUNT = 4
+1 = 문#4 열림 에러.
+2 = 문을 닫고 다시 시도해 주세요.
+3 = 동작중 센서가 동작하는지 체크해 주세요.
+4 = I/O Module이 동작하는지 체크해 주세요.
+
+[900104]
+COUNT = 4
+1 = 문#5 열림 에러.
+2 = 문을 닫고 다시 시도해 주세요.
+3 = 동작중 센서가 동작하는지 체크해 주세요.
+4 = I/O Module이 동작하는지 체크해 주세요.
+
+[900105]
+COUNT = 4
+1 = 문#6 열림 에러.
+2 = 문을 닫고 다시 시도해 주세요.
+3 = 동작중 센서가 동작하는지 체크해 주세요.
+4 = I/O Module이 동작하는지 체크해 주세요.
+
+[900106]
+COUNT = 4
+1 = 문#7 열림 에러.
+2 = 문을 닫고 다시 시도해 주세요.
+3 = 동작중 센서가 동작하는지 체크해 주세요.
+4 = I/O Module이 동작하는지 체크해 주세요.
+
+[900107]
+COUNT = 4
+1 = 문#8 열림 에러.
+2 = 문을 닫고 다시 시도해 주세요.
+3 = 동작중 센서가 동작하는지 체크해 주세요.
+4 = I/O Module이 동작하는지 체크해 주세요.
+
+[900108]
+COUNT = 4
+1 = 문#9 열림 에러.
+2 = 문을 닫고 다시 시도해 주세요.
+3 = 동작중 센서가 동작하는지 체크해 주세요.
+4 = I/O Module이 동작하는지 체크해 주세요.
+
+[900109]
+COUNT = 4
+1 = 문#10 열림 에러.
+2 = 문을 닫고 다시 시도해 주세요.
+3 = 동작중 센서가 동작하는지 체크해 주세요.
+4 = I/O Module이 동작하는지 체크해 주세요.
+
+[900110]
+COUNT = 4
+1 = 문#11 열림 에러.
+2 = 문을 닫고 다시 시도해 주세요.
+3 = 동작중 센서가 동작하는지 체크해 주세요.
+4 = I/O Module이 동작하는지 체크해 주세요.
+
+[900111]
+COUNT = 4
+1 = 문#12 열림 에러.
+2 = 문을 닫고 다시 시도해 주세요.
+3 = 동작중 센서가 동작하는지 체크해 주세요.
+4 = I/O Module이 동작하는지 체크해 주세요.
+
+[900112]
+COUNT = 4
+1 = 문#13 열림 에러.
+2 = 문을 닫고 다시 시도해 주세요.
+3 = 동작중 센서가 동작하는지 체크해 주세요.
+4 = I/O Module이 동작하는지 체크해 주세요.
+
+[900113]
+COUNT = 4
+1 = 문#14 열림 에러.
+2 = 문을 닫고 다시 시도해 주세요.
+3 = 동작중 센서가 동작하는지 체크해 주세요.
+4 = I/O Module이 동작하는지 체크해 주세요.
+
+[900120]
+COUNT = 4
+1 = Safety 문#1 열림 에러.
+2 = 문을 닫고 다시 시도해 주세요.
+3 = 동작중 센서가 동작하는지 체크해 주세요.
+4 = I/O Module이 동작하는지 체크해 주세요.
+
+[900121]
+COUNT = 4
+1 = Safety 문#2 열림 에러.
+2 = 문을 닫고 다시 시도해 주세요.
+3 = 동작중 센서가 동작하는지 체크해 주세요.
+4 = I/O Module이 동작하는지 체크해 주세요.
+
+[900122]
+COUNT = 4
+1 = Safety 문#3 열림 에러.
+2 = 문을 닫고 다시 시도해 주세요.
+3 = 동작중 센서가 동작하는지 체크해 주세요.
+4 = I/O Module이 동작하는지 체크해 주세요.
+
+[900200]
+COUNT = 3
+1 = Air Supply Check Error.[PS1106]
+2 = 동작중 센서가 동작하는지 체크해 주세요.
+3 = I/O Module이 동작하는지 체크해 주세요.
+
+[900201]
+COUNT = 3
+1 = EMO Error.[PS3604].
+2 = 동작중 센서가 동작하는지 체크해 주세요.
+3 = I/O Module이 동작하는지 체크해 주세요.
+
+[900202]
+COUNT = 3
+1 = EMO Error.[PS3605].
+2 = 동작중 센서가 동작하는지 체크해 주세요.
+3 = I/O Module이 동작하는지 체크해 주세요.
+
+[900203]
+COUNT = 3
+1 = EMO Error.[PS3606].
+2 = 동작중 센서가 동작하는지 체크해 주세요.
+3 = I/O Module이 동작하는지 체크해 주세요.
+
+[900204]
+COUNT = 3
+1 = EMO Error.[PS3607].
+2 = 동작중 센서가 동작하는지 체크해 주세요.
+3 = I/O Module이 동작하는지 체크해 주세요.
+
+[900500]
+COUNT = 3
+1 = Good Buffer Information is Missing
+2 = 케이블을 체크해 주세요.
+3 = 통신 상태를 확인해 주세요.
+
+[900501]
+COUNT = 3
+1 = Reject Buffer Information is Missing.
+2 = 케이블을 체크해 주세요.
+3 = 통신 상태를 확인해 주세요.
+
+[900502]
+COUNT = 3
+1 = Barcode information Error.
+2 = 케이블을 체크해 주세요.
+3 = 통신 상태를 확인해 주세요.
+
+[900503]
+COUNT = 3
+1 = Reject Tray Full Error.
+2 = 동작중 센서가 동작하는지 체크해 주세요.
+3 = I/O Module이 동작하는지 체크해 주세요.
+
+[900504]
+COUNT = 3
+1 = Reject Buffer Full Error.
+2 = 동작중 센서가 동작하는지 체크해 주세요.
+3 = I/O Module이 동작하는지 체크해 주세요.
+
+[900600]
+COUNT = 2
+1 = Loading Partial Count Error.
+2 = 통신 상태를 확인해 주세요.
+
+[900700]
+COUNT = 4
+1 = Module Direction Check Error.
+2 = 홈 체크 센서 및 방해물이 있는지 확인해 주세요.
+3 = 모터 상태가 정상인지 확인해 주세요.
+4 = 모터 드라이버가 정상인지 확인해 주세요.
+
+[900800]
+COUNT = 1
+1 = Module Direction device num is defferent.
+
+[900900]
+COUNT = 1
+1 = Area 센서 감지 에러.
+
+[900901]
+COUNT = 3
+1 = LD Clip tube Cover up down Error.
+2 = 동작중 센서가 동작하는지 체크해 주세요.
+3 = I/O Module이 동작하는지 체크해 주세요.
+
+[900902]
+COUNT = 3
+1 = ULD Clip tube Cover up down Error.
+2 = 동작중 센서가 동작하는지 체크해 주세요.
+3 = I/O Module이 동작하는지 체크해 주세요.
+
+///////////////////////////////////////////////////////
+//  99 : ETC
+///////////////////////////////////////////////////////
+[990000]
+COUNT = 2
+1 = LOT END
+2 = 트레이를 확인해 주세요
+
+[990001]
+COUNT = 1
+1 = Module ROBOT PICKER #1, #2 모두 Skip 사용입니다.
+
+[990002]
+COUNT = 1
+1 = Heat Sink Forward ROBOT PICKER #1, #2 모두 Skip 사용입니다.
+
+[990003]
+COUNT = 1
+1 = Heat Sink Backward ROBOT PICKER #1, #2 모두 Skip 사용입니다.
+
+[990004]
+COUNT = 1
+1 = Work Buffer #1, #2, #3, #4 모두 Skip 사용입니다.
+
+[990100]
+COUNT = 3
+1 = 트레이를 공급해 주세요.
+2 = 동작중 센서가 동작하는지 체크해 주세요.
+3 = I/O Module이 동작하는지 체크해 주세요.
+
+[990102]
+COUNT = 3
+1 = Right Heat Sink 트레이를 공급해 주세요.
+2 = 동작중 센서가 동작하는지 체크해 주세요.
+3 = I/O Module이 동작하는지 체크해 주세요.
+
+[991000]
+COUNT = 1
+1 = Lot이 Start가 되지 않았습니다.
+
+[991001]
+COUNT = 1
+1 = 작업할 Lot 개수를 입력하지 않았습니다.
+
+[991002]
+COUNT = 2
+1 = BCR 비젼이 ready 상태가 아닙니다.
+2 = 비젼 프로그램 종료 후 다시 실행하세요.
+
+[991003]
+COUNT = 2
+1 = Heat Sink 비젼이 ready 상태가 아닙니다.
+2 = 비젼 프로그램 종료 후 다시 실행하세요.
+
+[991005]
+COUNT = 3
+1 = Unload 트레이를 공급해 주세요.
+2 = 동작중 센서가 동작하는지 체크해 주세요.
+3 = I/O Module이 동작하는지 체크해 주세요.
+
+[992000]
+COUNT = 1
+1 = BCR Job Change Model이 없습니다.
+
+[992001]
+COUNT = 1
+1 = Heat Sink Job Change Model이 없습니다.
+
+[992002]
+COUNT = 1
+1 = BCR Job선택을 하지 못했습니다.
+
+[993000]
+COUNT = 5
+1 = Module Stacker Move를 +,- 리밋으로 이동해 주세요.
+2 = Front Heat sink Stacker Move를 +,- 리밋으로 이동해 주세요.
+3 = Back Heat Stacker Move를 +,- 리밋으로 이동해 주세요.
+4 = Unload Stacker Move를 +,- 리밋으로 이동해 주세요.
+5 = 동작중 센서가 동작하는지 체크해 주세요.
+
+[994000]
+COUNT = 1
+1 = Lot 수량이 맞지 다시 시작합니다. 자재 및 모듈을 빼고 시작하면 초기화를 진행합니다.
+
+[994001]
+COUNT = 1
+1 = 자재및 모듈을 투입해 주세요. Lot 수량이 맞지 않습니다.
+
+[994002]
+COUNT = 1
+1 = Front Heat Sink Blank(빈)자재를 제거해 주세요.
+
+[994003]
+COUNT = 1
+1 = Front Heat Sink 자재를 투입해 주세요.
+
+[994004]
+COUNT = 1
+1 = Back Heat Sink Blank(빈)자재를 제거해 주세요.
+
+[994005]
+COUNT = 1
+1 = Back Heat Sink 자재를 투입해 주세요.
+
+[994006]
+COUNT = 1
+1 = ULD Module Blank Tray를 제거해 주세요.
+
+[994007]
+COUNT = 1
+1 = ULD Module Blank(빈) Tray를 투입해 주세요.
+
+[994008]
+COUNT = 1
+1 = 자재및 모듈을 투입해 주세요.
+
+[994009]
+COUNT = 1
+1 = LD Module Blank Tray를 제거해 주세요.
+
+[994010]
+COUNT = 1
+1 = LD Module Blank(빈) Tray를 투입해 주세요.
+
+[995000]
+COUNT = 1
+1 = Clamp에서 Clip 제거 Bin 통의 Clip을 제거해 주세요.
+
+[995001]
+COUNT = 1
+1 = Clip 제거 Bin 통의 Clip을 제거해 주세요.
+
+[998000]
+COUNT = 1
+1 = Heat Sink 조립기 동작 준비 상태입니다.
+
+[999000]
+COUNT = 2
+1 = LOT CANCEL
+2 = 트레이를 확인해 주세요
+
+[999999]
+COUNT = 5
+1 = 정의 되지 않는 알람코드입니다.
+2 = 엔지니어에게 연락을 취해 보십시요.
+3 = AMT830 Heat Sink Handler Version 1.0.0
+4 = Copyright(C) 2008. 09.10 A.M.T. Corporation.
+5 = All rights reserved.
+
