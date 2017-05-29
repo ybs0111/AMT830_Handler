@@ -516,9 +516,19 @@ typedef unsigned int					UINT32;			// 0 .. 4,294,967,295
 
 //kwlee 2017.0525
 #define MAX_PICKER                       2 
-#define MAX_STACKER_POS					 2
 #define MAX_BUFFER_SITE                  4
+#define MAX_WORK_SITE                    9
+#define MAX_WORK_JOB                     10
 
+//kwlee 2017.0529
+#define WORK_BUFFER_1				0
+#define WORK_BUFFER_2				1
+#define WORK_BUFFER_3				2
+#define WORK_BUFFER_4				3
+
+#define STACKER_READY_POS			4
+#define STACKER_WORK_POS			5
+#define MAX_STACKER_POS             2
 
 #define READY_STACKER_UPDN          0
 #define READY_RAIL_FWDBWD           1
@@ -861,14 +871,14 @@ struct tagIO_INFO
 	//S0005									
 	//S0006									
 	//S0007									
-	int		i_StartChk;						//PS0000
-	int		i_StopChk;						//PS0001
-	int		i_AlarmChk;						//PS0002
-	int		i_BuzzChk;						//PS0003
-	int		i_AutoModeChk;					//PS0004
-	int		i_ManualModeChk;				//PS0005
-	int		i_FrontSelectSwChk;				//PS0006
-	int		i_RearSelectSwChk1;				//PS0007
+	int		i_StartChk;						
+	int		i_StopChk;						
+	int		i_AlarmChk;						
+	int		i_BuzzChk;						
+	int		i_AutoModeChk;					
+	int		i_ManualModeChk;				
+	int		i_FrontSelectSwChk;				
+	int		i_RearSelectSwChk1;				
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	// Module No 01
@@ -908,8 +918,6 @@ struct tagIO_INFO
 	int o_hs_Front_stacker_tray_pusher_fwd_onoff;
 
 	int o_hs_Front_Ready_stacker_updn;
-
-
 	//Ready_input
 	int i_hs_Front_Ready_stacker_guide_clamp_on_chk;
 	int i_hs_Front_Ready_stacker_guide_unclamp_off_chk;
@@ -980,8 +988,8 @@ struct tagIO_INFO
 	int i_hs_Front_rbt_picker_gripper_dvc_chk[2];
 
 	int	i_LoDoorSafetyChk[7];
-
 	///////////////////////////////////////////////////////////////////////////////////////////////
+
 	int		oMotPwr[MAXMOTOR];
 };
 extern  tagIO_INFO  st_io_info;
@@ -1128,8 +1136,9 @@ enum TEST_SITE_HIGH_LOW_INFO  //test site high / low 정보
 
 enum THREAD_SYNC_VARIBLE_SITE_INFO  //위치별 트레이 존재 유무를 위치별로 정의해 놓음  
 {
-
-	THD_HS_FRONT_STACKER          =  0,
+	THD_HS_FRONT_STACKER_SITE          =  0,
+	THD_HS_REAR_STACKER_SITE        ,
+	LDMODULE_STACKER_SITE           ,
 	THD_HS_FRONT_RBT ,
 	THREAD_MAX_SITE							,
 };
@@ -1143,12 +1152,28 @@ struct tagSYNC_INFO
 	int			nInitializeSuccess;
 	int         nInit_Flag[50];
 	
-	int         nWorkRobot_Req[MAX_BUFFER_SITE][MAX_STACKER_POS]; //Robot이 Stacker에 요청.
-	int         nWorkBuff_Req[MAX_BUFFER_SITE];
+	int         nWorkRobot_Req[MAX_WORK_SITE][MAX_WORK_JOB]; //Robot이 Stacker에 요청.
+	int         nWorkBuff_Req[MAX_BUFFER_SITE];				 //Buffer에서 Robot으로 작업 요청
+	int         nStacker_Site_Req[MAX_WORK_SITE][MAX_STACKER_POS];
 	
 };
 extern tagSYNC_INFO	st_sync_info;
 
+//kwlee 2017.0529
+struct tagPICKER_INFO
+{
+	int nEnable[MAX_WORK_SITE][MAX_PICKER];
+	int nExist[MAX_WORK_SITE][MAX_PICKER];
+};
+extern tagPICKER_INFO st_Picker_info;
+
+struct tagTRAY_INFO
+{
+	int nExist[MAX_WORK_SITE][MAX_PICKER];
+	int nTray_X;
+	int nTray_Y;
+};
+extern tagTRAY_INFO st_Tray_info;
 
 struct tagVARIABLE_INFO
 {
@@ -1218,7 +1243,33 @@ enum BOARD_INFO
 	BD_NONE							= 0,
 	
 };
+//kwlee 2017.0529
+enum M_TRAY_STACKER_ELEVATOR 
+{
+	P_ELV_SAFETY		  = 0,
+	P_ELV_UP_LIMIT		    ,  
+	P_ELV_DN_LIMIT		    ,  
+	P_ELV_SD_SENSOR			,
 
+	P_ELV_TRAY_INOUT_POS   ,		
+
+	
+	P_ELV_SUPPLY_OFFSET		,
+	P_ELV_RECEIVE_OFFSET	, 
+};
+
+enum M_WORK_RBT_Y_Z
+{
+	P_WORKROBOT_SAFETY				= 0,	
+	P_WORKROBOT_WORK_POS			, 
+	P_WORKROBOT_READY_POS			, 
+
+	P_WORKROBOT_WORK_BUFF_1_POS		, 
+	P_WORKROBOT_WORK_BUFF_2_POS		, 
+	P_WORKROBOT_WORK_BUFF_3_POS		, 
+	P_WORKROBOT_WORK_BUFF_4_POS		, 
+
+};
 
 
 enum LOT_INFO
@@ -1309,15 +1360,12 @@ struct tagLOT_HISTORY_INFO
 };
 extern struct tagLOT_HISTORY_INFO st_lot_history_info;
 
-
-
 enum WAIT_TIME
 {
 	WAIT_PICKER_UP_DN						= 0,
 	WAIT_PICKER_ON_OFF						,
 	WAIT_STACKER_UP_DN                      ,
 	WAIT_STACKER_CYL_ON_OFF                 ,
-
 	MAX_WAIT_TIME							,
 };
 
@@ -1330,7 +1378,6 @@ struct tagWAIT_INFO
 	int	nOnWaitTime[MAX_WAIT_TIME];
 	int nOffWaitTime[MAX_WAIT_TIME];
 	int nLimitWaitTime[MAX_WAIT_TIME];
-
 
 	//at loader
 	int nGripOnOffWaitTime;
@@ -1352,7 +1399,6 @@ extern tagSCRAP_CODE st_code_info[2];
 enum RECOVERY_CYL
 {
 	RECO_LD_CVY_BUFF_STOPPER					= 0,
-
 	RECO_MAX_COUNT								,
 };
 

@@ -12,7 +12,6 @@ CRun_Front_HeatSnk_Stacker::CRun_Front_HeatSnk_Stacker(void)
 {
 	m_nInitStep = -1;
 	m_nRunStep = -1;
-
 	m_nAxisNum_Ready = M_HS_F_STACKER_READY;
 
 }
@@ -51,6 +50,10 @@ void CRun_Front_HeatSnk_Stacker::OnRunMove()
 	{
 	case 0:
 		
+		m_nRunStep = 100;
+		break;
+
+	case 100:
 		
 		break;
 
@@ -60,7 +63,7 @@ void CRun_Front_HeatSnk_Stacker::OnRunInit()
 {
 	int nRet_1, nRet_2;
 
-	if (st_sync_info.nInit_Flag[THD_HS_FRONT_STACKER] != INIT_CLEAR)		return;	
+	if (st_sync_info.nInit_Flag[THD_HS_FRONT_STACKER_SITE] != INIT_CLEAR)		return;	
 
 	switch (m_nInitStep)
 	{
@@ -76,12 +79,12 @@ void CRun_Front_HeatSnk_Stacker::OnRunInit()
 	case 100: //up
 		if (FAS_IO.get_in_bit(st_io_info.i_hs_Front_Work_stacker_tray_chk,IO_OFF) == IO_ON)
 		{	
-			CTL_Lib.Alarm_Error_Occurrence(10,CTL_dWARNING, _T("030202"));
+			CTL_Lib.Alarm_Error_Occurrence(10,CTL_dWARNING, _T("810208"));
 		}
 		else if (FAS_IO.get_in_bit(st_io_info.i_hs_Front_Ready_stacker_tray_chk,IO_OFF) == IO_ON)
 		{
 			
-			CTL_Lib.Alarm_Error_Occurrence(11, CTL_dWARNING, _T("030202"));
+			CTL_Lib.Alarm_Error_Occurrence(11, CTL_dWARNING, _T("810114"));
 		}
 		else
 		{
@@ -223,7 +226,7 @@ void CRun_Front_HeatSnk_Stacker::OnRunInit()
 		break;
 
 	case 1100:
-		st_sync_info.nInit_Flag[THD_HS_FRONT_STACKER] = INIT_READY; 
+		st_sync_info.nInit_Flag[THD_HS_FRONT_STACKER_SITE] = INIT_READY; 
 
 		m_nInitStep = 0;
 		break;	
@@ -284,7 +287,7 @@ int CRun_Front_HeatSnk_Stacker::OnGet_ReadyPos_StackerCylUpDn(int nUpDn)
 			}
 			if (m_dwCylWaitTime[READY_STACKER_UPDN][2] > (DWORD)st_wait_info.nLimitWaitTime[nWaitTime])
 			{
-				m_strCode.Format(_T("1401%d"),nUpDn);
+				m_strCode.Format(_T("8%d%04d"), nUpDn, st_io_info.i_hs_Front_Ready_stacker_dn_chk); 
 				return RET_ERROR;
 			}
 		}
@@ -327,7 +330,7 @@ int CRun_Front_HeatSnk_Stacker::OnGet_ReadyPos_StackerCylUpDn(int nUpDn)
 			}
 			if (m_dwCylWaitTime[READY_STACKER_UPDN][2] > (DWORD)st_wait_info.nLimitWaitTime[nWaitTime])
 			{
-				m_strCode.Format(_T("1401%d"),nUpDn);
+				m_strCode.Format(_T("8%d%04d"), nUpDn, st_io_info.i_hs_Front_Ready_stacker_up_chk); 
 				return RET_ERROR;
 			}
 		}
@@ -395,7 +398,18 @@ int CRun_Front_HeatSnk_Stacker::OnGet_ReadyPos_RailFwdBwdCyl(int nOnOff)
 			}
 			if (m_dwCylWaitTime[READY_RAIL_FWDBWD][2] > (DWORD)st_wait_info.nLimitWaitTime[nWaitTime])
 			{
-				m_strCode.Format(_T("1401%d"),nOnOff);
+				if (FAS_IO.get_in_bit(st_io_info.i_hs_Front_Ready_stacker_Left_rail_fwd_chk,IO_ON) == IO_OFF)
+				{
+					m_strCode.Format(_T("8%d%04d"), nOnOff, st_io_info.i_hs_Front_Ready_stacker_Left_rail_fwd_chk); 
+				}
+				else if (FAS_IO.get_in_bit(st_io_info.i_hs_Front_Ready_stacker_Right_rail_fwd_chk,IO_ON) == IO_OFF)
+				{
+					m_strCode.Format(_T("8%d%04d"), nOnOff, st_io_info.i_hs_Front_Ready_stacker_Right_rail_fwd_chk); 
+				}
+				else
+				{
+
+				}
 				return RET_ERROR;
 			}
 		}
@@ -442,7 +456,18 @@ int CRun_Front_HeatSnk_Stacker::OnGet_ReadyPos_RailFwdBwdCyl(int nOnOff)
 			}
 			if (m_dwCylWaitTime[READY_RAIL_FWDBWD][2] > (DWORD)st_wait_info.nLimitWaitTime[nWaitTime])
 			{
-				m_strCode.Format(_T("1401%d"),nOnOff);
+				if (FAS_IO.get_in_bit(st_io_info.i_hs_Front_Ready_stacker_Left_rail_bwd_chk,IO_ON) == IO_OFF)
+				{
+					m_strCode.Format(_T("8%d%04d"), nOnOff, st_io_info.i_hs_Front_Ready_stacker_Left_rail_bwd_chk); 
+				}
+				else if (FAS_IO.get_in_bit(st_io_info.i_hs_Front_Ready_stacker_Right_rail_bwd_chk,IO_ON) == IO_OFF)
+				{
+					m_strCode.Format(_T("8%d%04d"), nOnOff, st_io_info.i_hs_Front_Ready_stacker_Right_rail_bwd_chk); 
+				}
+				else
+				{
+
+				}
 				return RET_ERROR;
 			}
 		}
@@ -502,7 +527,7 @@ int CRun_Front_HeatSnk_Stacker::OnGet_ReadyPos_TrayClampCyl(int nOnOff)
 			}
 			if (m_dwCylWaitTime[READY_TRAYCLAMP_ONOFF][2] > (DWORD)st_wait_info.nLimitWaitTime[nWaitTime])
 			{
-				m_strCode.Format(_T("1401%d"),nOnOff);
+				m_strCode.Format(_T("8%d%04d"), nOnOff, st_io_info.i_hs_Front_Ready_stacker_guide_clamp_on_chk); 
 				return RET_ERROR;
 			}
 		}
@@ -546,7 +571,7 @@ int CRun_Front_HeatSnk_Stacker::OnGet_ReadyPos_TrayClampCyl(int nOnOff)
 			}
 			if (m_dwCylWaitTime[READY_TRAYCLAMP_ONOFF][2] > (DWORD)st_wait_info.nLimitWaitTime[nWaitTime])
 			{
-				m_strCode.Format(_T("1401%d"),nOnOff);
+				m_strCode.Format(_T("8%d%04d"), nOnOff, st_io_info.i_hs_Front_Ready_stacker_guide_unclamp_off_chk); 
 				return RET_ERROR;
 			}
 		}
@@ -606,7 +631,7 @@ int CRun_Front_HeatSnk_Stacker::OnGetPusherFwdBwdCyl(int nOnOff)
 			}
 			if (m_dwCylWaitTime[READY_PUSHER_ONOFF][2] > (DWORD)st_wait_info.nLimitWaitTime[nWaitTime])
 			{
-				m_strCode.Format(_T("1401%d"),nOnOff);
+				m_strCode.Format(_T("8%d%04d"), nOnOff, st_io_info.i_hs_Front_stacker_tray_pusher_fwd_chk);
 				return RET_ERROR;
 			}
 		}
@@ -650,7 +675,7 @@ int CRun_Front_HeatSnk_Stacker::OnGetPusherFwdBwdCyl(int nOnOff)
 			}
 			if (m_dwCylWaitTime[READY_PUSHER_ONOFF][2] > (DWORD)st_wait_info.nLimitWaitTime[nWaitTime])
 			{
-				m_strCode.Format(_T("1401%d"),nOnOff);
+				m_strCode.Format(_T("8%d%04d"), nOnOff, st_io_info.i_hs_Front_stacker_tray_pusher_bwd_chk);
 				return RET_ERROR;
 			}
 		}
@@ -707,7 +732,7 @@ int CRun_Front_HeatSnk_Stacker::OnGet_WorkPos_StackerCylUpDn(int nUpDn)
 			}
 			if (m_dwCylWaitTime[WORK_STACKER_UPDN][2] > (DWORD)st_wait_info.nLimitWaitTime[nWaitTime])
 			{
-				m_strCode.Format(_T("1401%d"),nUpDn);
+				m_strCode.Format(_T("8%d%04d"), nUpDn, st_io_info.i_hs_Front_Work_stacker_dn_chk);
 				return RET_ERROR;
 			}
 		}
@@ -750,7 +775,7 @@ int CRun_Front_HeatSnk_Stacker::OnGet_WorkPos_StackerCylUpDn(int nUpDn)
 			}
 			if (m_dwCylWaitTime[WORK_STACKER_UPDN][2] > (DWORD)st_wait_info.nLimitWaitTime[nWaitTime])
 			{
-				m_strCode.Format(_T("1401%d"),nUpDn);
+				m_strCode.Format(_T("8%d%04d"), nUpDn, st_io_info.i_hs_Front_Work_stacker_up_chk);
 				return RET_ERROR;
 			}
 		}
@@ -816,7 +841,18 @@ int CRun_Front_HeatSnk_Stacker::OnGet_WorkPos_RailFwdBwdCyl(int nOnOff)
 			}
 			if (m_dwCylWaitTime[WORK_RAIL_FWDBWD][2] > (DWORD)st_wait_info.nLimitWaitTime[nWaitTime])
 			{
-				m_strCode.Format(_T("1401%d"),nOnOff);
+				if (FAS_IO.get_in_bit(st_io_info.i_hs_Front_Work_stacker_Left_rail_fwd_chk,IO_ON) == IO_OFF)
+				{
+					m_strCode.Format(_T("8%d%04d"), nOnOff, st_io_info.i_hs_Front_Work_stacker_Left_rail_fwd_chk); 
+				}
+				else if (FAS_IO.get_in_bit(st_io_info.i_hs_Front_Work_stacker_Right_rail_fwd_chk,IO_ON) == IO_OFF)
+				{
+					m_strCode.Format(_T("8%d%04d"), nOnOff, st_io_info.i_hs_Front_Work_stacker_Right_rail_fwd_chk); 
+				}
+				else
+				{
+
+				}
 				return RET_ERROR;
 			}
 		}
@@ -863,7 +899,18 @@ int CRun_Front_HeatSnk_Stacker::OnGet_WorkPos_RailFwdBwdCyl(int nOnOff)
 			}
 			if (m_dwCylWaitTime[WORK_RAIL_FWDBWD][2] > (DWORD)st_wait_info.nLimitWaitTime[nWaitTime])
 			{
-				m_strCode.Format(_T("1401%d"),nOnOff);
+				if (FAS_IO.get_in_bit(st_io_info.i_hs_Front_Work_stacker_Left_rail_bwd_chk,IO_ON) == IO_OFF)
+				{
+					m_strCode.Format(_T("8%d%04d"), nOnOff, st_io_info.i_hs_Front_Work_stacker_Left_rail_bwd_chk); 
+				}
+				else if (FAS_IO.get_in_bit(st_io_info.i_hs_Front_Work_stacker_Right_rail_bwd_chk,IO_ON) == IO_OFF)
+				{
+					m_strCode.Format(_T("8%d%04d"), nOnOff, st_io_info.i_hs_Front_Work_stacker_Right_rail_bwd_chk); 
+				}
+				else
+				{
+
+				}
 				return RET_ERROR;
 			}
 		}
@@ -921,7 +968,7 @@ int CRun_Front_HeatSnk_Stacker::OnGet_WorkPos_TrayClampCyl(int nOnOff)
 			}
 			if (m_dwCylWaitTime[WORK_TRAY_CLAMP_ONOFF][2] > (DWORD)st_wait_info.nLimitWaitTime[nWaitTime])
 			{
-				m_strCode.Format(_T("1401%d"),nOnOff);
+				m_strCode.Format(_T("8%d%04d"), nOnOff, st_io_info.i_hs_Front_Work_stacker_guide_clamp_on_chk); 
 				return RET_ERROR;
 			}
 		}
@@ -965,7 +1012,7 @@ int CRun_Front_HeatSnk_Stacker::OnGet_WorkPos_TrayClampCyl(int nOnOff)
 			}
 			if (m_dwCylWaitTime[WORK_TRAY_CLAMP_ONOFF][2] > (DWORD)st_wait_info.nLimitWaitTime[nWaitTime])
 			{
-				m_strCode.Format(_T("1401%d"),nOnOff);
+				m_strCode.Format(_T("8%d%04d"), nOnOff, st_io_info.i_hs_Front_Work_stacker_guide_unclamp_off_chk); 
 				return RET_ERROR;
 			}
 		}

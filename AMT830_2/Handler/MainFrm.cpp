@@ -70,6 +70,10 @@ tagVARIABLE_INFO			st_var;
 tagLOT_INFO					st_lot_info[3];		// 2015.0115
 tagLOT_DISPLAY_INFO			st_lot_display_info; // 2015.01.29 lot 전산처리 구조체
 tagSCRAP_CODE				st_code_info[2];
+//kwlee 2017.0529
+tagPICKER_INFO				st_Picker_info;
+tagTRAY_INFO				st_Tray_info;
+
 
 
 #define TM_MAIN_REFRESH	100
