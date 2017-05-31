@@ -2051,3 +2051,4 @@ void CPublicFunction::OnDailyCycleData(CString strLotNo, CString strPartNo, doub
 
 
 
+

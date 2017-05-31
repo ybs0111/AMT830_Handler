@@ -15,7 +15,7 @@ CRun_Front_HeatSnk_Rbt::CRun_Front_HeatSnk_Rbt(void)
 	m_nAxisNum_Z = M_HS_F_RBT_Z;
 	m_nAxisNum_Y = M_HS_F_RBT_Y;
 	m_nInitStep = -1;
-	m_nTray_Cnt = 0;
+	m_nTray_Dvc_Cnt = 0;
 }
 
 
@@ -52,7 +52,7 @@ void CRun_Front_HeatSnk_Rbt::OnRunInit()
 {
 
 	int nRet_1;
-	
+
 	if (st_sync_info.nInit_Flag[THD_HS_FRONT_RBT] != INIT_CLEAR)		return;	
 
 	switch (m_nInitStep)
@@ -207,6 +207,7 @@ void CRun_Front_HeatSnk_Rbt::OnRunMove()
 	int nRet = 0;
 	int nWorkBuff;
 	double m_dPos;
+	
 	switch(m_nRunStep)
 	{
 	case 0:
@@ -227,7 +228,8 @@ void CRun_Front_HeatSnk_Rbt::OnRunMove()
 			if(FAS_IO.get_in_bit(st_io_info.i_hs_Front_rbt_picker_gripper_dvc_chk[i], IO_ON) == IO_ON)
 			{
 				m_strAlarmCode.Format(_T("8%d%04d"), IO_OFF, st_io_info.i_hs_Front_rbt_picker_gripper_dvc_chk[i]); 
-				CTL_Lib.Alarm_Error_Occurrence(200, CTL_dWARNING,m_strAlarmCode);
+				CTL_Lib.Alarm_Error_Occurrence(100, CTL_dWARNING,m_strAlarmCode);
+				nRet = RET_ERROR;
 				break;
 			}
 		}
@@ -277,7 +279,7 @@ void CRun_Front_HeatSnk_Rbt::OnRunMove()
 		}
 		else if (nRet == RET_ERROR)
 		{
-			CTL_Lib.Alarm_Error_Occurrence(200, CTL_dWARNING,m_strAlarmCode);
+			CTL_Lib.Alarm_Error_Occurrence(300, CTL_dWARNING,m_strAlarmCode);
 			m_nRunStep = 500;
 		}
 		break;
@@ -295,7 +297,7 @@ void CRun_Front_HeatSnk_Rbt::OnRunMove()
 		}
 		else if (nRet == BD_ERROR || nRet == BD_SAFETY)
 		{
-			CTL_Lib.Alarm_Error_Occurrence(200, CTL_dWARNING,m_strAlarmCode);
+			CTL_Lib.Alarm_Error_Occurrence(400, CTL_dWARNING,m_strAlarmCode);
 		}
 		break;
 
@@ -312,11 +314,13 @@ void CRun_Front_HeatSnk_Rbt::OnRunMove()
 		}
 		else if (nRet == BD_ERROR || nRet == BD_SAFETY)
 		{
-			CTL_Lib.Alarm_Error_Occurrence(200, CTL_dWARNING,m_strAlarmCode);
+			CTL_Lib.Alarm_Error_Occurrence(500, CTL_dWARNING,m_strAlarmCode);
 		}
 		break;
 
+		//Buffer에서 요청
 	case 1000:
+		m_nBufferNum = -1;
 		for (int i = 0; i<MAX_BUFFER_SITE; i++)
 		{
 			if (st_sync_info.nWorkBuff_Req[i] == CTL_REQ)
@@ -326,13 +330,28 @@ void CRun_Front_HeatSnk_Rbt::OnRunMove()
 				break;
 			}
 		}
+		
+		if (m_nRunStep == -1)
+		{
+			break;
+		}
+
+// 		for (int i =0; i<MAX_PICKER; i++)
+// 		{
+// 			if (FAS_IO.get_in_bit(st_io_info.i_hs_Front_rbt_picker_gripper_dvc_chk[i],IO_ON) == IO_ON && 
+// 				st_Picker_info.nEnable[THD_HS_FRONT_RBT][i] == NO && st_Picker_info.nExist[THD_HS_FRONT_RBT][i] == YES)
+// 			{
+// 				m_nRunStep = 2400;
+// 			}
+// 		}
 		break;
 
+		//Tray 있고 Picker Pick 가능 시 Stacker에 요청.
 	case 1100:
 		nCnt = 0;
 		for (int i = 0; i< MAX_PICKER; i++)
 		{
-			if (FAS_IO.get_in_bit(st_io_info.i_hs_Front_rbt_picker_gripper_dvc_chk[i],IO_OFF) == IO_OFF)
+			if (FAS_IO.get_in_bit(st_io_info.i_hs_Front_rbt_picker_gripper_dvc_chk[i],IO_OFF) == IO_OFF )
 			{
 				nCnt++;
 			}
@@ -340,21 +359,23 @@ void CRun_Front_HeatSnk_Rbt::OnRunMove()
 
 		if (FAS_IO.get_in_bit(st_io_info.i_hs_Front_Ready_stacker_tray_chk,IO_ON) == IO_ON && nCnt > 0)
 		{
-			st_sync_info.nStacker_Site_Req[THD_HS_FRONT_STACKER_SITE][STACKER_WORK_POS] = CTL_REQ;
-			m_nRunStep = 1200;
+			st_sync_info.nWorkRobot_Req[THD_HS_FRONT_STACKER_SITE][STACKER_WORK_POS] = CTL_REQ;
+			m_nRunStep = 1300;
 		}
 		break;
 
 	case 1300:
-		if (st_sync_info.nStacker_Site_Req[THD_HS_FRONT_STACKER_SITE][STACKER_WORK_POS] == CTL_READY) //Stacker 준비 완료
+		if (st_sync_info.nWorkRobot_Req[THD_HS_FRONT_STACKER_SITE][STACKER_WORK_POS] == CTL_READY) //Stacker 준비 완료 
 		{
 			m_nRunStep = 1400;
 		}
 		break;
 
+
 	case 1400:
-		m_dPos = st_motor_info[m_nAxisNum_Y].d_pos[P_WORKROBOT_WORK_POS] - (m_dTray_Gap * m_nTray_Cnt);
+		m_dPos = st_motor_info[m_nAxisNum_Y].d_pos[P_WORKROBOT_WORK_POS] - (m_dTray_Gap * m_nTray_Dvc_Cnt);
 		nRet = CTL_Lib.Single_Move(BOTH_MOVE_FINISH, m_nAxisNum_Y,m_dPos , COMI.mn_runspeed_rate);
+
 		if (nRet == RET_GOOD)
 		{
 			m_nRunStep = 1500;
@@ -365,31 +386,32 @@ void CRun_Front_HeatSnk_Rbt::OnRunMove()
 		}
 		else if (nRet == BD_ERROR || nRet == BD_SAFETY)
 		{
-			CTL_Lib.Alarm_Error_Occurrence(200, CTL_dWARNING,m_strAlarmCode);
+			CTL_Lib.Alarm_Error_Occurrence(600, CTL_dWARNING,m_strAlarmCode);
 		}
 		break;
 
 	case 1500:
-		for (int i = 0; i< MAX_PICKER; i++)
-		{
-			if (st_Picker_info.nEnable[THD_HS_FRONT_RBT][i] == YES && st_Picker_info.nExist[THD_HS_FRONT_RBT][i] == NO)
-			{
-				nPicker[i] = YES;
-			}
-		}
-		OnSetPickerUpDn(IO_ON,nPicker);
+// 		for (int i = 0; i< MAX_PICKER; i++)
+// 		{
+// 			if (st_Picker_info.nEnable[THD_HS_FRONT_RBT][i] == YES && st_Picker_info.nExist[THD_HS_FRONT_RBT][i] == NO)
+// 			{
+// 				nPicker[i] = YES;
+// 			}
+// 		}
+		m_nPicker[m_nPick_Cnt] = YES;
+		OnSetPickerUpDn(IO_ON,m_nPicker);
 		m_nRunStep = 1600;
 		break;
 		
 	case 1600:
-		nRet = OnGetPickerUpDn(IO_ON,nPicker);
+		nRet = OnGetPickerUpDn(IO_ON,m_nPicker);
 		if (nRet == RET_GOOD)
 		{
 			m_nRunStep = 1700;
 		}
 		else if(nRet == RET_ERROR)
 		{
-			CTL_Lib.Alarm_Error_Occurrence(200, CTL_dWARNING,m_strAlarmCode);
+			CTL_Lib.Alarm_Error_Occurrence(700, CTL_dWARNING,m_strAlarmCode);
 			m_nRunStep = 1500;
 		}
 		break;
@@ -406,42 +428,42 @@ void CRun_Front_HeatSnk_Rbt::OnRunMove()
 		}
 		else if (nRet == BD_ERROR || nRet == BD_SAFETY)
 		{
-			CTL_Lib.Alarm_Error_Occurrence(200, CTL_dWARNING,m_strAlarmCode);
+			CTL_Lib.Alarm_Error_Occurrence(800, CTL_dWARNING,m_strAlarmCode);
 		}
 		break;
 
 	case 1800:
-		OnSetPickerOnOff(IO_ON,nPicker);
+		OnSetPickerOnOff(IO_ON,m_nPicker);
 		m_nRunStep = 1900;
 		break;
 
 	case 1900:
-		nRet = OnGetPickerOnOff(IO_ON,nPicker);
+		nRet = OnGetPickerOnOff(IO_ON,m_nPicker);
 		if (nRet == RET_GOOD)
 		{
 			m_nRunStep = 2000;
 		}
 		else if (nRet == RET_ERROR)
 		{
-			CTL_Lib.Alarm_Error_Occurrence(200, CTL_dWARNING,m_strAlarmCode);
+			CTL_Lib.Alarm_Error_Occurrence(1000, CTL_dWARNING,m_strAlarmCode);
 			m_nRunStep = 1800;
 		}
 		break;
 
 	case 2000:
-		OnSetPickerUpDn(IO_OFF,nPicker);
+		OnSetPickerUpDn(IO_OFF,m_nPicker);
 		m_nRunStep = 2100;
 		break;
 
 	case 2100:
-		nRet = OnGetPickerUpDn(IO_OFF,nPicker);
+		nRet = OnGetPickerUpDn(IO_OFF,m_nPicker);
 		if (nRet == RET_GOOD)
 		{
 			m_nRunStep = 2200;
 		}
 		else if(nRet == RET_ERROR)
 		{
-			CTL_Lib.Alarm_Error_Occurrence(200, CTL_dWARNING,m_strAlarmCode);
+			CTL_Lib.Alarm_Error_Occurrence(1100, CTL_dWARNING,m_strAlarmCode);
 			m_nRunStep = 2000;
 		}
 		break;
@@ -458,7 +480,7 @@ void CRun_Front_HeatSnk_Rbt::OnRunMove()
 		}
 		else if (nRet == BD_ERROR || nRet == BD_SAFETY)
 		{
-			CTL_Lib.Alarm_Error_Occurrence(200, CTL_dWARNING,m_strAlarmCode);
+			CTL_Lib.Alarm_Error_Occurrence(1200, CTL_dWARNING,m_strAlarmCode);
 		}
 		break;
 
@@ -470,16 +492,28 @@ void CRun_Front_HeatSnk_Rbt::OnRunMove()
 			{
 				st_Picker_info.nEnable[THD_HS_FRONT_RBT][i] = NO;
 				st_Picker_info.nExist[THD_HS_FRONT_RBT][i] = YES;
-				m_nTray_Cnt++;
+				m_nPick_Cnt++;
+				m_nTray_Dvc_Cnt++;
 			}
 		}
 
 		m_nLastTrayPick = FALSE;
-		if (m_nTray_Cnt > st_recipe_info.nTrayY)
+		if (m_nTray_Dvc_Cnt >= st_recipe_info.nTrayY)
 		{
 			m_nLastTrayPick = TRUE;
+			m_nTray_Dvc_Cnt = 0;
 		}
-		m_nRunStep = 2400;
+
+		if (m_nPick_Cnt > MAX_PICKER || m_nLastTrayPick == TRUE)
+		{
+			st_sync_info.nWorkBuff_Req[m_nBufferNum] = CTL_READY; 
+			m_nRunStep = 2400;
+			m_nPick_Cnt = 0;
+		}
+		else
+		{
+			m_nRunStep = 500;
+		}
 		break;
 
 	case 2400:
@@ -487,7 +521,7 @@ void CRun_Front_HeatSnk_Rbt::OnRunMove()
 		nRet = CTL_Lib.Single_Move(BOTH_MOVE_FINISH, m_nAxisNum_Y,st_motor_info[m_nAxisNum_Y].d_pos[nWorkBuff] , COMI.mn_runspeed_rate);
 		if (nRet == RET_GOOD)
 		{
-			m_nRunStep = 2500;
+			m_nRunStep = 2600;
 		}
 		else if (nRet == BD_RETRY)
 		{
@@ -495,24 +529,117 @@ void CRun_Front_HeatSnk_Rbt::OnRunMove()
 		}
 		else if (nRet == BD_ERROR || nRet == BD_SAFETY)
 		{
-			CTL_Lib.Alarm_Error_Occurrence(200, CTL_dWARNING,m_strAlarmCode);
+			CTL_Lib.Alarm_Error_Occurrence(1300, CTL_dWARNING,m_strAlarmCode);
 		}
 		break;
 
-	case 2500:
-		st_sync_info.nWorkRobot_Req[THD_HS_FRONT_RBT][m_nBufferNum] = CTL_REQ;
-		m_nRunStep = 2600;
-		break;
+		
+//	case 2500:
+		//st_sync_info.nWorkRobot_Req[THD_HS_FRONT_RBT][m_nBufferNum] = CTL_REQ;
+		//st_sync_info.nWorkBuff_Req[m_nBufferNum] = CTL_READY;
+// 		m_nRunStep = 2600;
+// 		break;
 
+		//Robot이 Buffer에 투입
 	case 2600:
-		if (st_sync_info.nWorkRobot_Req[THD_HS_FRONT_RBT][m_nBufferNum] == CTL_READY)
+		nCnt = 0;
+		for (int i =0; i<MAX_PICKER; i++)
+		{
+			if (st_Picker_info.nEnable[THD_HS_FRONT_RBT][i] == NO && st_Picker_info.nExist[THD_HS_FRONT_RBT][i] == YES)
+			{
+				nCnt++;
+			}
+		}
+		if (nCnt > 0)
 		{
 			m_nRunStep = 2700;
-		}
+		}	
+
 		break;
 
 	case 2700:
+		for (int i =0; i<MAX_PICKER; i++)
+		{
+			if (FAS_IO.get_in_bit(st_io_info.i_hs_Front_rbt_picker_gripper_dvc_chk[i],IO_ON) == IO_ON && 
+				st_Picker_info.nEnable[THD_HS_FRONT_RBT][i] == NO && st_Picker_info.nExist[THD_HS_FRONT_RBT][i] == YES)
+			{
+				st_Picker_info.nEnable[THD_HS_FRONT_RBT][i] = YES;
+				st_Picker_info.nExist[THD_HS_FRONT_RBT][i] = NO;
+				m_nPicker[i] = YES;
+				break;
+			}
+		}
+		OnSetPickerUpDn(IO_ON,m_nPicker);
+		m_nRunStep = 2800;
+		break;
 
+	case 2800:
+		nRet = OnGetPickerUpDn(IO_ON,m_nPicker);
+
+		if (nRet == RET_GOOD)
+		{
+			m_nRunStep = 2900;
+		}
+		else  if (nRet == RET_ERROR)
+		{
+			CTL_Lib.Alarm_Error_Occurrence(1400, CTL_dWARNING,m_strAlarmCode);
+		}
+		break;
+
+	case 2900:
+		nWorkBuff = nWorkBufferPlacePos(m_nBufferNum);
+		nRet = CTL_Lib.Single_Move(BOTH_MOVE_FINISH, m_nAxisNum_Z,st_motor_info[m_nAxisNum_Z].d_pos[nWorkBuff] , COMI.mn_runspeed_rate);
+		if (nRet == RET_GOOD)
+		{
+			m_nRunStep = 3000;
+		}
+		else if (nRet == BD_RETRY)
+		{
+			m_nRunStep = 3000;
+		}
+		else if (nRet == BD_ERROR || nRet == BD_SAFETY)
+		{
+			CTL_Lib.Alarm_Error_Occurrence(1500, CTL_dWARNING,m_strAlarmCode);
+		}
+		break;
+
+	case 3100:
+		OnSetPickerOnOff(IO_OFF,m_nPicker);
+		m_nRunStep = 3200;
+		break;
+
+	case 3200:
+		nRet = OnGetPickerOnOff(IO_OFF,m_nPicker);
+		if (nRet == RET_GOOD)
+		{
+			m_nRunStep = 3300;
+		}
+		else if (nRet == RET_ERROR)
+		{
+			CTL_Lib.Alarm_Error_Occurrence(1600, CTL_dWARNING,m_strAlarmCode);
+		}
+		break;
+
+	case 3300:
+//		st_Picker_info.nEnable[THD_HS_FRONT_RBT][m_nPick_Cnt] = NO;
+// 		st_Picker_info.nExist[THD_HS_FRONT_RBT][m_nPick_Cnt] = YES;
+		nCnt = 0;
+		for (int i =0; i< MAX_PICKER; i++)
+		{
+			if (st_Picker_info.nEnable[THD_HS_FRONT_RBT][i] == NO && st_Picker_info.nExist[THD_HS_FRONT_RBT][m_nPick_Cnt] == YES)
+			{
+				nCnt++;
+			}
+		}
+		
+		if (nCnt > 0)
+		{
+			m_nRunStep = 2700;
+		}
+		else
+		{
+			m_nRunStep = 0;
+		}
 		break;
 	}
 
@@ -620,6 +747,12 @@ int CRun_Front_HeatSnk_Rbt::OnGetPickerOnOff(int nOnOff, int *nPickerInfo)
 		}
 	}
 	return nRet;
+}
+int CRun_Front_HeatSnk_Rbt::nRobotPickPlace(int nMode, int *nPickerInfo)
+{
+	int nRect = RET_PROCEED;
+
+	return nRect;
 }
 int CRun_Front_HeatSnk_Rbt::nWorkBufferPlacePos(int nPos)
 {

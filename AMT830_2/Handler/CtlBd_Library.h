@@ -57,6 +57,15 @@ public:
 	DWORD  m_dwJigElvChk[3];
 	bool   m_bJigElvChk;
 
+	///kwlee 2017.0530
+	int		m_nElv_MoveStep[20]; 
+	double  m_dSD_Supply_Pos_Backup[20]; 
+	double  m_dSD_Receive_Pos_Backup[20];
+	bool	m_bSD_MoveFlag[20];
+	DWORD	m_dwSdWaitTime[20][3];
+	double  m_dTarget_Pos[20];
+
+
 public:
 	////////////////////////////////////////////////////////////////////////////////////////////////////////
 	// 20150428 james
@@ -68,8 +77,6 @@ public:
 	void Motor_Error_Occurrence(int n_Mode, long l_Axis, long l_ErrorIDNum, CString strErrorMsg); //20150428 james 알람정보 통합 관리 
 	/////////////////////////// 
 
-
-	
 	int SD_Sensor_Enable(int n_Mode, int n_AxisNum, int n_Enable);
 
 	int Linear_Move(int n_RunMethod, int n_LinearMapIndex, long l_AxisCnt, long *lp_AxisNum, double *dp_TargetPosList, int n_SpeedRate) ;
@@ -90,7 +97,7 @@ public:
 
 	int OnMotorGoCheck(int n_motor, double d_pos);
 
-
+	int Stacker_Elevator_Move_Pos(int nMode, int nMotNum,  int nTargetPos); //kwlee 2017.0530
 
 	//	int alarm_func(int n_mode, char * cp_jamcode, char * cp_msg);
 	//int char_msg_func(int n_mode, char * cp_source_msg); //2011.0910 

@@ -54,6 +54,9 @@
 ///////////////////////////////////////////////////////
 //  01 : H/T Sink Front Ready Stacker
 ///////////////////////////////////////////////////////
+
+800108 1 0 "Front Heat Sink stacker Tray Seperate forward Off Check Error."
+800109 1 0 "Front Heat Sink stacker Tray Seperate backward Off Check Error"
 800110 1 0 "Front Heat Sink Ready stacker Tray pusher forward Off Check Error."
 800111 1 0 "Front Heat Sink Ready stacker Tray pusher backward Off Check Error"
 800112 1 0 "Front Heat Sink Ready stacker Up Off Check Error"
@@ -101,6 +104,8 @@
 ///////////////////////////////////////////////////////
 //  01 : H/T Sink Front Ready Stacker
 ///////////////////////////////////////////////////////
+810108 1 0 "Front Heat Sink stacker Tray Seperate forward On Check Error."
+810109 1 0 "Front Heat Sink stacker Tray Seperate backward On Check Error"
 810110 1 0 "Front Heat Sink Ready stacker Tray pusher forward On Check Error."
 810111 1 0 "Front Heat Sink Ready stacker Tray pusher backward On Check Error"
 810112 1 0 "Front Heat Sink Ready stacker Up On Check Error"

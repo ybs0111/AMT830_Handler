@@ -46,17 +46,203 @@ void CRun_Front_HeatSnk_Stacker::ThreadRun()
 }
 void CRun_Front_HeatSnk_Stacker::OnRunMove()
 {
+	int nRet = 0;
 	switch(m_nRunStep)
 	{
 	case 0:
-		
 		m_nRunStep = 100;
 		break;
 
 	case 100:
-		
+		if (st_lot_info[LOT_CURR].nLotStatus == LOT_START)
+		{
+			m_nRunStep = 200;
+		}
 		break;
 
+	case 200:
+		if (FAS_IO.get_in_bit(st_io_info.i_hs_Front_Work_stacker_tray_chk,IO_OFF) == IO_OFF && 
+			FAS_IO.get_in_bit(st_io_info.i_hs_Front_Ready_stacker_tray_chk,IO_OFF) == IO_OFF)
+		{
+			m_nRunStep = 300;
+		}
+		else
+		{
+			if (FAS_IO.get_in_bit(st_io_info.i_hs_Front_Work_stacker_tray_chk,IO_OFF) == IO_ON)
+			{
+				m_strCode.Format(_T("8%d%04d"), IO_ON, st_io_info.i_hs_Front_Work_stacker_tray_chk);
+			}
+			else if(FAS_IO.get_in_bit(st_io_info.i_hs_Front_Ready_stacker_tray_chk,IO_OFF) == IO_ON)
+			{
+				m_strCode.Format(_T("8%d%04d"), IO_ON, st_io_info.i_hs_Front_Ready_stacker_tray_chk);
+			}
+			CTL_Lib.Alarm_Error_Occurrence(30, CTL_dWARNING, m_strCode);
+		}
+		break;
+
+	case 300:
+		OnSetPusherFwdBwdCyl(IO_OFF);
+		m_nRunStep = 400;
+		break;
+
+	case 400:
+		nRet = OnGetPusherFwdBwdCyl(IO_OFF);
+		if (nRet == RET_GOOD)
+		{
+			m_nRunStep = 500;
+		}
+		else if (nRet == RET_ERROR)
+		{
+			CTL_Lib.Alarm_Error_Occurrence(30, CTL_dWARNING, m_strCode);
+		}
+		break;
+
+	case 500:
+		OnSet_ReadyPos_TrayClampCyl(IO_OFF);
+		m_nRunStep = 600;
+		break;
+
+	case 600:
+		nRet = OnGet_ReadyPos_TrayClampCyl(IO_OFF);
+		if (nRet == RET_GOOD)
+		{
+			m_nRunStep = 700;
+		}
+		else if (nRet == RET_ERROR)
+		{
+			CTL_Lib.Alarm_Error_Occurrence(30, CTL_dWARNING, m_strCode);
+			m_nRunStep = 500;
+		}
+		break;
+
+	case 700:
+		OnSet_WorkPos_TrayClampCyl(IO_OFF);
+		m_nRunStep = 710;
+		break;
+
+	case 710:
+		nRet = OnGet_WorkPos_RailFwdBwdCyl(IO_OFF);
+
+		if (nRet == RET_GOOD)
+		{
+			m_nRunStep = 720;
+		}
+		else if (nRet == RET_ERROR)
+		{
+			CTL_Lib.Alarm_Error_Occurrence(30, CTL_dWARNING, m_strCode);
+			m_nRunStep = 700;
+		}
+		break;
+
+	case 720:
+		OnSet_ReadyPos_RailFwdBwdCyl(IO_OFF);
+		m_nRunStep = 800;
+		break;
+
+	case 800:
+		nRet = OnGet_ReadyPos_RailFwdBwdCyl(IO_OFF);
+
+		if (nRet == RET_GOOD)
+		{
+			m_nRunStep = 900;
+		}
+		else if (nRet == RET_ERROR)
+		{
+			CTL_Lib.Alarm_Error_Occurrence(30, CTL_dWARNING, m_strCode);
+			m_nRunStep = 600;
+		}
+		break;
+
+	case 900:
+		OnSet_ReadyPos_StackerCylUpDn(IO_OFF);
+		m_nRunStep = 910;
+		break;
+
+	case 910:
+		nRet = OnGet_ReadyPos_StackerCylUpDn(IO_OFF);
+
+		if (nRet == RET_GOOD)
+		{
+			m_nRunStep = 920;
+		}
+		else if (nRet == RET_ERROR)
+		{
+			CTL_Lib.Alarm_Error_Occurrence(30, CTL_dWARNING, m_strCode);
+		}
+		break;
+
+	case 920:
+		nRet = COMI.Get_MotIOSensor(m_nAxisNum_Ready,MOT_SENS_SD);
+		if (nRet == RET_GOOD)
+		{
+			CTL_Lib.Alarm_Error_Occurrence(40, dWARNING, _T("900001"));
+		}
+		else
+		{
+			m_nRunStep = 930;
+		}
+		break;
+
+	case 930:
+		nRet = CTL_Lib.Single_Move(BOTH_MOVE_FINISH, m_nAxisNum_Ready, st_motor_info[m_nAxisNum_Ready].d_pos[P_ELV_TRAY_INOUT_POS], COMI.mn_runspeed_rate);  //트레이를 받을 위치로 미리 이동한다 
+		if (nRet == BD_GOOD) //좌측으로 이동  
+		{			
+			m_nRunStep = 1000;
+		}
+		else if (nRet == BD_RETRY)
+		{
+			m_nRunStep = 930;
+		}
+		else if (nRet == BD_ERROR || nRet == BD_SAFETY)
+		{//모터 알람은 이미 처리했으니 이곳에서는 런 상태만 바꾸면 된다  
+			CTL_Lib.Alarm_Error_Occurrence(60, dWARNING, st_alarm_info.strCode);
+			m_nRunStep = 930;
+		}
+		break;
+
+	case 1000:
+		if (st_sync_info.nWorkRobot_Req[THD_HS_FRONT_STACKER_SITE][STACKER_WORK_POS] == CTL_REQ)
+		{
+			if (FAS_IO.get_in_bit(st_io_info.i_hs_Front_Ready_stacker_updn_pos_chk,IO_ON) == IO_ON)
+			{
+				m_nRunStep = 1100;
+			}
+			else
+			{
+				//"Front Heat Sink Ready Stacker Tray Up/Dn Pos Sensor Off Check Error."
+				CTL_Lib.Alarm_Error_Occurrence(30, CTL_dWARNING, _T("800115"));
+			}
+		}
+		break;
+
+	case 1100:
+		OnSet_ReadyPos_StackerCylUpDn(IO_ON);
+		m_nRunStep = 1200;
+		break;
+
+	case 1200:
+		nRet = OnGet_ReadyPos_StackerCylUpDn(IO_ON);
+		if (nRet == RET_GOOD)
+		{
+			m_nRunStep = 1300;
+		}
+		else if (nRet == RET_ERROR)
+		{
+			CTL_Lib.Alarm_Error_Occurrence(30, CTL_dWARNING,m_strCode);
+		}
+		break;
+
+	case 1300:
+		nRet = CTL_Lib.Stacker_Elevator_Move_Pos(0, m_nAxisNum_Ready,  P_ELV_SUPPLY_OFFSET);			
+		if(nRet == RET_GOOD)
+		{
+			m_nRunStep = 1400;
+		}
+		break;
+
+	case 1400:
+
+		break;
 	}
 }
 void CRun_Front_HeatSnk_Stacker::OnRunInit()
@@ -1020,4 +1206,104 @@ int CRun_Front_HeatSnk_Stacker::OnGet_WorkPos_TrayClampCyl(int nOnOff)
 	return nRet;
 }
 
+void CRun_Front_HeatSnk_Stacker::OnSetSeperateFwdBwdCyl(int nOnOff)
+{
+	FAS_IO.set_out_bit(st_io_info.o_hs_Front_stacker_tray_Seperate_onoff,nOnOff);
 
+	m_dwCylWaitTime[WORK_TRAY_SEPERATE_ONOFF][0] = GetCurrentTime();
+	m_bCylinderFlag[WORK_TRAY_SEPERATE_ONOFF] = false;
+}
+
+int CRun_Front_HeatSnk_Stacker::OnGetSeperateFwdBwdCyl(int nOnOff)
+{
+	int nWaitTime = WAIT_STACKER_CYL_ON_OFF;
+	int nRet = RET_PROCEED;
+	if (nOnOff == IO_ON)
+	{
+		if (m_bCylinderFlag[WORK_TRAY_SEPERATE_ONOFF] ==  false && 
+			FAS_IO.get_in_bit(st_io_info.i_hs_Front_stacker_tray_Seperate_fwd_chk,IO_ON) == IO_ON &&
+			FAS_IO.get_in_bit(st_io_info.i_hs_Front_stacker_tray_Seperate_bwd_chk,IO_OFF) == IO_OFF)
+		{
+			m_bCylinderFlag[WORK_TRAY_SEPERATE_ONOFF] = true;
+			m_dwCylWaitTime[WORK_TRAY_SEPERATE_ONOFF][0] = GetCurrentTime();
+		}
+		else if (m_bCylinderFlag[WORK_TRAY_SEPERATE_ONOFF] ==  true && 
+			FAS_IO.get_in_bit(st_io_info.i_hs_Front_stacker_tray_Seperate_fwd_chk,IO_ON) == IO_ON &&
+			FAS_IO.get_in_bit(st_io_info.i_hs_Front_stacker_tray_Seperate_bwd_chk,IO_OFF) == IO_OFF)
+		{
+			m_dwCylWaitTime[WORK_TRAY_SEPERATE_ONOFF][1] = GetCurrentTime();
+			m_dwCylWaitTime[WORK_TRAY_SEPERATE_ONOFF][2] = m_dwCylWaitTime[WORK_TRAY_SEPERATE_ONOFF][1] - m_dwCylWaitTime[WORK_TRAY_SEPERATE_ONOFF][0];
+
+			if (m_dwCylWaitTime[WORK_TRAY_SEPERATE_ONOFF][2] <= 0)
+			{
+				m_dwCylWaitTime[WORK_TRAY_SEPERATE_ONOFF][0] = GetCurrentTime();
+				return RET_PROCEED;
+			}
+			if (m_dwCylWaitTime[WORK_TRAY_SEPERATE_ONOFF][2] > (DWORD)st_wait_info.nOnWaitTime[nWaitTime])
+			{
+				return RET_GOOD;
+			}
+		}
+		else
+		{
+			m_dwCylWaitTime[WORK_TRAY_SEPERATE_ONOFF][1] = GetCurrentTime();
+			m_dwCylWaitTime[WORK_TRAY_SEPERATE_ONOFF][2] = m_dwCylWaitTime[WORK_TRAY_SEPERATE_ONOFF][1] - m_dwCylWaitTime[WORK_TRAY_SEPERATE_ONOFF][0];
+
+			if (m_dwCylWaitTime[WORK_TRAY_SEPERATE_ONOFF][2] <= 0)
+			{
+				m_dwCylWaitTime[WORK_TRAY_SEPERATE_ONOFF][0] = GetCurrentTime();
+				return RET_PROCEED;
+			}
+			if (m_dwCylWaitTime[WORK_TRAY_SEPERATE_ONOFF][2] > (DWORD)st_wait_info.nLimitWaitTime[nWaitTime])
+			{
+				m_strCode.Format(_T("8%d%04d"), nOnOff, st_io_info.i_hs_Front_stacker_tray_Seperate_fwd_chk); 
+				return RET_ERROR;
+			}
+		}
+	}
+	else //(nOnOff == IO_OFF)
+	{
+		if (m_bCylinderFlag[WORK_TRAY_SEPERATE_ONOFF] ==  false && 
+			FAS_IO.get_in_bit(st_io_info.i_hs_Front_stacker_tray_Seperate_fwd_chk,IO_OFF) == IO_OFF &&
+			FAS_IO.get_in_bit(st_io_info.i_hs_Front_stacker_tray_Seperate_bwd_chk,IO_ON) == IO_ON)
+
+		{
+			m_bCylinderFlag[WORK_TRAY_SEPERATE_ONOFF] = true;
+			m_dwCylWaitTime[WORK_TRAY_SEPERATE_ONOFF][0] = GetCurrentTime();
+		}
+		else if (m_bCylinderFlag[WORK_TRAY_SEPERATE_ONOFF] ==  true && 
+			FAS_IO.get_in_bit(st_io_info.i_hs_Front_stacker_tray_Seperate_fwd_chk,IO_OFF) == IO_OFF &&
+			FAS_IO.get_in_bit(st_io_info.i_hs_Front_stacker_tray_Seperate_bwd_chk,IO_ON) == IO_ON)
+		{
+			m_dwCylWaitTime[WORK_TRAY_SEPERATE_ONOFF][1] = GetCurrentTime();
+			m_dwCylWaitTime[WORK_TRAY_SEPERATE_ONOFF][2] = m_dwCylWaitTime[WORK_TRAY_SEPERATE_ONOFF][1] - m_dwCylWaitTime[WORK_TRAY_SEPERATE_ONOFF][0];
+
+			if (m_dwCylWaitTime[WORK_TRAY_SEPERATE_ONOFF][2] <= 0)
+			{
+				m_dwCylWaitTime[WORK_TRAY_SEPERATE_ONOFF][0] = GetCurrentTime();
+				return RET_PROCEED;
+			}
+			if (m_dwCylWaitTime[WORK_TRAY_SEPERATE_ONOFF][2] > (DWORD)st_wait_info.nOnWaitTime[nWaitTime])
+			{
+				return RET_GOOD;
+			}
+		}
+		else
+		{
+			m_dwCylWaitTime[WORK_TRAY_SEPERATE_ONOFF][1] = GetCurrentTime();
+			m_dwCylWaitTime[WORK_TRAY_SEPERATE_ONOFF][2] = m_dwCylWaitTime[WORK_TRAY_SEPERATE_ONOFF][1] - m_dwCylWaitTime[WORK_TRAY_SEPERATE_ONOFF][0];
+
+			if (m_dwCylWaitTime[WORK_TRAY_SEPERATE_ONOFF][2] <= 0)
+			{
+				m_dwCylWaitTime[WORK_TRAY_SEPERATE_ONOFF][0] = GetCurrentTime();
+				return RET_PROCEED;
+			}
+			if (m_dwCylWaitTime[WORK_TRAY_SEPERATE_ONOFF][2] > (DWORD)st_wait_info.nLimitWaitTime[nWaitTime])
+			{
+				m_strCode.Format(_T("8%d%04d"), nOnOff, st_io_info.i_hs_Front_stacker_tray_Seperate_bwd_chk); 
+				return RET_ERROR;
+			}
+		}
+	}
+	return nRet;
+}

@@ -33,14 +33,20 @@ public:
 	void OnSet_WorkPos_TrayClampCyl(int nOnOff);
 	int OnGet_WorkPos_TrayClampCyl(int nOnOff);
 
+	void  OnSetSeperateFwdBwdCyl(int nOnOff);
+	int  OnGetSeperateFwdBwdCyl(int nOnOff);
+	
+
 public:
 	int m_nInitStep;
 	int m_nRunStep;
 	int m_nAxisNum_Ready;
 	int	m_nAxisNum_Work; 
 	int m_nAxisNum_Move;
-	CString m_strCode;
+	
 	bool m_bCylinderFlag[10];
 	DWORD m_dwCylWaitTime[10][3];
+
+	CString m_strCode;
 };
 extern CRun_Front_HeatSnk_Stacker clsRunHsFrontStacker;

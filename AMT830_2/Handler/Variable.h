@@ -534,10 +534,10 @@ typedef unsigned int					UINT32;			// 0 .. 4,294,967,295
 #define READY_RAIL_FWDBWD           1
 #define READY_TRAYCLAMP_ONOFF       2
 #define READY_PUSHER_ONOFF          3
-
 #define WORK_STACKER_UPDN           4
 #define WORK_RAIL_FWDBWD            5
 #define WORK_TRAY_CLAMP_ONOFF       6
+#define WORK_TRAY_SEPERATE_ONOFF     7
 
 struct tagHANDLER_INFO
 {
@@ -918,7 +918,12 @@ struct tagIO_INFO
 	int o_hs_Front_stacker_tray_pusher_fwd_onoff;
 
 	int o_hs_Front_Ready_stacker_updn;
+	int o_hs_Front_stacker_tray_Seperate_onoff;
+
 	//Ready_input
+	int i_hs_Front_stacker_tray_Seperate_fwd_chk;
+	int i_hs_Front_stacker_tray_Seperate_bwd_chk;
+
 	int i_hs_Front_Ready_stacker_guide_clamp_on_chk;
 	int i_hs_Front_Ready_stacker_guide_unclamp_off_chk;
 
@@ -993,8 +998,6 @@ struct tagIO_INFO
 	int		oMotPwr[MAXMOTOR];
 };
 extern  tagIO_INFO  st_io_info;
-// *****************************************************************************
-
 // *************************************************************************
 // 파일 경로명 저장 구조체 변수 선언                                             
 // *************************************************************************
@@ -1152,10 +1155,9 @@ struct tagSYNC_INFO
 	int			nInitializeSuccess;
 	int         nInit_Flag[50];
 	
-	int         nWorkRobot_Req[MAX_WORK_SITE][MAX_WORK_JOB]; //Robot이 Stacker에 요청.
 	int         nWorkBuff_Req[MAX_BUFFER_SITE];				 //Buffer에서 Robot으로 작업 요청
-	int         nStacker_Site_Req[MAX_WORK_SITE][MAX_STACKER_POS];
-	
+	int         nWorkRobot_Req[MAX_WORK_SITE][MAX_WORK_JOB]; //Robot이 Stacker에 요청.
+	int         nStacker_Site_Req[MAX_WORK_SITE][MAX_STACKER_POS]; //Stacker에 Robot으로 작업 요청.
 };
 extern tagSYNC_INFO	st_sync_info;
 
@@ -1252,8 +1254,6 @@ enum M_TRAY_STACKER_ELEVATOR
 	P_ELV_SD_SENSOR			,
 
 	P_ELV_TRAY_INOUT_POS   ,		
-
-	
 	P_ELV_SUPPLY_OFFSET		,
 	P_ELV_RECEIVE_OFFSET	, 
 };

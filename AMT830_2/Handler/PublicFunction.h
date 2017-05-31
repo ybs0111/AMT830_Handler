@@ -60,7 +60,7 @@ public:
 	CString			OnCharToString(char chData[], int nLength);
 	void			OnStringToChar(CString strData, char chData[]);
 	CString			ThreadID(int nID); //2015.02.10;
-
+	
 public:
 
 };

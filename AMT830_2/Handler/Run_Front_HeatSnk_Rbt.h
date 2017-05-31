@@ -7,13 +7,15 @@ public:
 public:
 	int m_nInitStep;
 	int m_nRunStep;
-	int m_nTray_Cnt;
+	int m_nTray_Dvc_Cnt;
 	int	m_nAxisNum_Z;
 	int	m_nAxisNum_Y;
 	int m_nBufferNum;
 	int m_nLastTrayPick;
 	int m_nPicker[2];
+	int m_nPick_Cnt;
 	double m_dTray_Gap;
+
 
 	DWORD dwPickerUpDnWaitTime[2][3];
 	DWORD dwPickerOnOffWaitTime[2][3];

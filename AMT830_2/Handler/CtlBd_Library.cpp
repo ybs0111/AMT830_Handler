@@ -2698,3 +2698,376 @@ int CCtlBd_Library::FileSizeCheck(CString s_filename, long l_size, int n_check)
 	
 	return flag;
 }
+//kwlee 2017.0530
+int CCtlBd_Library::Stacker_Elevator_Move_Pos(int nMode, int nMotNum, int nTargetPos)
+{
+	int nFuncRet = RET_PROCEED;
+	int nRet_1, nRet_2;
+	double dCurrentPos;
+	CString strLog;
+
+
+	switch(m_nElv_MoveStep[nMotNum])
+	{
+	case 0:
+		if (nTargetPos == P_ELV_SUPPLY_OFFSET)
+		{
+			m_nElv_MoveStep[nMotNum] = 1000;
+		}
+		else if (nTargetPos == P_ELV_RECEIVE_OFFSET)
+		{
+			nRet_1 = COMI.Get_MotIOSensor(nMotNum,MOT_SENS_SD);
+			nRet_2 = COMI.Check_MotPosRange(nMotNum,m_dSD_Supply_Pos_Backup[nMotNum],st_motor_info[nMotNum].d_allow);
+			m_nElv_MoveStep[nMotNum] = 1000;
+		}
+		else
+		{
+
+		}
+		break;
+
+	case 1000:
+		nRet_1 = COMI.Get_MotIOSensor(nMotNum,MOT_SENS_SD);
+		dCurrentPos = COMI.Get_MotCurrentPos(nMotNum);
+		CTL_Lib.SD_Sensor_Enable(0,nMotNum,CTL_NO);
+
+		if (nRet_1 == BD_GOOD)
+		{
+			m_bSD_MoveFlag[nMotNum] = false;
+			m_nElv_MoveStep[nMotNum] = 6000;
+		}
+		else 
+		{
+			if (nTargetPos == P_ELV_RECEIVE_OFFSET)
+			{
+				nRet_1 = COMI.Get_MotIOSensor(nMotNum, MOT_SENS_SD);
+				nRet_2 = COMI.Check_MotPosRange(nMotNum, m_dSD_Receive_Pos_Backup[nMotNum], st_motor_info[nMotNum].d_allow); 
+				if(nRet_1 == BD_GOOD && nRet_2 == BD_GOOD) 
+				{
+					m_nElv_MoveStep[nMotNum] = 2500;
+					break;
+				}
+			}
+			m_bSD_MoveFlag[nMotNum] = false;
+			m_nElv_MoveStep[nMotNum] = 2000;
+		}
+		break;
+		
+	case 2000:
+		if (m_bSD_MoveFlag[nMotNum] == false)
+		{
+			m_dwSdWaitTime[nMotNum][0] = GetCurrentTime();
+			m_bSD_MoveFlag[nMotNum] = true;
+			CTL_Lib.SD_Sensor_Enable(0, nMotNum, CTL_YES); 
+		}
+		else if (m_bSD_MoveFlag[nMotNum] == true)
+		{
+			m_dwSdWaitTime[nMotNum][1] = GetCurrentTime();
+			m_dwSdWaitTime[nMotNum][2] = m_dwSdWaitTime[nMotNum][1] - m_dwSdWaitTime[nMotNum][0];
+			
+			if (m_dwSdWaitTime[nMotNum][2] <= 0)
+			{
+				m_dwSdWaitTime[nMotNum][0] = GetCurrentTime();
+				break;
+			}
+			if(m_dwSdWaitTime[nMotNum][2] > 20000)
+			{
+				COMI.Set_MotStop(1, nMotNum) ; //긴급정지 
+				m_nElv_MoveStep[nMotNum] = 1000;
+				break;
+			}
+		}
+
+		nRet_1 = CTL_Lib.Single_Move(ONLY_MOVE_START, nMotNum, st_motor_info[nMotNum].d_pos[P_ELV_SD_SENSOR], COMI.mn_runspeed_rate);   
+		if (nRet_1 == BD_GOOD) 
+		{					 				 
+			m_nElv_MoveStep[nMotNum] = 2100;
+		}
+		else if (nRet_1 == BD_RETRY)
+		{				 
+			m_nElv_MoveStep[nMotNum] = 1000;
+		}
+		else if (nRet_1 == BD_ERROR || nRet_1 == BD_SAFETY)
+		{
+			CTL_Lib.Alarm_Error_Occurrence(272, dWARNING, st_alarm_info.strCode);
+
+			
+			m_nElv_MoveStep[nMotNum] = 1000;
+		}
+		break;
+
+	case 2100:
+		nRet_1 = COMI.Get_MotIOSensor(nMotNum, MOT_SENS_SD); 
+		if(nRet_1 == BD_GOOD)
+		{
+			COMI.Set_MotStop(1, nMotNum) ; //긴급정지 
+
+			st_motor_info[nMotNum].n_sd_mv_chk = 0; //clear
+			CTL_Lib.SD_Sensor_Enable(0, nMotNum, CTL_NO); 
+
+			m_nElv_MoveStep[nMotNum] = 2200;
+			break;
+		}
+		nRet_1 = CTL_Lib.Single_Move(ONLY_MOVE_CHECK, nMotNum, st_motor_info[nMotNum].d_pos[P_ELV_SD_SENSOR], COMI.mn_runspeed_rate); 
+		if (nRet_1 == BD_GOOD)   
+		{	
+			if(nTargetPos == P_ELV_SUPPLY_OFFSET)
+			{
+				nRet_1 = FAS_IO.get_in_bit(st_io_info.i_hs_Front_Ready_stacker_tray_chk,	IO_ON); 
+				if(nRet_1 == IO_OFF)
+				{
+					m_nElv_MoveStep[nMotNum] = 0;
+					nFuncRet = RET_GOOD;
+				}
+			}			
+			else if(nTargetPos == P_ELV_RECEIVE_OFFSET) 
+			{				
+				m_nElv_MoveStep[nMotNum] = 2300;
+			}
+		}
+		else if (nRet_1 == BD_RETRY)
+		{		 
+			m_nElv_MoveStep[nMotNum] = 1000;
+		}
+		else if (nRet_1 == BD_ERROR || nRet_1 == BD_SAFETY)
+		{ 
+			CTL_Lib.Alarm_Error_Occurrence(273, dWARNING, st_alarm_info.strCode);
+			m_nElv_MoveStep[nMotNum] = 1000;
+		}
+		break;
+
+	case 2200:
+		if (nTargetPos == P_ELV_SUPPLY_OFFSET)
+		{
+			nRet_1 = COMI.Get_MotIOSensor(nMotNum,MOT_SENS_SD);
+			if(nRet_1 != BD_GOOD)
+			{
+				COMI.Set_MotStop(1, nMotNum) ; 
+
+				m_bSD_MoveFlag[nMotNum] = false;
+				m_nElv_MoveStep[nMotNum] = 1000; 
+				break;
+			}
+		}
+		dCurrentPos = COMI.Get_MotCurrentPos(nMotNum);
+		if(nTargetPos == P_ELV_SUPPLY_OFFSET)
+		{
+			m_dTarget_Pos[nMotNum] = fabs(dCurrentPos + st_motor_info[nMotNum].d_pos[P_ELV_SUPPLY_OFFSET]); 
+		}
+		else if(nTargetPos == P_ELV_RECEIVE_OFFSET) //트레이를 받는 동작시 
+		{
+			m_dTarget_Pos[nMotNum] = fabs(dCurrentPos - st_motor_info[nMotNum].d_pos[P_ELV_RECEIVE_OFFSET]); //셋팅한 위치까지 더 내린다 sd 센서가 감지 안될때까지 
+		}
+		nRet_1 = CTL_Lib.Single_Move(ONLY_MOVE_START, nMotNum, m_dTarget_Pos[nMotNum], COMI.mn_runspeed_rate);   
+		if (nRet_1 == BD_GOOD) //조건에 따라 위로/아래로  이동  
+		{
+			m_nElv_MoveStep[nMotNum] = 2210;
+		}
+		else if (nRet_1 == BD_RETRY)
+		{
+			m_nElv_MoveStep[nMotNum] = 1000;
+		}
+		else if (nRet_1 == BD_ERROR || nRet_1 == BD_SAFETY)
+		{
+			CTL_Lib.Alarm_Error_Occurrence(274, dWARNING, st_alarm_info.strCode);
+
+			if (st_handler_info.cWndList != NULL)  
+			{
+				//clsMem.OnNormalMessageWrite(_T("UnLoader Alarm : 2100"));
+				//st_handler_info.cWndList->SendMessage(WM_LIST_DATA, 0, NORMAL_MSG); 
+			}
+			m_nElv_MoveStep[nMotNum] = 1000;
+		}
+		break;
+
+	case 2210:
+		nRet_1 = CTL_Lib.Single_Move(ONLY_MOVE_CHECK, nMotNum, m_dTarget_Pos[nMotNum], COMI.mn_runspeed_rate);  //2015.0407 james  //SD 위치까지 이동했는데 SD가 감지되지 않으면 트레이가 없는것이다
+		if (nRet_1 == BD_GOOD)   
+		{	//트레이가 없는 상태일것이다, 미리 트레이를 체크가능하여 트레이가 없으면 올라 갈 필요가 없다 
+			//이곳에 오면 문제가 있음 
+			m_nElv_MoveStep[nMotNum] = 2300; //트레이가 있는 상태 				 
+		}
+		else if (nRet_1 == BD_RETRY)
+		{		 
+			m_nElv_MoveStep[nMotNum] = 1000;
+		}
+		else if (nRet_1 == BD_ERROR || nRet_1 == BD_SAFETY)
+		{//모터 알람은 이미 처리했으니 이곳에서는 런 상태만 바꾸면 된다  
+		
+			CTL_Lib.Alarm_Error_Occurrence(275, dWARNING, st_alarm_info.strCode);
+			if (st_handler_info.cWndList != NULL)  
+			{
+				strLog.Format(_T("Motor:%d Target: %.3f Feedback: %.3f"), nMotNum, m_dTarget_Pos[nMotNum], COMI.Get_MotCurrentPos(nMotNum));
+				clsMem.OnAbNormalMessagWrite(strLog);
+			}
+			m_nElv_MoveStep[nMotNum] = 1000;
+		}
+
+		break;
+
+	case 2300:
+		if(nTargetPos == P_ELV_SUPPLY_OFFSET)//트레이를 작업 가능한 영역에 UP하여 공급하는 위치, SD pos 센서 On 감지 후 센서 기준 - 방항으로 벗어난 후 + 방향으로 P_ELV_SUPPLY_OFFSET 티칭만큼 up 한후 모터 동작은 완료하고, 트레이르, 받든다 
+		{
+			nRet_1 = COMI.Get_MotIOSensor(nMotNum, MOT_SENS_SD); 
+			if(nRet_1 == BD_GOOD)
+			{//정상적으로 체크했다. 					
+				m_nElv_MoveStep[nMotNum] = 2400; // 루틴   
+			}
+			else
+			{//error
+				m_nElv_MoveStep[nMotNum] = 1000; //재시도  루틴   
+			}
+		}			
+		else if(nTargetPos == P_ELV_RECEIVE_OFFSET) //작업이 끝난 트레이를 받는 위치, SD pos 센서 On 감지 후 센서 기준 - 방항으로 센서를 벗어난 후 - 방향으로 P_ELV_RECEIVE_OFFSET 티칭만큼 down 한 후 트레이를 받는 위치  
+		{
+			nRet_1 = COMI.Get_MotIOSensor(nMotNum, MOT_SENS_SD); 
+			if(nRet_1 == BD_ERROR)
+			{//정상적으로 감지되지 않았다. 					
+				m_nElv_MoveStep[nMotNum] = 2400; // 루틴   
+			}
+			else
+			{//error
+				m_nElv_MoveStep[nMotNum] = 1000; //재시도  루틴   
+			}
+		}
+		break;
+
+	case 2400:
+		m_nElv_MoveStep[nMotNum] = 2500;
+		break;
+
+	case 2500:
+		dCurrentPos = COMI.Get_MotCurrentPos(nMotNum); 
+		if(nTargetPos == P_ELV_SUPPLY_OFFSET)//트레이를 작업 가능한 영역에 UP하여 공급하는 위치, SD pos 센서 On 감지 후 센서 기준 - 방항으로 벗어난 후 + 방향으로 P_ELV_SUPPLY_OFFSET 티칭만큼 up 한후 모터 동작은 완료하고, 트레이르, 받든다 
+		{
+			m_dSD_Supply_Pos_Backup[nMotNum] = fabs(dCurrentPos + st_motor_info[nMotNum].d_pos[P_ELV_SUPPLY_OFFSET]); //현재 위치에 + P_ELV_SUPPLY_OFFSET 
+		}
+		else if(nTargetPos == P_ELV_RECEIVE_OFFSET) //트레이를 받는 동작시 
+		{
+			m_dSD_Receive_Pos_Backup[nMotNum] = fabs(dCurrentPos - st_motor_info[nMotNum].d_pos[P_ELV_RECEIVE_OFFSET]); //셋팅한 위치까지 더 내린다 sd 센서가 감지 안될때까지 
+		} 
+
+		//m_dReference_Pos_Backup
+
+		CTL_Lib.SD_Sensor_Enable(0, nMotNum, CTL_NO); //sd sensor clear
+		m_nElv_MoveStep[nMotNum] = 0;
+		nFuncRet = RET_GOOD;
+		break; 
+
+	case 6000: 
+		if(m_bSD_MoveFlag[nMotNum] == false)
+		{
+			m_dwSdWaitTime[nMotNum][0] = GetTickCount();
+			m_bSD_MoveFlag[nMotNum] = true;
+			CTL_Lib.SD_Sensor_Enable(0, nMotNum, CTL_NO); //sd sensor set
+		}
+		else if(m_bSD_MoveFlag[nMotNum] == true)
+		{
+			m_dwSdWaitTime[nMotNum][1] = GetTickCount();
+			m_dwSdWaitTime[nMotNum][2] = m_dwSdWaitTime[nMotNum][1] - m_dwSdWaitTime[nMotNum][0];
+			if(m_dwSdWaitTime[nMotNum][2] <= 0)
+			{
+				m_dwSdWaitTime[nMotNum][0] = GetTickCount();
+				break;
+			}
+			if(m_dwSdWaitTime[nMotNum][2] > 20000)
+			{//limit 시간 지남, 에러 처리후 재 시도하자 
+				COMI.Set_MotStop(1, nMotNum) ; //긴급정지 
+				m_nElv_MoveStep[nMotNum] = 1000;
+				break;
+			}
+		}
+
+		nRet_1 = CTL_Lib.Single_Move(ONLY_MOVE_START, nMotNum, st_motor_info[nMotNum].d_pos[P_ELV_DN_LIMIT], COMI.mn_runspeed_rate/3);   //밑으로 이동한다 
+		if (nRet_1 == BD_GOOD) //위로 이동 하면서 SD를 찾는다  
+		{					 				 
+			m_nElv_MoveStep[nMotNum] = 6100;
+		}
+		else if (nRet_1 == BD_RETRY)
+		{				 
+			m_nElv_MoveStep[nMotNum] = 1000;
+		}
+		else if (nRet_1 == BD_ERROR || nRet_1 == BD_SAFETY)
+		{//모터 알람은 이미 처리했으니 이곳에서는 런 상태만 바꾸면 된다  
+			CTL_Lib.Alarm_Error_Occurrence(375, dWARNING, st_alarm_info.strCode);
+
+			if (st_handler_info.cWndList != NULL)  
+			{
+				//clsMem.OnNormalMessageWrite(_T("UnLoader Alarm : 2000"));
+				//st_handler_info.cWndList->SendMessage(WM_LIST_DATA, 0, NORMAL_MSG); 
+			}
+			m_nElv_MoveStep[nMotNum] = 1000;
+		}
+		break;
+
+	case 6100:
+		nRet_1 = COMI.Get_MotIOSensor(nMotNum, MOT_SENS_SD); 
+		if(nRet_1 == BD_ERROR)
+		{//정상적으로 체크했다. 
+			COMI.Set_MotStop(1, nMotNum) ; //긴급정지 			
+			CTL_Lib.SD_Sensor_Enable(0, nMotNum, CTL_NO); //sd sensor clear
+
+			m_nElv_MoveStep[nMotNum] = 7000;
+			break;
+		}
+		nRet_1 = CTL_Lib.Single_Move(ONLY_MOVE_CHECK, nMotNum, st_motor_info[nMotNum].d_pos[P_ELV_DN_LIMIT], COMI.mn_runspeed_rate);  //2015.0407 james  //SD 위치까지 이동했는데 SD가 감지되지 않으면 트레이가 없는것이다
+		if (nRet_1 == BD_GOOD)   
+		{	 
+			m_nElv_MoveStep[nMotNum] = 6200;  //완전히 내렸으나 아직도 SD룰 감지하고 있는 상태로 , TRAY FULL 상태이다 				 
+		}
+		else if (nRet_1 == BD_RETRY)
+		{		 
+			m_nElv_MoveStep[nMotNum] = 1000;
+		}
+		else if (nRet_1 == BD_ERROR || nRet_1 == BD_SAFETY)
+		{
+			CTL_Lib.Alarm_Error_Occurrence(276, dWARNING, st_alarm_info.strCode);
+
+			m_nElv_MoveStep[nMotNum] = 1000;
+		}
+		break;
+
+	case 6200:
+		/////////////////////////////////////////////////////////////////////
+		// TRAY FULL Error
+		/////////////////////////////////////////////////////////////////////
+		nFuncRet = RET_ABORT; 
+		
+		m_nElv_MoveStep[nMotNum] = 6100; // kwlee 2016.1227
+
+		if (st_handler_info.cWndMain != NULL)
+		{
+			st_other_info.strBoxMsg = _T("[TRAY FULL] tray is Full. \r\n Please Remove it.");
+			st_other_info.nBuzYesNo = YES;
+			
+			st_handler_info.cWndMain->SendMessage(WM_WORK_COMMAND, MAIN_MESSAGE_BOX_CREATE_REQ, 0);
+			clsMem.OnAbNormalMessagWrite(st_other_info.strBoxMsg);
+			clsFunc.OnMCStop();
+		}
+
+		break;
+
+
+	case 7000:
+		nRet_1 = COMI.Get_MotIOSensor(nMotNum, MOT_SENS_SD); 
+		if(nRet_1 == BD_ERROR)
+		{//SD 센서가 감지되지 않으면 정상적으로 내려운 상태  
+			COMI.Set_MotStop(1, nMotNum) ; //긴급정지 
+
+			m_bSD_MoveFlag[nMotNum] = false;
+			m_nElv_MoveStep[nMotNum] = 1000; //이제 다시 위로 올라가 정해진 루틴으로 SD 기준 위치에 맞춘다    
+		}
+		else
+		{
+			m_nElv_MoveStep[nMotNum] = 1000; //이제 다시 위로 올라가 정해진 루틴으로 SD 기준 위치에 맞춘다    
+		}
+		break;
+	}	 
+
+	if(m_nElv_MoveStep[nMotNum] == 0 || nFuncRet == RET_GOOD)
+	{
+		CTL_Lib.SD_Sensor_Enable(0, nMotNum, CTL_NO); //sd sensor clear
+		m_nElv_MoveStep[nMotNum] = 0; //모터 이동 클리어 
+	}
+	return nFuncRet;
+}
