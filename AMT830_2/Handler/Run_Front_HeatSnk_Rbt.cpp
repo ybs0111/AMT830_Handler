@@ -323,7 +323,7 @@ void CRun_Front_HeatSnk_Rbt::OnRunMove()
 		m_nBufferNum = -1;
 		for (int i = 0; i<MAX_BUFFER_SITE; i++)
 		{
-			if (st_sync_info.nWorkBuff_Req[i] == CTL_REQ)
+			if (st_sync_info.nShiftWork_Rbt_Req[i] == CTL_REQ)
 			{
 				m_nBufferNum = i;
 				m_nRunStep = 1100;
@@ -506,7 +506,7 @@ void CRun_Front_HeatSnk_Rbt::OnRunMove()
 
 		if (m_nPick_Cnt > MAX_PICKER || m_nLastTrayPick == TRUE)
 		{
-			st_sync_info.nWorkBuff_Req[m_nBufferNum] = CTL_READY; 
+			st_sync_info.nShiftWork_Rbt_Req[m_nBufferNum] = CTL_READY; 
 			m_nRunStep = 2400;
 			m_nPick_Cnt = 0;
 		}

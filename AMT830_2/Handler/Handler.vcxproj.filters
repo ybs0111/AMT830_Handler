@@ -112,6 +112,9 @@
     <ClCompile Include="ACriticalSection.cpp" />
     <ClCompile Include="Run_Front_HeatSnk_Stacker.cpp" />
     <ClCompile Include="Run_Front_HeatSnk_Rbt.cpp" />
+    <ClCompile Include="Shiter_Work_Rbt.cpp" />
+    <ClCompile Include="Run_Rear_HeatSnk_Stacker.cpp" />
+    <ClCompile Include="Run_Rear_HeatSnk_Rbt.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="32bit\FAS_HSSI.h" />
@@ -240,6 +243,9 @@
     <ClInclude Include="Interface.h" />
     <ClInclude Include="Run_Front_HeatSnk_Stacker.h" />
     <ClInclude Include="Run_Front_HeatSnk_Rbt.h" />
+    <ClInclude Include="Shiter_Work_Rbt.h" />
+    <ClInclude Include="Run_Rear_HeatSnk_Stacker.h" />
+    <ClInclude Include="Run_Rear_HeatSnk_Rbt.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Handler.rc" />

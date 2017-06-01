@@ -803,6 +803,8 @@ struct tagBASIC_INFO
 
 	int nDeviceCnt;
 	int nRepickCnt;
+
+	int nShift_Robot_Skip[4];
 	////
 } ;
 extern  tagBASIC_INFO  st_basic_info;
@@ -992,6 +994,95 @@ struct tagIO_INFO
 	int i_hs_Front_rbt_picker_dn_chk[2];
 	int i_hs_Front_rbt_picker_gripper_dvc_chk[2];
 
+	//kwlee 2017.0530 Rear Stacker & Robot
+	
+	int	o_hs_Rear_Ready_stacker_guide_clamp_onoff;
+	int o_hs_Rear_Ready_stacker_guide_unclamp_onoff;
+
+	int o_hs_Rear_Ready_stacker_Left_rail_fwd_onoff;
+	int o_hs_Rear_Ready_stacker_Left_rail_bwd_onoff;
+	int o_hs_Rear_Ready_stacker_Right_rail_fwd_onoff;
+	int o_hs_Rear_Ready_stacker_Right_rail_bwd_onoff;
+
+	int o_hs_Rear_stacker_tray_pusher_bwd_onoff;
+	int o_hs_Rear_stacker_tray_pusher_fwd_onoff;
+
+	int o_hs_Rear_Ready_stacker_updn;
+	int o_hs_Rear_stacker_tray_Seperate_onoff;
+
+	
+	//Ready_input
+	int i_hs_Rear_stacker_tray_Seperate_fwd_chk;
+	int i_hs_Rear_stacker_tray_Seperate_bwd_chk;
+
+	int i_hs_Rear_Ready_stacker_guide_clamp_on_chk;
+	int i_hs_Rear_Ready_stacker_guide_unclamp_off_chk;
+
+	int i_hs_Rear_Ready_stacker_Left_rail_fwd_chk;
+	int i_hs_Rear_Ready_stacker_Left_rail_bwd_chk;
+	int i_hs_Rear_Ready_stacker_Right_rail_fwd_chk;
+	int i_hs_Rear_Ready_stacker_Right_rail_bwd_chk;
+
+	int i_hs_Rear_stacker_tray_pusher_fwd_chk;
+	int i_hs_Rear_stacker_tray_pusher_bwd_chk;
+
+	int i_hs_Rear_Ready_stacker_up_chk;
+	int i_hs_Rear_Ready_stacker_dn_chk;
+
+	int i_hs_Rear_Ready_stacker_tray_chk; //앞쪽 Tray Check Sensor
+	int i_hs_Rear_Ready_stacker_updn_pos_chk; //Stacker UpDn Cylinder 위에 Tray 유무 Check
+
+	///Work_output
+	int	o_hs_Rear_Work_stacker_guide_clamp_onoff;
+	int o_hs_Rear_Work_stacker_guide_unclamp_onoff;
+
+	int o_hs_Rear_Work_stacker_Right_rail_fwd_onoff;
+	int o_hs_Rear_Work_stacker_Right_rail_bwd_onoff;
+	int o_hs_Rear_Work_stacker_Left_rail_fwd_onoff;
+	int o_hs_Rear_Work_stacker_Left_rail_bwd_onoff;
+
+	int o_hs_Rear_Work_stacker_updn;
+
+
+	///Work_input
+	int i_hs_Rear_Work_stacker_guide_clamp_on_chk;
+	int i_hs_Rear_Work_stacker_guide_unclamp_off_chk;
+
+	int i_hs_Rear_Work_stacker_Right_rail_fwd_chk;
+	int i_hs_Rear_Work_stacker_Right_rail_bwd_chk;
+	int i_hs_Rear_Work_stacker_Left_rail_fwd_chk;
+	int i_hs_Rear_Work_stacker_Left_rail_bwd_chk;
+
+	int i_hs_Rear_Work_stacker_up_chk;
+	int i_hs_Rear_Work_stacker_dn_chk;
+
+	int i_hs_Rear_Work_stacker_tray_chk; //뒤쪽 Tray Check Sensor
+	int i_hs_Rear_Work_stacker_updn_pos_chk;
+
+	/////////////
+	//Robot outPut
+	int o_hs_Rear_rbt_picker_Fwd_updn;
+	int o_hs_Rear_rbt_picker_Fwd_gripper_onoff;
+
+	int o_hs_Rear_rbt_picker_Bwd_updn;
+	int o_hs_Rear_rbt_picker_Bwd_gripper_onoff;
+
+	int o_hs_Rear_rbt_picker_gripper_onoff[2];
+	int o_hs_Rear_rbt_picker_updn[2];
+
+	//Robot Input
+	int i_hs_Rear_rbt_picker_Fwd_up_chk;
+	int i_hs_Rear_rbt_picker_Fwd_dn_chk;
+	int i_hs_Rear_rbt_picker_Fwd_gripper_dvc_chk; 
+
+	int i_hs_Rear_rbt_picker_Bwd_up_chk;
+	int i_hs_Rear_rbt_picker_Bwd_dn_chk;
+	int i_hs_Rear_rbt_picker_Bwd_gripper_dvc_chk;
+
+	int i_hs_Rear_rbt_picker_up_chk[2];
+	int i_hs_Rear_rbt_picker_dn_chk[2];
+	int i_hs_Rear_rbt_picker_gripper_dvc_chk[2];
+
 	int	i_LoDoorSafetyChk[7];
 	///////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -1143,6 +1234,7 @@ enum THREAD_SYNC_VARIBLE_SITE_INFO  //위치별 트레이 존재 유무를 위치별로 정의해 
 	THD_HS_REAR_STACKER_SITE        ,
 	LDMODULE_STACKER_SITE           ,
 	THD_HS_FRONT_RBT ,
+	THD_HS_REAR_RBT,
 	THREAD_MAX_SITE							,
 };
 
@@ -1155,7 +1247,7 @@ struct tagSYNC_INFO
 	int			nInitializeSuccess;
 	int         nInit_Flag[50];
 	
-	int         nWorkBuff_Req[MAX_BUFFER_SITE];				 //Buffer에서 Robot으로 작업 요청
+	int         nShiftWork_Rbt_Req[MAX_BUFFER_SITE];				 //Buffer에서 Robot으로 작업 요청
 	int         nWorkRobot_Req[MAX_WORK_SITE][MAX_WORK_JOB]; //Robot이 Stacker에 요청.
 	int         nStacker_Site_Req[MAX_WORK_SITE][MAX_STACKER_POS]; //Stacker에 Robot으로 작업 요청.
 };
@@ -1166,6 +1258,8 @@ struct tagPICKER_INFO
 {
 	int nEnable[MAX_WORK_SITE][MAX_PICKER];
 	int nExist[MAX_WORK_SITE][MAX_PICKER];
+	CString strLotNum;
+	CString strPartNum;
 };
 extern tagPICKER_INFO st_Picker_info;
 
@@ -1464,8 +1558,11 @@ enum EQ_WORK_MODE_STATE
 enum MOTOR_NUM
 {
 	M_HS_F_STACKER_READY		= 0,
+	M_HS_R_STACKER_READY		= 0,
 	M_HS_F_RBT_Y				,
 	M_HS_F_RBT_Z				,
+	M_HS_R_RBT_Z                ,
+	M_HS_R_RBT_Y                ,
 	M_MAX_MOTOR_NUM					, //29
 };
 

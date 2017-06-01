@@ -40,6 +40,7 @@
 #include <afxcontrolbars.h>
 #include <afxcmn.h>	
 #include <afxinet.h>
+#include <afx.h>
 //#include <XTToolkitPro.h>   // Codejock Software Components
 
 

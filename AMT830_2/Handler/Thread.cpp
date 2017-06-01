@@ -37,6 +37,8 @@
 //kwlee 2017.0524
 #include "Run_Front_HeatSnk_Rbt.h"
 #include "Run_Front_HeatSnk_Stacker.h"
+#include "Run_Rear_HeatSnk_Rbt.h"
+#include "Run_Rear_HeatSnk_Stacker.h"
 //
 //------------------------------------------------------------------//
 
@@ -194,5 +196,41 @@ UINT OnThreadFrontHeatSinkRbt(LPVOID lParam)
 	}
 
 	m_thrHandle[5] = NULL;
+	return TRUE;
+}
+//kwlee 2017.0601
+UINT OnThreadRearHeatSinkStacker(LPVOID lParam)
+{
+	CSingleLock sing(&mutex);
+
+	while(!AllStop[0])
+	{
+		sing.Lock();
+
+		clsRunHsRearStacker.ThreadRun();
+
+		Sleep(0);
+		sing.Unlock();
+	}
+
+	m_thrHandle[6] = NULL;
+	return TRUE;
+}
+
+UINT OnThreadRearHeatSinkRbt(LPVOID lParam)
+{
+	CSingleLock sing(&mutex);
+
+	while(!AllStop[0])
+	{
+		sing.Lock();
+
+
+		clsRunHsRearRbt.ThreadRun();
+		Sleep(0);
+		sing.Unlock();
+	}
+
+	m_thrHandle[7] = NULL;
 	return TRUE;
 }

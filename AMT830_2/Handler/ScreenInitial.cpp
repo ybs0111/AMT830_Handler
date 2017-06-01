@@ -698,6 +698,17 @@ int CScreenInitial::OnInitExcution()
 			{
 				m_thrHandle[5] = m_thread[6]->m_hThread;
 			}
+			//kwlee 2017.0601
+			m_thread[4] = AfxBeginThread(OnThreadRearHeatSinkStacker, this);  
+			if (m_thread[4] != NULL)	
+			{
+				m_thrHandle[4] = m_thread[5]->m_hThread;
+			}
+			m_thread[5] = AfxBeginThread(OnThreadRearHeatSinkRbt, this); 
+			if (m_thread[5] != NULL)	
+			{
+				m_thrHandle[5] = m_thread[6]->m_hThread;
+			}
 			
 			m_nInitStep = 1000;
 			break;

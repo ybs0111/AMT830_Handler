@@ -641,6 +641,8 @@
     <ClInclude Include="RunTowerLamp.h" />
     <ClInclude Include="Run_Front_HeatSnk_Rbt.h" />
     <ClInclude Include="Run_Front_HeatSnk_Stacker.h" />
+    <ClInclude Include="Run_Rear_HeatSnk_Rbt.h" />
+    <ClInclude Include="Run_Rear_HeatSnk_Stacker.h" />
     <ClInclude Include="ScreenAlarm.h" />
     <ClInclude Include="ScreenBasic.h" />
     <ClInclude Include="ScreenInitial.h" />
@@ -655,6 +657,7 @@
     <ClInclude Include="ServerFront.h" />
     <ClInclude Include="ServerSocket.h" />
     <ClInclude Include="ServerVnR.h" />
+    <ClInclude Include="Shiter_Work_Rbt.h" />
     <ClInclude Include="SingleInstanceApp.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="SuperProgressCtrl.h" />
@@ -757,6 +760,8 @@
     <ClCompile Include="RunTowerLamp.cpp" />
     <ClCompile Include="Run_Front_HeatSnk_Rbt.cpp" />
     <ClCompile Include="Run_Front_HeatSnk_Stacker.cpp" />
+    <ClCompile Include="Run_Rear_HeatSnk_Rbt.cpp" />
+    <ClCompile Include="Run_Rear_HeatSnk_Stacker.cpp" />
     <ClCompile Include="ScreenAlarm.cpp" />
     <ClCompile Include="ScreenBasic.cpp" />
     <ClCompile Include="ScreenInitial.cpp" />
@@ -771,6 +776,7 @@
     <ClCompile Include="ServerFront.cpp" />
     <ClCompile Include="ServerSocket.cpp" />
     <ClCompile Include="ServerVnR.cpp" />
+    <ClCompile Include="Shiter_Work_Rbt.cpp" />
     <ClCompile Include="SingleInstanceApp.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>

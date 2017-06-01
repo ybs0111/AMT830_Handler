@@ -2718,7 +2718,18 @@ int CCtlBd_Library::Stacker_Elevator_Move_Pos(int nMode, int nMotNum, int nTarge
 		{
 			nRet_1 = COMI.Get_MotIOSensor(nMotNum,MOT_SENS_SD);
 			nRet_2 = COMI.Check_MotPosRange(nMotNum,m_dSD_Supply_Pos_Backup[nMotNum],st_motor_info[nMotNum].d_allow);
+
 			m_nElv_MoveStep[nMotNum] = 1000;
+			if(nRet_1 == BD_ERROR && nRet_2 == BD_GOOD &&  (dCurrentPos > 1 && dCurrentPos < st_motor_info[nMotNum].d_pos[P_ELV_SD_SENSOR])) 
+			{ //작업 목적이 기준점 잡는 것이고, 현재 위치가 기준점으로 여겨지면 추가 동작이 필요없으니 바로 리턴하자					
+				m_nElv_MoveStep[nMotNum] = 0;
+				nFuncRet = RET_GOOD;
+			}
+			else
+			{
+				
+				m_nElv_MoveStep[nMotNum] = 0;
+			}
 		}
 		else
 		{
@@ -2772,7 +2783,7 @@ int CCtlBd_Library::Stacker_Elevator_Move_Pos(int nMode, int nMotNum, int nTarge
 			}
 			if(m_dwSdWaitTime[nMotNum][2] > 20000)
 			{
-				COMI.Set_MotStop(1, nMotNum) ; //긴급정지 
+				COMI.Set_MotStop(1, nMotNum); //긴급정지 
 				m_nElv_MoveStep[nMotNum] = 1000;
 				break;
 			}
@@ -2881,10 +2892,9 @@ int CCtlBd_Library::Stacker_Elevator_Move_Pos(int nMode, int nMotNum, int nTarge
 		break;
 
 	case 2210:
-		nRet_1 = CTL_Lib.Single_Move(ONLY_MOVE_CHECK, nMotNum, m_dTarget_Pos[nMotNum], COMI.mn_runspeed_rate);  //2015.0407 james  //SD 위치까지 이동했는데 SD가 감지되지 않으면 트레이가 없는것이다
+		nRet_1 = CTL_Lib.Single_Move(ONLY_MOVE_CHECK, nMotNum, m_dTarget_Pos[nMotNum], COMI.mn_runspeed_rate);  
 		if (nRet_1 == BD_GOOD)   
-		{	//트레이가 없는 상태일것이다, 미리 트레이를 체크가능하여 트레이가 없으면 올라 갈 필요가 없다 
-			//이곳에 오면 문제가 있음 
+		{
 			m_nElv_MoveStep[nMotNum] = 2300; //트레이가 있는 상태 				 
 		}
 		else if (nRet_1 == BD_RETRY)
@@ -2892,8 +2902,7 @@ int CCtlBd_Library::Stacker_Elevator_Move_Pos(int nMode, int nMotNum, int nTarge
 			m_nElv_MoveStep[nMotNum] = 1000;
 		}
 		else if (nRet_1 == BD_ERROR || nRet_1 == BD_SAFETY)
-		{//모터 알람은 이미 처리했으니 이곳에서는 런 상태만 바꾸면 된다  
-		
+		{
 			CTL_Lib.Alarm_Error_Occurrence(275, dWARNING, st_alarm_info.strCode);
 			if (st_handler_info.cWndList != NULL)  
 			{
@@ -2906,7 +2915,7 @@ int CCtlBd_Library::Stacker_Elevator_Move_Pos(int nMode, int nMotNum, int nTarge
 		break;
 
 	case 2300:
-		if(nTargetPos == P_ELV_SUPPLY_OFFSET)//트레이를 작업 가능한 영역에 UP하여 공급하는 위치, SD pos 센서 On 감지 후 센서 기준 - 방항으로 벗어난 후 + 방향으로 P_ELV_SUPPLY_OFFSET 티칭만큼 up 한후 모터 동작은 완료하고, 트레이르, 받든다 
+		if(nTargetPos == P_ELV_SUPPLY_OFFSET)
 		{
 			nRet_1 = COMI.Get_MotIOSensor(nMotNum, MOT_SENS_SD); 
 			if(nRet_1 == BD_GOOD)
@@ -2918,7 +2927,7 @@ int CCtlBd_Library::Stacker_Elevator_Move_Pos(int nMode, int nMotNum, int nTarge
 				m_nElv_MoveStep[nMotNum] = 1000; //재시도  루틴   
 			}
 		}			
-		else if(nTargetPos == P_ELV_RECEIVE_OFFSET) //작업이 끝난 트레이를 받는 위치, SD pos 센서 On 감지 후 센서 기준 - 방항으로 센서를 벗어난 후 - 방향으로 P_ELV_RECEIVE_OFFSET 티칭만큼 down 한 후 트레이를 받는 위치  
+		else if(nTargetPos == P_ELV_RECEIVE_OFFSET) 
 		{
 			nRet_1 = COMI.Get_MotIOSensor(nMotNum, MOT_SENS_SD); 
 			if(nRet_1 == BD_ERROR)
