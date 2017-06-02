@@ -104,7 +104,6 @@ void CRun_Front_HeatSnk_Stacker::OnReadyStackerMove()
 		m_nRunStep = 600;
 		break;
 
-
 	case 600:
 		nRet = OnGet_ReadyPos_TrayClampCyl(IO_OFF);
 		if (nRet == RET_GOOD)
@@ -118,7 +117,6 @@ void CRun_Front_HeatSnk_Stacker::OnReadyStackerMove()
 		}
 		break;
 
-
 		//RailCylinder OnOff 동작
 	case 700:
 		OnSet_ReadyPos_RailFwdBwdCyl(IO_OFF);
@@ -127,7 +125,6 @@ void CRun_Front_HeatSnk_Stacker::OnReadyStackerMove()
 
 	case 800:
 		nRet = OnGet_ReadyPos_RailFwdBwdCyl(IO_OFF);
-
 		if (nRet == RET_GOOD)
 		{
 			m_nRunStep = 810;
@@ -269,7 +266,6 @@ void CRun_Front_HeatSnk_Stacker::OnReadyStackerMove()
 
 	case 1500:
 		nRet = OnGet_ReadyPos_TrayClampCyl(IO_ON);
-
 		if (nRet == RET_GOOD)
 		{
 			m_nRunStep = 1600;
@@ -340,7 +336,6 @@ void CRun_Front_HeatSnk_Stacker::OnReadyStackerMove()
 
 	case 2210:
 		nRet = OnGet_SeperateFwdBwdCyl(IO_OFF);
-
 		if (nRet == RET_GOOD)
 		{
 			m_nRunStep = 2220;
@@ -371,22 +366,17 @@ void CRun_Front_HeatSnk_Stacker::OnReadyStackerMove()
 		}
 		break;
 
-		//Work Stacker에 Tray 없다. Tray 요청.
 	case 2400:
-		//if (FAS_IO.get_in_bit(st_io_info.i_hs_Front_Work_stacker_tray_chk,IO_OFF) == IO_OFF)
-		if (m_nRunWorkstackerStep == true)
+		//Work Stacker에 Tray 없다. Tray 요청.
+		if (m_bWork_StackerPos_Req == true)
 		{
-			OnSet_SeperateFwdBwdCyl(IO_ON);
+			OnSet_PusherFwdBwdCyl(IO_ON);
 			m_nRunStep = 2500;
-		}
-		else
-		{
-
 		}
 		break;
 	
 	case 2500:
-		nRet = OnGet_SeperateFwdBwdCyl(IO_ON);
+		nRet = OnGet_PusherFwdBwdCyl(IO_ON);
 		if (nRet == RET_GOOD)
 		{
 			m_nRunStep = 2600;
@@ -401,12 +391,8 @@ void CRun_Front_HeatSnk_Stacker::OnReadyStackerMove()
 		if (FAS_IO.get_in_bit(st_io_info.i_hs_Front_Work_stacker_tray_chk,IO_ON) == IO_ON)
 		{
 			OnSet_PusherFwdBwdCyl(IO_OFF);
-			m_nRunWorkstackerStep = false;
+			m_bWork_StackerPos_Req = false;
 			m_nRunStep = 2700;
-		}
-		else
-		{
-
 		}
 		break;
 
@@ -421,8 +407,6 @@ void CRun_Front_HeatSnk_Stacker::OnReadyStackerMove()
 			CTL_Lib.Alarm_Error_Occurrence(30, CTL_dWARNING,m_strCode);
 		}
 		break;
-
-
 	}
 }
 
@@ -430,7 +414,6 @@ void CRun_Front_HeatSnk_Stacker::OnReadyStackerMove()
 void CRun_Front_HeatSnk_Stacker::OnWorkStackerMove()
 {
 	int nRet = 0;
-
 	switch(m_nRunWorkstackerStep)
 	{
 	case 0:
@@ -438,8 +421,11 @@ void CRun_Front_HeatSnk_Stacker::OnWorkStackerMove()
 		break;
 
 	case 100:
-		OnSet_WorkPos_TrayClampCyl(IO_OFF);
-		m_nRunWorkstackerStep = 200;
+		if (st_lot_info[LOT_CURR].nLotStatus == LOT_START)
+		{
+			OnSet_WorkPos_TrayClampCyl(IO_OFF);
+			m_nRunWorkstackerStep = 200;
+		}
 		break;
 
 	case 200:
@@ -462,7 +448,6 @@ void CRun_Front_HeatSnk_Stacker::OnWorkStackerMove()
 
 	case 400:
 		nRet = OnGet_WorkPos_RailFwdBwdCyl(IO_OFF);
-
 		if (nRet == RET_GOOD)
 		{
 			m_nRunWorkstackerStep = 500;
@@ -475,16 +460,65 @@ void CRun_Front_HeatSnk_Stacker::OnWorkStackerMove()
 		break;
 
 	case 500:
-		OnSet_WorkPos_TrayClampCyl(IO_ON);
+		OnSet_WorkPos_StackerCylUpDn(IO_OFF);
 		m_nRunWorkstackerStep = 600;
 		break;
 
 	case 600:
-		nRet = OnGet_WorkPos_TrayClampCyl(IO_ON);
-
+		nRet = OnGet_WorkPos_StackerCylUpDn(IO_OFF);
+		
 		if (nRet == RET_GOOD)
 		{
 			m_nRunWorkstackerStep = 700;
+		}
+		else if (nRet == RET_ERROR)
+		{
+			CTL_Lib.Alarm_Error_Occurrence(30, CTL_dWARNING, m_strCode);
+			m_nRunWorkstackerStep = 500;
+		}
+		break;
+
+	case 700:
+		if (FAS_IO.get_in_bit(st_io_info.i_hs_Front_Work_stacker_tray_chk,IO_OFF) == IO_OFF)
+		{
+			OnSet_WorkPos_RailFwdBwdCyl(IO_ON);
+			m_nRunWorkstackerStep = 800;
+		}
+		break;
+
+	case 800:
+		nRet = OnGet_WorkPos_RailFwdBwdCyl(IO_ON);
+		if (nRet == RET_GOOD)
+		{
+			m_nRunWorkstackerStep = 900;
+		}
+		else
+		{
+			CTL_Lib.Alarm_Error_Occurrence(30, CTL_dWARNING, m_strCode);
+			m_nRunWorkstackerStep = 700;
+		}
+		break;
+
+	case 900:
+		m_bWork_StackerPos_Req = true;
+		m_nRunWorkstackerStep = 1000;
+		break;
+
+	case 1000:
+		if (FAS_IO.get_in_bit(st_io_info.i_hs_Front_Work_stacker_tray_chk,IO_ON) == IO_ON)
+		{
+			OnSet_WorkPos_TrayClampCyl(IO_ON);
+			m_nRunWorkstackerStep = 1100;
+		}
+		break;
+
+		//Work Stacker 준비 되었다. 
+	case 1100:
+		nRet = OnGet_WorkPos_TrayClampCyl(IO_ON);
+		if (nRet == RET_GOOD)
+		{
+			st_sync_info.nWorkRobot_Req[THD_HS_FRONT_STACKER_SITE][STACKER_WORK_POS] = CTL_READY;
+			m_nRunWorkstackerStep = 1200;
 		}
 		else if (nRet == RET_ERROR)
 		{
@@ -492,6 +526,66 @@ void CRun_Front_HeatSnk_Stacker::OnWorkStackerMove()
 		}
 		break;
 
+	case 1200:
+		if (st_Picker_info.nLastPick[THD_HS_FRONT_RBT] == YES)
+		{
+			m_nRunWorkstackerStep = 1300;
+		}
+		break;
+
+	case 1300:
+		OnSet_WorkPos_StackerCylUpDn(IO_ON);
+		m_nRunWorkstackerStep = 1400;
+		break;
+		
+	case 1400:
+		nRet = OnGet_WorkPos_StackerCylUpDn(IO_ON);
+		if (nRet == RET_GOOD)
+		{
+			m_nRunWorkstackerStep = 1500;
+		}
+		else if (nRet == RET_ERROR)
+		{
+			CTL_Lib.Alarm_Error_Occurrence(30, CTL_dWARNING,m_strCode);
+			m_nRunWorkstackerStep = 1300;
+		}
+		break;
+
+	case 1500:
+		OnSet_WorkPos_TrayClampCyl(IO_OFF);
+		m_nRunWorkstackerStep = 1600;
+		break;
+
+	case 1600:
+		nRet = OnGet_WorkPos_TrayClampCyl(IO_OFF);
+		if (nRet == RET_GOOD)
+		{
+			m_nRunWorkstackerStep = 1700;
+		}
+		else
+		{
+			CTL_Lib.Alarm_Error_Occurrence(30, CTL_dWARNING,m_strCode);
+			m_nRunWorkstackerStep = 1500;
+		}
+		break;
+
+	case 1700:
+		OnSet_WorkPos_StackerCylUpDn(IO_OFF);
+		m_nRunWorkstackerStep = 1800;
+		break;
+
+	case 1800:
+		nRet = OnGet_WorkPos_StackerCylUpDn(IO_OFF);
+		if (nRet == RET_GOOD)
+		{
+			m_nRunWorkstackerStep = 1000;
+		}
+		else if (nRet == RET_ERROR)
+		{
+			CTL_Lib.Alarm_Error_Occurrence(30, CTL_dWARNING,m_strCode);
+			m_nRunWorkstackerStep = 1700;
+		}
+		break; 
 	}
 }
 

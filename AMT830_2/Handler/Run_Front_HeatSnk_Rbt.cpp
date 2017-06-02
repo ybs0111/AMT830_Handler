@@ -206,6 +206,7 @@ void CRun_Front_HeatSnk_Rbt::OnRunMove()
 	int nCnt,nPicker[2] = {0,};
 	int nRet = 0;
 	int nWorkBuff;
+	bool bLast_Pick;
 	double m_dPos;
 	
 	switch(m_nRunStep)
@@ -496,15 +497,16 @@ void CRun_Front_HeatSnk_Rbt::OnRunMove()
 				m_nTray_Dvc_Cnt++;
 			}
 		}
-
-		m_nLastTrayPick = FALSE;
+		bLast_Pick = false;
 		if (m_nTray_Dvc_Cnt >= st_recipe_info.nTrayY)
-		{
-			m_nLastTrayPick = TRUE;
+		{	
+			//Robot이 Work Stacker Pos에게 Tray Last Pick 자재 알려 준다.
+			st_Picker_info.nLastPick[THD_HS_FRONT_RBT] = YES;
+			bLast_Pick = true;
 			m_nTray_Dvc_Cnt = 0;
 		}
 
-		if (m_nPick_Cnt > MAX_PICKER || m_nLastTrayPick == TRUE)
+		if (m_nPick_Cnt > MAX_PICKER || bLast_Pick == true)
 		{
 			st_sync_info.nShiftWork_Rbt_Req[m_nBufferNum] = CTL_READY; 
 			m_nRunStep = 2400;
@@ -550,11 +552,11 @@ void CRun_Front_HeatSnk_Rbt::OnRunMove()
 				nCnt++;
 			}
 		}
+
 		if (nCnt > 0)
 		{
 			m_nRunStep = 2700;
 		}	
-
 		break;
 
 	case 2700:

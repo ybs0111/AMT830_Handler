@@ -1258,6 +1258,7 @@ struct tagPICKER_INFO
 {
 	int nEnable[MAX_WORK_SITE][MAX_PICKER];
 	int nExist[MAX_WORK_SITE][MAX_PICKER];
+	int nLastPick[MAX_WORK_SITE];
 	CString strLotNum;
 	CString strPartNum;
 };

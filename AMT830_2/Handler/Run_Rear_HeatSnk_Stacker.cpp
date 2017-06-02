@@ -991,7 +991,6 @@ int CRun_Rear_HeatSnk_Stacker::OnGet_WorkPos_TrayClampCyl(int nOnOff)
 void CRun_Rear_HeatSnk_Stacker::OnSet_SeperateFwdBwdCyl(int nOnOff)
 {
 	FAS_IO.set_out_bit(st_io_info.o_hs_Rear_stacker_tray_Seperate_onoff,nOnOff);
-
 	m_dwCylWaitTime[WORK_TRAY_SEPERATE_ONOFF][0] = GetCurrentTime();
 	m_bCylinderFlag[WORK_TRAY_SEPERATE_ONOFF] = false;
 }
