@@ -1,6 +1,6 @@
 
 ///////////////////////////////////////////////////////
-//  00 : H/T Front Sink Stacker
+//  00 : H/T Sink Stacker
 ///////////////////////////////////////////////////////
 000001 0 03 "Heat Sink Front Ready stacker Motor Home Check Error."
 000002 0 03 "Heat Sink Front Ready stacker Motor Alarm Error."
@@ -39,49 +39,6 @@
 020007 0 15 "HeatSink FRONT RBT Z Motor Do Not Home Check."
 020008 0 15 "HeatSink FRONT RBT Z Motor is Non Safety Pos."
 020009 0 15 "HeatSink FRONT RBT Z Motor Destination is Non Safety Pos."
-
-
-///////////////////////////////////////////////////////
-//  03 : H/T Rear Sink Stacker
-///////////////////////////////////////////////////////
-030001 0 03 "Heat Sink Front Ready stacker Motor Home Check Error."
-030002 0 03 "Heat Sink Front Ready stacker Motor Alarm Error."
-030003 0 03 "Heat Sink Front Ready stacker Motor Parameter Setting Error."
-030004 0 03 "Heat Sink Front Ready stacker Motor Move Setting Error."
-030005 0 03 "Heat Sink Front Ready stacker Motor Power Off Error."
-030006 1 03 "Heat Sink Front Ready stacker Motor Move Error."
-030007 0 03 "Heat Sink Front Ready stacker Motor Do Not Home Check."
-030008 0 03 "Heat Sink Front Ready stacker Motor is Non Safety Pos."
-030009 0 03 "Heat Sink Front Ready stacker Motor Destination is Non Safety Pos."
-030010 0 03 "Heat Sink Front Ready stacker Motor 위치 이동 에러."
-
-///////////////////////////////////////////////////////
-//  04 : H/T Sink Rear Robot Y
-///////////////////////////////////////////////////////
-040001 0 14 "HeatSink FRONT RBT Y Motor Home Check Error."
-040002 0 14 "HeatSink FRONT RBT Y Motor Alarm Error."
-040003 0 14 "HeatSink FRONT RBT Y Motor Parameter Setting Error."
-040004 0 14 "HeatSink FRONT RBT Y Motor Move Setting Error."
-040005 0 14 "HeatSink FRONT RBT Y Motor Power Off Error."
-040006 1 14 "HeatSink FRONT RBT Y Motor Move Error."
-040007 0 14 "HeatSink FRONT RBT Y Motor Do Not Home Check."
-040008 0 14 "HeatSink FRONT RBT Y Motor is Non Safety Pos."
-040009 0 14 "HeatSink FRONT RBT Y Motor Destination is Non Safety Pos."
-
-
-///////////////////////////////////////////////////////
-//  05 : H/T Sink Rear Robot Z
-///////////////////////////////////////////////////////
-050001 0 15 "HeatSink FRONT RBT Z Motor Home Check Error."
-050002 0 15 "HeatSink FRONT RBT Z Motor Alarm Error."
-050003 0 15 "HeatSink FRONT RBT Z Motor Parameter Setting Error."
-050004 0 15 "HeatSink FRONT RBT Z Motor Move Setting Error."
-050005 0 15 "HeatSink FRONT RBT Z Motor Power Off Error."
-050006 1 15 "HeatSink FRONT RBT Z Motor Move Error."
-050007 0 15 "HeatSink FRONT RBT Z Motor Do Not Home Check."
-050008 0 15 "HeatSink FRONT RBT Z Motor is Non Safety Pos."
-050009 0 15 "HeatSink FRONT RBT Z Motor Destination is Non Safety Pos."
-
 
 ///////////////////////////////////////////////////////
 //  00 : H/T Sink Front Ready Stacker
@@ -132,62 +89,6 @@
 800312 1 0 "Front Heat Sink Picker Bwd Down Off Check Error."
 800313 1 0 "Front Heat Sink Picker Bwd Gripper Device Off Check Error."
 
-////////////////////////////////////////////////////
-//////////////////////Rear Stacker
-///////////////////////////////////////////////////////////////
-
-
-///////////////////////////////////////////////////////
-//  04 : H/T Sink Front Ready Stacker
-///////////////////////////////////////////////////////
-800409 1 0 "Rear Heat Sink Ready stacker guide clamp On Off Check Error."
-800410 1 0 "Rear Heat Sink Ready stacker guide Unclamp Off Off Check Error."
-800411 1 0 "Rear Heat Sink Ready Stacker Left Rail forward Off Check Error."
-800412 1 0 "Rear Heat Sink Ready Stacker Left Rail backward Off Check Error"
-800413 1 0 "Rear Heat Sink Ready Stacker Right Rail forward Off Check Error"
-800414 1 0 "Rear Heat Sink Ready Stacker Right Rail backward Off Check Error."
-
-
-///////////////////////////////////////////////////////
-//  05 : H/T Sink Front Ready Stacker
-///////////////////////////////////////////////////////
-
-800508 1 0 "Rear Heat Sink stacker Tray Seperate forward Off Check Error."
-800509 1 0 "Rear Heat Sink stacker Tray Seperate backward Off Check Error"
-800510 1 0 "Rear Heat Sink Ready stacker Tray pusher forward Off Check Error."
-800511 1 0 "Rear Heat Sink Ready stacker Tray pusher backward Off Check Error"
-800512 1 0 "Rear Heat Sink Ready stacker Up Off Check Error"
-800513 1 0 "Rear Heat Sink Ready stacker Down Off Check Error."
-800514 1 0 "Rear Heat Sink Ready Stacker Tray Sensor Off Check Error"
-800515 1 0 "Rear Heat Sink Ready Stacker Tray Up/Dn Pos Sensor Off Check Error."
-
-///////////////////////////////////////////////////////
-//  06 : H/T Sink Front Work Stacker
-///////////////////////////////////////////////////////
-800600 1 0 "Rear Heat Sink Work stacker guide clamp On Off Check Error."
-800601 1 0 "Rear Heat Sink Work stacker guide Unclamp Off Off Check Error."
-800602 1 0 "Rear Heat Sink Work Stacker Left Rail forward Off Check Error."
-800603 1 0 "Rear Heat Sink Work Stacker Left Rail backward Off Check Error"
-800604 1 0 "Rear Heat Sink Work Stacker Right Rail forward Off Check Error"
-800605 1 0 "Rear Heat Sink Work Stacker Right Rail backward Off Check Error."
-800606 1 0 "Rear Heat Sink Work stacker Up Off Check Error."
-800607 1 0 "Rear Heat Sink Work stacker Down Off Check Error."
-800608 1 0 "Rear Heat Sink Work stacker Tray Sensor Off Check Error."
-800609 1 0 "Rear Heat Sink Work stacker Tray Up/Dn Pos  Off Check Error."
-
-
-///////////////////////////////////////////////////////
-//  07 : Front Heat Sink Picker
-///////////////////////////////////////////////////////
-800708 1 0 "Rear Heat Sink Picker Fwd Up Off Check Error."
-800709 1 0 "Rear Heat Sink Picker Fwd Down Off Check Error."
-800710 1 0 "Rear Heat Sink Picker Fwd Gripper Device Off Check Error."
-800711 1 0 "Rear Heat Sink Picker Bwd Up Off Check Error."
-800712 1 0 "Rear Heat Sink Picker Bwd Down Off Check Error."
-800713 1 0 "Rear Heat Sink Picker Bwd Gripper Device Off Check Error."
-
-
-///////////////////////
 
 ///////////////////////////////////////////////////////
 //  00 : H/T Sink Front Ready Stacker
@@ -235,57 +136,6 @@
 810311 1 0 "Front Heat Sink Picker Bwd Up On Check Error."
 810312 1 0 "Front Heat Sink Picker Bwd Down On Check Error."
 810313 1 0 "Front Heat Sink Picker Bwd Gripper Device On Check Error.
-
-
-///////////////////////////////////////////////////////
-//  04 : H/T Sink Front Ready Stacker
-///////////////////////////////////////////////////////
-810409 1 0 "Rear Heat Sink Ready stacker guide clamp On Off Check Error."
-810410 1 0 "Rear Heat Sink Ready stacker guide Unclamp Off Off Check Error."
-810411 1 0 "Rear Heat Sink Ready Stacker Left Rail forward Off Check Error."
-810412 1 0 "Rear Heat Sink Ready Stacker Left Rail backward Off Check Error"
-810413 1 0 "Rear Heat Sink Ready Stacker Right Rail forward Off Check Error"
-810414 1 0 "Rear Heat Sink Ready Stacker Right Rail backward Off Check Error."
-
-
-///////////////////////////////////////////////////////
-//  05 : H/T Sink Front Ready Stacker
-///////////////////////////////////////////////////////
-
-810508 1 0 "Rear Heat Sink stacker Tray Seperate forward Off Check Error."
-810509 1 0 "Rear Heat Sink stacker Tray Seperate backward Off Check Error"
-810510 1 0 "Rear Heat Sink Ready stacker Tray pusher forward Off Check Error."
-810511 1 0 "Rear Heat Sink Ready stacker Tray pusher backward Off Check Error"
-810512 1 0 "Rear Heat Sink Ready stacker Up Off Check Error"
-810513 1 0 "Rear Heat Sink Ready stacker Down Off Check Error."
-810514 1 0 "Rear Heat Sink Ready Stacker Tray Sensor Off Check Error"
-810515 1 0 "Rear Heat Sink Ready Stacker Tray Up/Dn Pos Sensor Off Check Error."
-
-///////////////////////////////////////////////////////
-//  06 : H/T Sink Front Work Stacker
-///////////////////////////////////////////////////////
-810600 1 0 "Rear Heat Sink Work stacker guide clamp On Off Check Error."
-810601 1 0 "Rear Heat Sink Work stacker guide Unclamp Off Off Check Error."
-810602 1 0 "Rear Heat Sink Work Stacker Left Rail forward Off Check Error."
-810603 1 0 "Rear Heat Sink Work Stacker Left Rail backward Off Check Error"
-810604 1 0 "Rear Heat Sink Work Stacker Right Rail forward Off Check Error"
-810605 1 0 "Rear Heat Sink Work Stacker Right Rail backward Off Check Error."
-810606 1 0 "Rear Heat Sink Work stacker Up Off Check Error."
-810607 1 0 "Rear Heat Sink Work stacker Down Off Check Error."
-810608 1 0 "Rear Heat Sink Work stacker Tray Sensor Off Check Error."
-810609 1 0 "Rear Heat Sink Work stacker Tray Up/Dn Pos  Off Check Error."
-
-
-///////////////////////////////////////////////////////
-//  07 : Front Heat Sink Picker
-///////////////////////////////////////////////////////
-810708 1 0 "Rear Heat Sink Picker Fwd Up Off Check Error."
-810709 1 0 "Rear Heat Sink Picker Fwd Down Off Check Error."
-810710 1 0 "Rear Heat Sink Picker Fwd Gripper Device Off Check Error."
-810711 1 0 "Rear Heat Sink Picker Bwd Up Off Check Error."
-810712 1 0 "Rear Heat Sink Picker Bwd Down Off Check Error."
-810713 1 0 "Rear Heat Sink Picker Bwd Gripper Device Off Check Error."
-
 
 ///////////////////////////////////////////////////////
 //  90 : HANDLER

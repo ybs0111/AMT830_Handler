@@ -45,7 +45,7 @@ public:
 	int m_nRunStep;
 	
 	int m_nRunWorkstackerStep;
-	bool m_bWork_StackerPos_Req;
+	int m_nWork_StackerPos;
 
 	int m_nAxisNum_Ready;
 	int	m_nAxisNum_Work; 

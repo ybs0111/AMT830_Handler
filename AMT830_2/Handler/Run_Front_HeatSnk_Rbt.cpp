@@ -324,7 +324,7 @@ void CRun_Front_HeatSnk_Rbt::OnRunMove()
 		m_nBufferNum = -1;
 		for (int i = 0; i<MAX_BUFFER_SITE; i++)
 		{
-			if (st_sync_info.nShiftWork_Rbt_Req[i] == CTL_REQ)
+			if (st_sync_info.nShiftWork_Rbt[i] == CTL_REQ)
 			{
 				m_nBufferNum = i;
 				m_nRunStep = 1100;
@@ -352,21 +352,30 @@ void CRun_Front_HeatSnk_Rbt::OnRunMove()
 		nCnt = 0;
 		for (int i = 0; i< MAX_PICKER; i++)
 		{
-			if (FAS_IO.get_in_bit(st_io_info.i_hs_Front_rbt_picker_gripper_dvc_chk[i],IO_OFF) == IO_OFF )
+			if (FAS_IO.get_in_bit(st_io_info.i_hs_Front_rbt_picker_gripper_dvc_chk[i],IO_OFF) == IO_OFF)
 			{
 				nCnt++;
 			}
 		}
 
-		if (FAS_IO.get_in_bit(st_io_info.i_hs_Front_Ready_stacker_tray_chk,IO_ON) == IO_ON && nCnt > 0)
+// 		if (FAS_IO.get_in_bit(st_io_info.i_hs_Front_Ready_stacker_tray_chk,IO_ON) == IO_ON && nCnt > 0)
+// 		{
+// 			st_sync_info.nWorkRobot_Req[THD_HS_FRONT_STACKER_SITE][STACKER_WORK_POS] = CTL_REQ;
+// 			m_nRunStep = 1300;
+// 		}
+		if (FAS_IO.get_in_bit(st_io_info.i_hs_Front_Work_stacker_tray_chk,IO_ON) == IO_ON && nCnt > 0)
 		{
-			st_sync_info.nWorkRobot_Req[THD_HS_FRONT_STACKER_SITE][STACKER_WORK_POS] = CTL_REQ;
+			//st_sync_info.nWorkRobot[THD_HS_FRONT_STACKER_SITE][STACKER_WORK_POS] = CTL_REQ;
+			//kwlee 2017.0605
+			st_sync_info.nFrontHsRbt = CTL_REQ;
 			m_nRunStep = 1300;
 		}
 		break;
 
 	case 1300:
-		if (st_sync_info.nWorkRobot_Req[THD_HS_FRONT_STACKER_SITE][STACKER_WORK_POS] == CTL_READY) //Stacker 준비 완료 
+		//if (st_sync_info.nWorkRobot[THD_HS_FRONT_STACKER_SITE][STACKER_WORK_POS] == CTL_READY) //Stacker 준비 완료 
+		//kwlee 2017.0605
+		if (st_sync_info.nFrontHsRbt == CTL_READY)
 		{
 			m_nRunStep = 1400;
 		}
@@ -508,7 +517,7 @@ void CRun_Front_HeatSnk_Rbt::OnRunMove()
 
 		if (m_nPick_Cnt > MAX_PICKER || bLast_Pick == true)
 		{
-			st_sync_info.nShiftWork_Rbt_Req[m_nBufferNum] = CTL_READY; 
+			st_sync_info.nShiftWork_Rbt[m_nBufferNum] = CTL_READY; 
 			m_nRunStep = 2400;
 			m_nPick_Cnt = 0;
 		}
@@ -588,6 +597,7 @@ void CRun_Front_HeatSnk_Rbt::OnRunMove()
 		}
 		break;
 
+		//
 	case 2900:
 		nWorkBuff = nWorkBufferPlacePos(m_nBufferNum);
 		nRet = CTL_Lib.Single_Move(BOTH_MOVE_FINISH, m_nAxisNum_Z,st_motor_info[m_nAxisNum_Z].d_pos[nWorkBuff] , COMI.mn_runspeed_rate);

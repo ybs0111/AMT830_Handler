@@ -821,6 +821,7 @@ struct tagRECIPE_INFO
 	double dPickGapModuleLoad;
 	double dPickGapHeatSinkLeft;
 	double dPickGapHeatSinkRight;
+	double dTrayDeviceGap;
 };
 extern tagRECIPE_INFO	st_recipe_info;
 // ******************************************************************************
@@ -1247,9 +1248,12 @@ struct tagSYNC_INFO
 	int			nInitializeSuccess;
 	int         nInit_Flag[50];
 	
-	int         nShiftWork_Rbt_Req[MAX_BUFFER_SITE];				 //Buffer에서 Robot으로 작업 요청
-	int         nWorkRobot_Req[MAX_WORK_SITE][MAX_WORK_JOB]; //Robot이 Stacker에 요청.
-	int         nStacker_Site_Req[MAX_WORK_SITE][MAX_STACKER_POS]; //Stacker에 Robot으로 작업 요청.
+	int         nShiftWork_Rbt[MAX_BUFFER_SITE];				 //Buffer에서 Robot으로 작업 요청
+	//int         nWorkRobot[MAX_WORK_SITE][MAX_WORK_JOB]; //Robot이 Stacker에 요청.
+	int         nStacker_Site[MAX_WORK_SITE][MAX_STACKER_POS]; //Stacker에 Robot으로 작업 요청.
+
+	int			nFrontHsRbt;
+	int         nFrontHsStacker;
 };
 extern tagSYNC_INFO	st_sync_info;
 
