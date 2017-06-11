@@ -33,7 +33,7 @@ enum MOTOR_MOVE_METHOD_INFO  //robot site 정보
 #define CTL_CHANGE				4 //목표물을 교체를 요청할때 사용한다(Remove Buffer 교체를 요청할때 사용한다)
 #define CTL_SORT                5
 #define CTL_JOB_LOTEND          6  //lot end 등 정보셋 상태시 사용 
-
+#define CTL_WORK				7 //kwlee 2017.0611
 
 ///////////////////////////////////
 // Motor Board Define

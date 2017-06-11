@@ -1254,6 +1254,10 @@ struct tagSYNC_INFO
 
 	int			nFrontHsRbt;
 	int         nFrontHsStacker;
+
+	int			nRearHsRbt;
+	int         nRearHsStacker;
+
 };
 extern tagSYNC_INFO	st_sync_info;
 

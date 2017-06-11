@@ -56,6 +56,11 @@ void CScreenBasic::DoDataExchange(CDataExchange* pDX)
 	DDX_Control(pDX, IDC_DGT_DEVICE_CNT, m_dgt_Device_Cnt);
 	DDX_Control(pDX, IDC_GROUP_REPICK_CNT, m_group_Repick_Cnt);
 	DDX_Control(pDX, IDC_DGT_REPICK_CNT, m_dgt_Repick_Cnt);
+	DDX_Control(pDX, IDC_GROUP_RBT_BUFFER_USE, m_group_Rbt_BuffUseMode);
+	DDX_Control(pDX, IDC_BTN_RBT_BUFF_1, m_btn_RbtBuff_1);
+	DDX_Control(pDX, IDC_BTN_RBT_BUFF_2, m_btn_RbtBuff_2);
+	DDX_Control(pDX, IDC_BTN_RBT_BUFF_3, m_btn_RbtBuff_3);
+	DDX_Control(pDX, IDC_BTN_RBT_BUFF_4, m_btn_RbtBuff_4);
 }
 
 BEGIN_MESSAGE_MAP(CScreenBasic, CFormView)
@@ -75,6 +80,10 @@ BEGIN_MESSAGE_MAP(CScreenBasic, CFormView)
 	ON_STN_CLICKED(IDC_DGT_LABEL_BIN_PRINT, &CScreenBasic::OnStnClickedDgtLabelBinPrint)
 	ON_STN_CLICKED(IDC_DGT_DEVICE_CNT, &CScreenBasic::OnStnClickedDgtDeviceCnt)
 	ON_STN_CLICKED(IDC_DGT_REPICK_CNT, &CScreenBasic::OnStnClickedDgtRepickCnt)
+	ON_BN_CLICKED(IDC_BTN_RBT_BUFF_1, &CScreenBasic::OnBnClickedBtnRbtBuff1)
+	ON_BN_CLICKED(IDC_BTN_RBT_BUFF_2, &CScreenBasic::OnBnClickedBtnRbtBuff2)
+	ON_BN_CLICKED(IDC_BTN_RBT_BUFF_3, &CScreenBasic::OnBnClickedBtnRbtBuff3)
+	ON_BN_CLICKED(IDC_BTN_RBT_BUFF_4, &CScreenBasic::OnBnClickedBtnRbtBuff4)
 END_MESSAGE_MAP()
 
 
@@ -160,6 +169,12 @@ void CScreenBasic::OnInitGroupBox()
 	m_group_Label_Bin_Papper.SetFontBold(TRUE);
 	m_group_Label_Bin_Papper.SetBackgroundColor(WINDOW_UP);
 
+	//kwlee 2017.0608
+	m_group_Rbt_BuffUseMode.SetFont(clsFunc.OnLogFont(16));
+	m_group_Rbt_BuffUseMode.SetCatptionTextColor(BLUE_C);
+	m_group_Rbt_BuffUseMode.SetBorderColor(ORANGE_C);
+	m_group_Rbt_BuffUseMode.SetFontBold(TRUE);
+	m_group_Rbt_BuffUseMode.SetBackgroundColor(WINDOW_UP);
 
 	
 }
@@ -189,6 +204,7 @@ void CScreenBasic::OnInitDigit()
 
 	m_dgt_Repick_Cnt.SetStyle(CDigit::DS_INT, 3, CDigit::DC_BGREEN, CDigit::DC_BDISABLE);
 	m_dgt_Repick_Cnt.SetVal(m_nRepickCnt[1]);
+
 }
 
 
@@ -234,6 +250,91 @@ void CScreenBasic::OnInitButton()
 	m_btnReLoad.SetFont(clsFunc.m_pFont[3]);
 	m_btnReLoad.SetTooltipText(_T("Basic Data ReLoad"));
 
+	//kwlee 2017.0611
+	m_btn_RbtBuff_1.SetBitmaps(IDC_BTN_RBT_BUFF_1, IDB_BITMAP_APPLY_DN, WINDOW_DN, IDB_BITMAP_APPLY_UP, WINDOW_UP);
+	m_btn_RbtBuff_1.SetColor(CButtonST::BTNST_COLOR_BK_IN, WINDOW_DN);
+	m_btn_RbtBuff_1.SetColor(CButtonST::BTNST_COLOR_BK_OUT, WINDOW_UP);
+	m_btn_RbtBuff_1.SetColor(CButtonST::BTNST_COLOR_BK_FOCUS, WINDOW_UP);
+	m_btn_RbtBuff_1.SetColor(CButtonST::BTNST_COLOR_FG_IN, BLACK_C);
+	m_btn_RbtBuff_1.SetColor(CButtonST::BTNST_COLOR_FG_OUT, BLUE_C);
+	m_btn_RbtBuff_1.SetColor(CButtonST::BTNST_COLOR_FG_FOCUS, BLUE_C);
+	m_btn_RbtBuff_1.SetFont(clsFunc.m_pFont[3]);
+
+
+	m_btn_RbtBuff_2.SetBitmaps(IDC_BTN_RBT_BUFF_2, IDB_BITMAP_APPLY_DN, WINDOW_DN, IDB_BITMAP_APPLY_UP, WINDOW_UP);
+	m_btn_RbtBuff_2.SetColor(CButtonST::BTNST_COLOR_BK_IN, WINDOW_DN);
+	m_btn_RbtBuff_2.SetColor(CButtonST::BTNST_COLOR_BK_OUT, WINDOW_UP);
+	m_btn_RbtBuff_2.SetColor(CButtonST::BTNST_COLOR_BK_FOCUS, WINDOW_UP);
+	m_btn_RbtBuff_2.SetColor(CButtonST::BTNST_COLOR_FG_IN, BLACK_C);
+	m_btn_RbtBuff_2.SetColor(CButtonST::BTNST_COLOR_FG_OUT, BLUE_C);
+	m_btn_RbtBuff_2.SetColor(CButtonST::BTNST_COLOR_FG_FOCUS, BLUE_C);
+	m_btn_RbtBuff_2.SetFont(clsFunc.m_pFont[3]);
+
+	
+	m_btn_RbtBuff_3.SetBitmaps(IDC_BTN_RBT_BUFF_3, IDB_BITMAP_APPLY_DN, WINDOW_DN, IDB_BITMAP_APPLY_UP, WINDOW_UP);
+	m_btn_RbtBuff_3.SetColor(CButtonST::BTNST_COLOR_BK_IN, WINDOW_DN);
+	m_btn_RbtBuff_3.SetColor(CButtonST::BTNST_COLOR_BK_OUT, WINDOW_UP);
+	m_btn_RbtBuff_3.SetColor(CButtonST::BTNST_COLOR_BK_FOCUS, WINDOW_UP);
+	m_btn_RbtBuff_3.SetColor(CButtonST::BTNST_COLOR_FG_IN, BLACK_C);
+	m_btn_RbtBuff_3.SetColor(CButtonST::BTNST_COLOR_FG_OUT, BLUE_C);
+	m_btn_RbtBuff_3.SetColor(CButtonST::BTNST_COLOR_FG_FOCUS, BLUE_C);
+	m_btn_RbtBuff_3.SetFont(clsFunc.m_pFont[3]);
+
+	
+	m_btn_RbtBuff_4.SetBitmaps(IDC_BTN_RBT_BUFF_4, IDB_BITMAP_APPLY_DN, WINDOW_DN, IDB_BITMAP_APPLY_UP, WINDOW_UP);
+	m_btn_RbtBuff_4.SetColor(CButtonST::BTNST_COLOR_BK_IN, WINDOW_DN);
+	m_btn_RbtBuff_4.SetColor(CButtonST::BTNST_COLOR_BK_OUT, WINDOW_UP);
+	m_btn_RbtBuff_4.SetColor(CButtonST::BTNST_COLOR_BK_FOCUS, WINDOW_UP);
+	m_btn_RbtBuff_4.SetColor(CButtonST::BTNST_COLOR_FG_IN, BLACK_C);
+	m_btn_RbtBuff_4.SetColor(CButtonST::BTNST_COLOR_FG_OUT, BLUE_C);
+	m_btn_RbtBuff_4.SetColor(CButtonST::BTNST_COLOR_FG_FOCUS, BLUE_C);
+	m_btn_RbtBuff_4.SetFont(clsFunc.m_pFont[3]);
+
+	//kwlee 2017.0611
+	if (st_basic_info.nShift_Robot_Skip[0] == YES)
+	{
+		m_btn_RbtBuff_1.SetBitmaps(IDC_BTN_RBT_BUFF_1, IDB_BITMAP_REMOVE_NO, WINDOW_DN, IDB_BITMAP_REMOVE_NO, WINDOW_UP);;
+		m_btn_RbtBuff_1.SetWindowTextW(_T("Shifter_1 Skip"));
+	}
+	else
+	{
+		m_btn_RbtBuff_1.SetBitmaps(IDC_BTN_RBT_BUFF_1, IDB_BITMAP_REMOVE_YES, WINDOW_DN, IDB_BITMAP_REMOVE_YES, WINDOW_UP);
+		m_btn_RbtBuff_1.SetWindowTextW(_T("Shifter_1 Use"));
+	}
+
+	if (st_basic_info.nShift_Robot_Skip[1] == YES)
+	{
+		m_btn_RbtBuff_2.SetBitmaps(IDC_BTN_RBT_BUFF_2, IDB_BITMAP_REMOVE_NO, WINDOW_DN, IDB_BITMAP_REMOVE_NO, WINDOW_UP);;
+		m_btn_RbtBuff_2.SetWindowTextW(_T("Shifter_2 Skip"));
+	}
+	else
+	{
+		m_btn_RbtBuff_2.SetBitmaps(IDC_BTN_RBT_BUFF_2, IDB_BITMAP_REMOVE_YES, WINDOW_DN, IDB_BITMAP_REMOVE_YES, WINDOW_UP);
+		m_btn_RbtBuff_2.SetWindowTextW(_T("Shifter_2 Use"));
+	}
+
+	if (st_basic_info.nShift_Robot_Skip[2] == YES)
+	{
+		m_btn_RbtBuff_3.SetBitmaps(IDC_BTN_RBT_BUFF_3, IDB_BITMAP_REMOVE_NO, WINDOW_DN, IDB_BITMAP_REMOVE_NO, WINDOW_UP);;
+		m_btn_RbtBuff_3.SetWindowTextW(_T("Shifter_3 Skip"));
+	}
+	else
+	{
+		m_btn_RbtBuff_3.SetBitmaps(IDC_BTN_RBT_BUFF_3, IDB_BITMAP_REMOVE_YES, WINDOW_DN, IDB_BITMAP_REMOVE_YES, WINDOW_UP);
+		m_btn_RbtBuff_3.SetWindowTextW(_T("Shifter_3 Use"));
+	}
+
+	if (st_basic_info.nShift_Robot_Skip[3] == YES)
+	{
+		m_btn_RbtBuff_4.SetBitmaps(IDC_BTN_RBT_BUFF_4, IDB_BITMAP_REMOVE_NO, WINDOW_DN, IDB_BITMAP_REMOVE_NO, WINDOW_UP);;
+		m_btn_RbtBuff_4.SetWindowTextW(_T("Shifter_4 Skip"));
+	}
+	else
+	{
+		m_btn_RbtBuff_4.SetBitmaps(IDC_BTN_RBT_BUFF_4, IDB_BITMAP_REMOVE_YES, WINDOW_DN, IDB_BITMAP_REMOVE_YES, WINDOW_UP);
+		m_btn_RbtBuff_4.SetWindowTextW(_T("Shifter_4 Use"));
+	}
+
 }
 
 void CScreenBasic::OnInitGridDeviceMode()
@@ -248,7 +349,7 @@ void CScreenBasic::OnInitGridDeviceMode()
 	m_pGridDevice.SetGridLineColor(BLACK_C);
 	m_pGridDevice.SetGridLines(1);
 
-	m_pGridDevice.SetRowCount(24);
+	m_pGridDevice.SetRowCount(21);
 	m_pGridDevice.SetColumnCount(2);
 
 	m_pGridDevice.SetFixedRowCount(0);
@@ -257,7 +358,7 @@ void CScreenBasic::OnInitGridDeviceMode()
 	m_pGridDevice.SetFixedBkColor(RGB(200,200,255));
 	m_pGridDevice.SetTextBkColor(RGB(150,150,200));
 
-	for (i=0; i<24; i++) 
+	for (i=0; i<21; i++) 
 	{
 		m_pGridDevice.SetRowHeight(i, 31);
 
@@ -1139,6 +1240,16 @@ void CScreenBasic::OnDataHistoryLog()
 		strMsg.Format(_T("[BASIC] Repick Cnt Change %d -> %d"), m_nRepickCnt[0], m_nRepickCnt[1]);
 		clsFunc.OnLogFileAdd(0, strMsg);
 	}
+
+	//kwlee 2017.0611
+	for (int i = 0; i<4; i++)
+	{
+		if (m_nShift_Robot_Skip[i][0]		!= m_nShift_Robot_Skip[i][1])
+		{
+			strMsg.Format(_T("[BASIC] Shift Robot_%d Skip Change %d -> %d"),i+1, m_nShift_Robot_Skip[i][0],m_nShift_Robot_Skip[i][1]);
+			clsFunc.OnLogFileAdd(0, strMsg);
+		}
+	}
 }
 
 void CScreenBasic::OnDataRecovery()
@@ -1166,7 +1277,11 @@ void CScreenBasic::OnDataRecovery()
 	m_nDeviceCnt[1]             =  m_nDeviceCnt[0];
 	m_nRepickCnt[1]             =  m_nRepickCnt[0];
 
-
+	//kwlee 2017.0611
+	for (int i =0; i<4; i++)
+	{
+		m_nShift_Robot_Skip[i][1] = m_nShift_Robot_Skip[i][0];
+	}
 }
 
 
@@ -1193,8 +1308,14 @@ int	CScreenBasic::OnDataComparison()
 	if (m_nLabelErrCnt[0]			=	m_nLabelErrCnt[1])				return RET_ERROR;  
 
 	//kwlee 2017.0524
-	if (m_nDeviceCnt[0]				=	m_nDeviceCnt[1])			return RET_ERROR;        
+	if (m_nDeviceCnt[0]				=	m_nDeviceCnt[1])				return RET_ERROR;        
 	if (m_nRepickCnt[0]				=	m_nRepickCnt[1])				return RET_ERROR;  
+
+	//kwlee 2017.0611
+	for (int i =0; i<4; i++)
+	{
+		if (m_nShift_Robot_Skip[i][0]	=	m_nShift_Robot_Skip[i][1])	return RET_ERROR;  
+	}
 	return RET_GOOD;
 }
 
@@ -1220,6 +1341,12 @@ void CScreenBasic::OnDataApply()
 	//kwlee 2017.0524
 	st_basic_info.nDeviceCnt		= m_nDeviceCnt[1];  
 	st_basic_info.nRepickCnt          = m_nRepickCnt[1];
+
+	//kwlee 2017.0611
+	for (int i =0; i<4; i++)
+	{
+		st_basic_info.nShift_Robot_Skip[i] = m_nShift_Robot_Skip[i][1];
+	}
 									
 }
 
@@ -1248,6 +1375,11 @@ void CScreenBasic::OnDataBackup()
 	m_nDeviceCnt[0]				=	m_nDeviceCnt[1];     
 	m_nRepickCnt[0]				=	m_nRepickCnt[1];  
 
+	//kwlee 2017.0611
+	for (int i =0; i<4; i++)
+	{
+		m_nShift_Robot_Skip[i][0] = m_nShift_Robot_Skip[i][1];
+	}
 }
 
 
@@ -1272,6 +1404,12 @@ void CScreenBasic::OnDataInit()
 	//kwlee 2017.0524
 	m_nDeviceCnt[1]				=	st_basic_info.nDeviceCnt;     
 	m_nRepickCnt[1]				=	st_basic_info.nRepickCnt; 
+
+	//kwlee 2017.0611
+	for (int i = 0; i<4; i++)
+	{
+		m_nShift_Robot_Skip[i][1] = st_basic_info.nShift_Robot_Skip[i];
+	}
 	OnDataBackup();
 }
 
@@ -1767,4 +1905,85 @@ void CScreenBasic::OnStnClickedDgtRepickCnt()
 
 	m_nRepickCnt[1] = nKey;
 	m_dgt_Repick_Cnt.SetVal(nKey);
+}
+
+//kwlee 2017.0611
+void CScreenBasic::OnBnClickedBtnRbtBuff1()
+{
+	if (m_nShift_Robot_Skip[0][1] == YES)
+	{	
+		m_nShift_Robot_Skip[0][1] = NO;
+		m_btn_RbtBuff_1.SetBitmaps(IDC_BTN_RBT_BUFF_1, IDB_BITMAP_REMOVE_YES, WINDOW_DN, IDB_BITMAP_REMOVE_YES, WINDOW_UP);
+		m_btn_RbtBuff_1.SetWindowTextW(_T("Shifter_1 Use"));
+	}
+	else
+	{
+		m_nShift_Robot_Skip[0][1] = YES;
+		m_btn_RbtBuff_1.SetBitmaps(IDC_BTN_RBT_BUFF_1, IDB_BITMAP_REMOVE_NO, WINDOW_DN, IDB_BITMAP_REMOVE_NO, WINDOW_UP);
+		m_btn_RbtBuff_1.SetWindowTextW(_T("Shifter_1 Skip"));
+	}
+	Invalidate(FALSE);
+}
+
+
+void CScreenBasic::OnBnClickedBtnRbtBuff2()
+{
+	if (m_nShift_Robot_Skip[1][1] == YES)
+	{	
+		m_nShift_Robot_Skip[1][1] = NO;
+		m_btn_RbtBuff_2.SetBitmaps(IDC_BTN_RBT_BUFF_2, IDB_BITMAP_REMOVE_YES, WINDOW_DN, IDB_BITMAP_REMOVE_YES, WINDOW_UP);
+		m_btn_RbtBuff_2.SetWindowTextW(_T("Shifter_2 Use"));
+
+	}
+	else
+	{
+
+		m_nShift_Robot_Skip[1][1] = YES;
+		m_btn_RbtBuff_2.SetBitmaps(IDC_BTN_RBT_BUFF_2, IDB_BITMAP_REMOVE_NO, WINDOW_DN, IDB_BITMAP_REMOVE_NO, WINDOW_UP);
+		m_btn_RbtBuff_2.SetWindowTextW(_T("Shifter_2 Skip"));
+
+	}
+	Invalidate(FALSE);
+}
+
+
+void CScreenBasic::OnBnClickedBtnRbtBuff3()
+{
+	if (m_nShift_Robot_Skip[2][1] == YES)
+	{	
+		m_nShift_Robot_Skip[2][1] = NO;
+		m_btn_RbtBuff_3.SetBitmaps(IDC_BTN_RBT_BUFF_3, IDB_BITMAP_REMOVE_YES, WINDOW_DN, IDB_BITMAP_REMOVE_YES, WINDOW_UP);
+		m_btn_RbtBuff_3.SetWindowTextW(_T("Shifter_3 Use"));
+
+	}
+	else
+	{
+
+		m_nShift_Robot_Skip[2][1] = YES;
+		m_btn_RbtBuff_3.SetBitmaps(IDC_BTN_RBT_BUFF_3, IDB_BITMAP_REMOVE_NO, WINDOW_DN, IDB_BITMAP_REMOVE_NO, WINDOW_UP);
+		m_btn_RbtBuff_3.SetWindowTextW(_T("Shifter_3 Skip"));
+
+	}
+	Invalidate(FALSE);
+}
+
+
+void CScreenBasic::OnBnClickedBtnRbtBuff4()
+{
+	if (m_nShift_Robot_Skip[3][1] == YES)
+	{	
+		m_nShift_Robot_Skip[3][1] = NO;
+		m_btn_RbtBuff_4.SetBitmaps(IDC_BTN_RBT_BUFF_4, IDB_BITMAP_REMOVE_YES, WINDOW_DN, IDB_BITMAP_REMOVE_YES, WINDOW_UP);
+		m_btn_RbtBuff_4.SetWindowTextW(_T("Shifter_4 Use"));
+
+	}
+	else
+	{
+
+		m_nShift_Robot_Skip[3][1] = YES;
+		m_btn_RbtBuff_4.SetBitmaps(IDC_BTN_RBT_BUFF_4, IDB_BITMAP_REMOVE_NO, WINDOW_DN, IDB_BITMAP_REMOVE_NO, WINDOW_UP);
+		m_btn_RbtBuff_4.SetWindowTextW(_T("Shifter_4 Skip"));
+
+	}
+	Invalidate(FALSE);
 }

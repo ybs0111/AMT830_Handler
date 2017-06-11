@@ -1400,7 +1400,19 @@ void CMyBasicData::OnBasic_Data_Load(int nMode)
 	}
 	else  st_basic_info.nLabelErrCnt = mn_chk;
 	
-	
+	//kwlee 2017.0611
+	for (int i = 0; i<4; i++)
+	{
+		str_temp.Format(_T("nShift_Robot_%d_Skip"),i+1);
+		GetPrivateProfileString(_T("BASIC_SCREEN"),str_temp , _T(""), chr_data, sizeof(chr_data), st_path_info.strFileBasic);
+		str_temp.Format(_T("%s"), chr_data);
+		mn_chk = _wtoi(str_temp);
+		if (mn_chk < 0)
+		{
+			st_basic_info.nShift_Robot_Skip[i] = 0;
+		}
+		else  st_basic_info.nShift_Robot_Skip[i] = mn_chk;
+	}
 }
 
 void CMyBasicData::OnBasic_Data_Load(CString strDeviceName)
@@ -1563,6 +1575,14 @@ void CMyBasicData::OnBasic_Data_Save()
 
 	mstr_temp.Format(_T("%d"), st_basic_info.nLabelErrCnt);
 	:: WritePrivateProfileString(_T("BASIC_SCREEN"), _T("nLabelErrCnt"), LPCTSTR(mstr_temp), st_path_info.strFileBasic);
+
+	//kwlee 2017.0611
+	for (int i = 0; i<4; i++)
+	{
+		str_tmp.Format(_T("nShift_Robot_%d_Skip"),i+1);
+		mstr_temp.Format(_T("%d"), st_basic_info.nShift_Robot_Skip[i]);
+		:: WritePrivateProfileString(_T("BASIC_SCREEN"), str_tmp, LPCTSTR(mstr_temp), st_path_info.strFileBasic);
+	}
 }
 
 CString CMyBasicData::OnGet_File_Name()

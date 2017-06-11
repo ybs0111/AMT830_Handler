@@ -13,7 +13,7 @@ CRun_Front_HeatSnk_Stacker::CRun_Front_HeatSnk_Stacker(void)
 	m_nInitStep = -1;
 	m_nRunStep = -1;
 	m_nAxisNum_Ready = M_HS_F_STACKER_READY;
-	m_nWork_StackerPos =  -1;
+	m_nWork_StackerPos = CTL_CLEAR;
 }
 
 CRun_Front_HeatSnk_Stacker::~CRun_Front_HeatSnk_Stacker(void)
@@ -48,6 +48,7 @@ void CRun_Front_HeatSnk_Stacker::ThreadRun()
 void CRun_Front_HeatSnk_Stacker::OnReadyStackerMove()
 {
 	int nRet = 0;
+	int nRet_1 = 0;
 	switch(m_nRunStep)
 	{
 	case 0:
@@ -230,7 +231,9 @@ void CRun_Front_HeatSnk_Stacker::OnReadyStackerMove()
 // 			}
 // 		}
 		//kwlee 2017.0605
-		if (m_nWork_StackerPos == CTL_REQ)
+		//if (m_nWork_StackerPos == CTL_REQ)
+		//kwlee 2017.0611
+		if (m_nWork_StackerPos == CTL_REQ || m_nWork_StackerPos == CTL_WORK)
 		{
 			if (FAS_IO.get_in_bit(st_io_info.i_hs_Front_Ready_stacker_updn_pos_chk,IO_ON) == IO_ON)
 			{
@@ -278,12 +281,6 @@ void CRun_Front_HeatSnk_Stacker::OnReadyStackerMove()
 		}
 		break;
 
-		//1.Tray Clamp On 동작.
-		//2.Seperate  On 동작.
-		//3.Elevator Down
-		//4. Stacker UpDn
-		//5.Rail Clamp  On 동작.
-		//6.Tray Clamp Off 동작.
 	case 1400:
 		OnSet_ReadyPos_TrayClampCyl(IO_ON);
 		m_nRunStep = 1500;
@@ -382,12 +379,52 @@ void CRun_Front_HeatSnk_Stacker::OnReadyStackerMove()
 
 		if (nRet == RET_GOOD)
 		{
-			m_nRunStep = 2400;
+			//m_nRunStep = 2400;
+			m_nRunStep = 2240;
 		}
 		else if (nRet == RET_ERROR)
 		{
 			CTL_Lib.Alarm_Error_Occurrence(30, CTL_dWARNING,m_strCode);
-			m_nRunStep = 2200;
+			m_nRunStep = 2220;
+		}
+		break;
+
+	case 2240:
+		OnSet_ReadyPos_TrayClampCyl(IO_ON);
+		m_nRunStep = 2250;
+		break;
+
+	case 2250:
+		nRet = OnGet_ReadyPos_TrayClampCyl(IO_ON);
+		if (nRet == RET_GOOD)
+		{
+			//m_nRunStep = 2400;
+			m_nRunStep = 2260;
+		}
+		else if (nRet == RET_ERROR)
+		{
+			CTL_Lib.Alarm_Error_Occurrence(30, CTL_dWARNING,m_strCode);
+			m_nRunStep = 2240;
+		}
+		break;
+
+	case 2260:
+		OnSet_ReadyPos_TrayClampCyl(IO_OFF);
+		m_nRunStep = 2270;
+		break;
+
+	case 2270:
+		nRet = OnGet_ReadyPos_TrayClampCyl(IO_OFF);
+
+		if (nRet == RET_GOOD)
+		{
+			m_nRunStep = 2400;
+			
+		}
+		else if (nRet == RET_ERROR)
+		{
+			CTL_Lib.Alarm_Error_Occurrence(30, CTL_dWARNING,m_strCode);
+			m_nRunStep = 2260;
 		}
 		break;
 
@@ -398,7 +435,10 @@ void CRun_Front_HeatSnk_Stacker::OnReadyStackerMove()
 
 		//kwlee 2017.0605
 		nRet = FAS_IO.get_in_bit(st_io_info.i_hs_Front_Ready_stacker_tray_chk,IO_ON);
-		if (nRet == IO_ON)
+		nRet_1 = OnGet_WorkPos_RailFwdBwdCyl(IO_ON);
+		//if (nRet == IO_ON)
+		//kwlee 2017.0611
+		if (nRet == IO_ON && nRet_1 == IO_ON && m_nWork_StackerPos != CTL_WORK)
 		{
 			OnSet_PusherFwdBwdCyl(IO_ON);
 			m_nRunStep = 2500;
@@ -425,7 +465,9 @@ void CRun_Front_HeatSnk_Stacker::OnReadyStackerMove()
 		{
 			OnSet_PusherFwdBwdCyl(IO_OFF);
 			//m_bWork_StackerPos_Req = false;
-			m_nWork_StackerPos = CTL_READY;
+			//m_nWork_StackerPos = CTL_READY;
+			//kwlee 2017.0609
+			m_nWork_StackerPos = CTL_CHANGE;
 			m_nRunStep = 2700;
 		}
 		break;
@@ -451,6 +493,7 @@ void CRun_Front_HeatSnk_Stacker::OnReadyStackerMove()
 void CRun_Front_HeatSnk_Stacker::OnWorkStackerMove()
 {
 	int nRet = 0;
+	
 	switch(m_nRunWorkstackerStep)
 	{
 	case 0:
@@ -518,7 +561,6 @@ void CRun_Front_HeatSnk_Stacker::OnWorkStackerMove()
 
 	case 600:
 		nRet = OnGet_WorkPos_StackerCylUpDn(IO_OFF);
-		
 		if (nRet == RET_GOOD)
 		{
 			m_nRunWorkstackerStep = 700;
@@ -563,20 +605,23 @@ void CRun_Front_HeatSnk_Stacker::OnWorkStackerMove()
 		//kwlee 2017.0605
 		if (st_sync_info.nFrontHsRbt == CTL_REQ)
 		{
-			m_nWork_StackerPos = CTL_REQ;
-			m_nRunWorkstackerStep = 1000;
+			if (m_nWork_StackerPos == CTL_FREE || m_nWork_StackerPos == CTL_CLEAR)
+			{
+				m_nWork_StackerPos = CTL_REQ;
+				m_nRunWorkstackerStep = 1000;
+			}
+			
 		}
 		break;
 
-		//Work Stacker에 Tray 투입 상태
+		//Work Stacker에 Tray 투입 되기를 기다린다.
 	case 1000:
-		//if (FAS_IO.get_in_bit(st_io_info.i_hs_Front_Work_stacker_tray_chk,IO_ON) == IO_ON)
-		//kwlee 2017.0605
-		if (FAS_IO.get_in_bit(st_io_info.i_hs_Front_Work_stacker_tray_chk,IO_ON) == IO_ON && m_nWork_StackerPos == CTL_READY)
+		if (FAS_IO.get_in_bit(st_io_info.i_hs_Front_Work_stacker_tray_chk,IO_ON) == IO_ON && m_nWork_StackerPos == CTL_CHANGE)
 		{
 			//st_sync_info.nWorkRobot[THD_HS_FRONT_STACKER_SITE][STACKER_WORK_POS] = CTL_READY;
 			//kwlee 2017.0605
 			st_sync_info.nFrontHsRbt = CTL_READY;
+			m_nWork_StackerPos = CTL_WORK; //kwlee 2017.0611
 			OnSet_WorkPos_TrayClampCyl(IO_ON);
 			m_nRunWorkstackerStep = 1100;
 		}
@@ -587,12 +632,31 @@ void CRun_Front_HeatSnk_Stacker::OnWorkStackerMove()
 		nRet = OnGet_WorkPos_TrayClampCyl(IO_ON);
 		if (nRet == RET_GOOD)
 		{
-			m_nRunWorkstackerStep = 1200;
-			m_nWork_StackerPos = CTL_CLEAR;
+			//m_nRunWorkstackerStep = 1200;
+			m_nRunWorkstackerStep = 1110;
+			//m_nWork_StackerPos = CTL_CLEAR; //kwlee 2017.0611
 		}
 		else if (nRet == RET_ERROR)
 		{
 			CTL_Lib.Alarm_Error_Occurrence(70, CTL_dWARNING,m_strCode);
+		}
+		break;
+
+	case 1110:
+		OnSet_WorkPos_RailFwdBwdCyl(IO_OFF);
+		m_nRunWorkstackerStep = 1120;
+		break;
+
+	case 1120:
+		nRet = OnGet_WorkPos_RailFwdBwdCyl(IO_OFF);
+		if (nRet == RET_GOOD)
+		{
+			m_nRunWorkstackerStep = 1200;
+		}
+		else
+		{
+			CTL_Lib.Alarm_Error_Occurrence(60, CTL_dWARNING, m_strCode);
+			m_nRunWorkstackerStep = 1110;
 		}
 		break;
 
@@ -619,26 +683,26 @@ void CRun_Front_HeatSnk_Stacker::OnWorkStackerMove()
 		if (st_Picker_info.nLastPick[THD_HS_FRONT_RBT] == YES)
 		{
 			//m_nRunWorkstackerStep = 1300;
-			m_nRunWorkstackerStep = 1410;
-		}
-		break;
-
-	case 1410:
-		OnSet_WorkPos_RailFwdBwdCyl(IO_OFF);
-		m_nRunWorkstackerStep = 1420;
-		break;
-
-	case 1420:
-		nRet = OnGet_WorkPos_RailFwdBwdCyl(IO_OFF);
-		if (nRet == RET_GOOD)
-		{
 			m_nRunWorkstackerStep = 1500;
 		}
-		else if (nRet == RET_ERROR)
-		{
-			CTL_Lib.Alarm_Error_Occurrence(80, CTL_dWARNING,m_strCode);
-		}
 		break;
+
+// 	case 1410:
+// 		OnSet_WorkPos_RailFwdBwdCyl(IO_ON);
+// 		m_nRunWorkstackerStep = 1420;
+// 		break;
+// 
+// 	case 1420:
+// 		nRet = OnGet_WorkPos_RailFwdBwdCyl(IO_ON);
+// 		if (nRet == RET_GOOD)
+// 		{
+// 			m_nRunWorkstackerStep = 1500;
+// 		}
+// 		else if (nRet == RET_ERROR)
+// 		{
+// 			CTL_Lib.Alarm_Error_Occurrence(80, CTL_dWARNING,m_strCode);
+// 		}
+// 		break;
 
 // 	case 1300:
 // 		OnSet_WorkPos_StackerCylUpDn(IO_ON);
@@ -685,6 +749,7 @@ void CRun_Front_HeatSnk_Stacker::OnWorkStackerMove()
 		nRet = OnGet_WorkPos_StackerCylUpDn(IO_OFF);
 		if (nRet == RET_GOOD)
 		{
+			m_nWork_StackerPos = CTL_FREE; //kwlee 2017.0611
 			m_nRunWorkstackerStep = 0;
 		}
 		else if (nRet == RET_ERROR)
@@ -1759,3 +1824,4 @@ int CRun_Front_HeatSnk_Stacker::OnGet_SeperateFwdBwdCyl(int nOnOff)
 	}
 	return nRet;
 }
+
